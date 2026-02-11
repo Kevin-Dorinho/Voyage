@@ -11,3 +11,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Adrress {
+  id            Int       @id @default(autoincrement())
+  place         String
+  number        Int
+  zipcode       String
+  lat           Float
+  long          Float
+  url           String
+}
