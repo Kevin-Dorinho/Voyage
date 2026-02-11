@@ -11,6 +11,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+<<<<<<< HEAD
 model Company{
   id       Int @id @default(autoincrement())
   name     String
@@ -21,4 +22,14 @@ model Company{
   users User @relation(fields: [users], references: [])
   creatAt DateTime @default(now())
   creatAt DateTime @updateAt
+=======
+model Adrress {
+  id            Int       @id @default(autoincrement())
+  place         String
+  number        Int
+  zipcode       String
+  lat           Float
+  long          Float
+  url           String
+>>>>>>> 0c934383df2e7cf3bb8f494ee0873e3b77ffa016
 }
