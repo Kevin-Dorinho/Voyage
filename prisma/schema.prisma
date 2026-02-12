@@ -18,9 +18,11 @@ model Company{
   cnpj     String
   evaluate Float
   places   String
-  users User @relation(fields: [users], references: [])
-  creatAt DateTime @default(now())
-  creatAt DateTime @updateAt
+  usersId  User
+  users    User @relation(fields: [users], references: [])
+  creatAt  DateTime @default(now())
+  creatAt  DateTime @updateAt
+}
 model Adrress {
   id            Int       @id @default(autoincrement())
   place         String
