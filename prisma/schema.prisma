@@ -11,3 +11,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+users{
+  id          Int @id default(autoincrement())
+  name        String
+  type        String
+  email       String
+  password    String
+  premium     enum(active,inactive)
+  address     Address[]  @relation("address_user")
+}
