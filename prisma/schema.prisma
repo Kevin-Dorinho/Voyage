@@ -23,3 +23,22 @@ model Payments{
   key            int
   type           String 
 }
+model Company{
+  id       Int @id @default(autoincrement())
+  name     String
+  category String
+  cnpj     String
+  evaluate Float
+  places   String
+  users User @relation(fields: [users], references: [])
+  creatAt DateTime @default(now())
+  creatAt DateTime @updateAt
+model Adrress {
+  id            Int       @id @default(autoincrement())
+  place         String
+  number        Int
+  zipcode       String
+  lat           Float
+  long          Float
+  url           String
+}
