@@ -56,6 +56,14 @@ model Favorite{
 
 }
 model Adrress {
+  id            Int       @id @default(autoincrement())
+  place         String
+  number        Int
+  addres        Address[]  @relation("addres_user")
+  zipcode       String
+  lat           Float
+  long          Float
+  url           String
   id         Int       @id @default(autoincrement())
   place      String
   number     Int
@@ -64,3 +72,7 @@ model Adrress {
   long       Float
   url        String
 }
+
+model Address_Company
+  id            int       @id @default(autoincrement())
+  
