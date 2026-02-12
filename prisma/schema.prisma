@@ -35,22 +35,32 @@ model Payments{
 }
 model Company{
   id       Int @id @default(autoincrement())
-  name     String
-  category String
-  cnpj     String
-  evaluate Float
-  places   String
-  usersId  User
-  users    User @relation(fields: [users], references: [])
-  creatAt  DateTime @default(now())
-  creatAt  DateTime @updateAt
+  name      String
+  category  String
+  cnpj      String
+  evaluate  Float
+  places    String
+  favorites Favorite[]
+  payments Payment[]
+  adrress  Address[]
+  creatAt   DateTime @default(now())
+  updateAt  DateTime @updateAt
+}
+
+model Favorite{
+  id        Int @id @default(autoincrement())
+  companyId Int @unique
+  userId    Int
+  users     User
+  company Company
+
 }
 model Adrress {
-  id            Int       @id @default(autoincrement())
-  place         String
-  number        Int
-  zipcode       String
-  lat           Float
-  long          Float
-  url           String
+  id         Int       @id @default(autoincrement())
+  place      String
+  number     Int
+  zipcode    String
+  lat        Float
+  long       Float
+  url        String
 }
