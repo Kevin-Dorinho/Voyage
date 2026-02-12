@@ -17,6 +17,7 @@ users{
   type        String
   email       String
   password    String
+  favorites   Favorite[]
   premium     enum(active,inactive)
   address     Address[]  @relation("address_user")
 }
@@ -42,7 +43,7 @@ model Company{
   places    String
   favorites Favorite[]
   payments Payment[]
-  adrress  Address[]
+  adrressCompany  AddressCompany[]
   creatAt   DateTime @default(now())
   updateAt  DateTime @updateAt
 }
@@ -50,27 +51,28 @@ model Company{
 model Favorite{
   id        Int @id @default(autoincrement())
   companyId Int @unique
-  userId    Int
-  users     User
-  company Company
+  userId    Int 
+  users     User    @relation(fields:[userId],references:[id])
+  company Company   @relation(fields:[companyId],references:[id])
 
 }
 model Adrress {
   id            Int       @id @default(autoincrement())
   place         String
   number        Int
-  addres        Address[]  @relation("addres_user")
+  users         User[]  @relation("addres_user")
+  addressCompany addressCompany[]
   zipcode       String
   lat           Float
   long          Float
   url           String
 }
 
-model Address_Company{
+model AddressCompany{
   id            int       @id @default(autoincrement())
   companyid     int @unique
   addressid     int
-  company       Company
-  address       Address
+  company       Company@relation(fields:[companyId],references:[id])
+  address       Address@relation(fields:[addresId],references:[id])
   
   }
