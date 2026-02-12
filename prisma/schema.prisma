@@ -56,6 +56,11 @@ model Adrress {
   url           String
 }
 
-model Address_Company
+model Address_Company{
   id            int       @id @default(autoincrement())
+  companyid     int @unique
+  addressid     int
+  company       Company
+  address       Address
   
+  }
