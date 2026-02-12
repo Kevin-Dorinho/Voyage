@@ -11,6 +11,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+users{
+  id          Int @id default(autoincrement())
+  name        String
+  type        String
+  email       String
+  password    String
+  premium     enum(active,inactive)
+  address     Address[]  @relation("address_user")
+}
+
+model Payments{
+  id             int       @id @default(autoincrement())
+  companyId      int       @map("company_id")
+  company        company   @relation(fields:[companyId],references:[id])
+  value          int
+  toDate         DateTime
+  dueDate        DataTime
+  paymentForm    String
+  advertising    String
+  key            int
+  type           String 
+}
 model Company{
   id       Int @id @default(autoincrement())
   name     String
