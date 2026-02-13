@@ -17,7 +17,7 @@ enum Signature{
 }
 
 model User{
-  id          Int @id default(autoincrement())
+  id          Int @id @default(autoincrement())
   name        String
   type        String
   email       String
