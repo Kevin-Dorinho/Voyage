@@ -18,13 +18,16 @@ enum Signature{
 
 model User{
   id          Int @id @default(autoincrement())
+
   name        String
   type        String
   email       String
   password    String
   favorites   Favorite[]
+
   signature   Signature @default(BASIC)
   address     Address[]  @relation("addressUser")
+
   creatAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -33,15 +36,18 @@ model User{
 
 model Payment{
   id             Int       @id @default(autoincrement())
+
   companyId      Int       @map("company_id")
-  company        Company @map("company_id") @relation(fields:[companyId],references:[id])  
-  value          Int
+  company        Company  @relation(fields:[companyId],references:[id])  
+
   toDate         DateTime
   dueDate        DateTime
+  value          Int
   paymentForm    String
   advertising    String
   key            Int
   type           String
+  
   creatAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -49,14 +55,17 @@ model Payment{
 }
 model Company{
   id       Int @id @default(autoincrement())
+  
   name      String
   category  String
   cnpj      String
   evaluate  Float
   places    String
+
   favorites Favorite[]
   payments  Payment[]
   adrressCompany  AddressCompany[]
+
   creatAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -65,10 +74,14 @@ model Company{
 
 model Favorite{
   id        Int @id @default(autoincrement())
-  companyId Int @unique
-  userId    Int 
-  users     User  @map("user_id")  @relation(fields:[userId],references:[id])  
-  company Company @map("company_id") @relation(fields:[companyId],references:[id]) 
+  
+
+  userId    Int @map("user_id")
+  users     User   @relation(fields:[userId],references:[id])  
+
+  companyId Int @unique  @map("company_id")
+  company Company  @relation(fields:[companyId],references:[id]) 
+  
   creatAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -77,14 +90,18 @@ model Favorite{
 }
 model Address {
   id            Int       @id @default(autoincrement())
+
   place         String
   number        Int
+
   users         User[]  @relation("addresUser")
   addressCompany AddressCompany[]
+
   zipcode       String
   lat           Float
   long          Float
   url           String
+
   creatAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -93,10 +110,13 @@ model Address {
 
 model AddressCompany{
   id            Int @id @default(autoincrement())
-  companyid     Int @unique
-  addressid     Int
-  company       Company @map("company_id")  @relation(fields:[companyId],references:[id]) 
-  address       Address @map("company_id")   @relation(fields:[addresId],references:[id])  
+
+  companyId     Int @unique
+  company       Company  @relation(fields:[companyId],references:[id]) 
+  
+  addressId     Int
+  address       Address   @relation(fields:[addressId],references:[id])  
+
   creatAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
   
