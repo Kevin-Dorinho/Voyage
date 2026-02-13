@@ -94,7 +94,7 @@ model Address {
   place         String
   number        Int
 
-  users         User[]  @relation("addresUser")
+  users         User[]  @relation("addressUser")
   addressCompany AddressCompany[]
 
   zipcode       String
