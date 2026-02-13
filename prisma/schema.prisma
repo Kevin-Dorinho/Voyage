@@ -26,7 +26,7 @@ model User{
   signature   Signature @default(BASIC)
   address     Address[]  @relation("addressUser")
   creatAt   DateTime @default(now())
-  updateAt  DateTime @updateAt
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
@@ -34,7 +34,7 @@ model User{
 model Payment{
   id             Int       @id @default(autoincrement())
   companyId      Int       @map("company_id")
-  company        Company   @relation(fields:[companyId],references:[id])  @map("company_id")
+  company        Company @map("company_id") @relation(fields:[companyId],references:[id])  
   value          Int
   toDate         DateTime
   dueDate        DateTime
@@ -43,7 +43,7 @@ model Payment{
   key            Int
   type           String
   creatAt   DateTime @default(now())
-  updateAt  DateTime @updateAt
+  updatedAt DateTime @updatedAt
 
   @@map("payments")
 }
@@ -58,7 +58,7 @@ model Company{
   payments  Payment[]
   adrressCompany  AddressCompany[]
   creatAt   DateTime @default(now())
-  updateAt  DateTime @updateAt
+  updatedAt DateTime @updatedAt
 
   @@map("companies")
 }
@@ -67,10 +67,10 @@ model Favorite{
   id        Int @id @default(autoincrement())
   companyId Int @unique
   userId    Int 
-  users     User    @relation(fields:[userId],references:[id])  @map("user_id")
-  company Company   @relation(fields:[companyId],references:[id])  @map("company_id")
+  users     User  @map("user_id")  @relation(fields:[userId],references:[id])  
+  company Company @map("company_id") @relation(fields:[companyId],references:[id]) 
   creatAt   DateTime @default(now())
-  updateAt  DateTime @updateAt
+  updatedAt DateTime @updatedAt
 
   @@map("favorites")
 
@@ -86,7 +86,7 @@ model Address {
   long          Float
   url           String
   creatAt   DateTime @default(now())
-  updateAt  DateTime @updateAt
+  updatedAt DateTime @updatedAt
 
   @@map("address")
 }
@@ -95,10 +95,10 @@ model AddressCompany{
   id            Int @id @default(autoincrement())
   companyid     Int @unique
   addressid     Int
-  company       Company@relation(fields:[companyId],references:[id]) @map("company_id")
-  address       Address@relation(fields:[addresId],references:[id])  @map("address_id")
+  company       Company @map("company_id")  @relation(fields:[companyId],references:[id]) 
+  address       Address @map("company_id")   @relation(fields:[addresId],references:[id])  
   creatAt   DateTime @default(now())
-  updateAt  DateTime @updateAt
+  updatedAt DateTime @updatedAt
   
   @@map("address_company")
   }
