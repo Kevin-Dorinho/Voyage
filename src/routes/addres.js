@@ -5,3 +5,5 @@ import { createAdrres } from '../services/addres';
 const router = router();
 
 router.post('/', createAdrres);
+
+export default  router;
