@@ -5,3 +5,4 @@ import { createUser } from '../services/payment';
 const router = Router();
 
 router.post('/', createUser);
+export default router;
