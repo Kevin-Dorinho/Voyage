@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { createAdrress } from '../services/address.js';
+import { createAddress } from '../services/address.js';
 
-const router = router();
+const router = Router();
 
-router.post('/', createAdrress);
+router.post('/', createAddress);
 
 export default  router;

@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { creatCompany } from '../services/company.js';
-import { useDebugValue } from 'react';
+import { createCompany } from '../services/company.js';
 
-const router = router();
 
-router.post('/', creatCompany);
+const router = Router();
+
+router.post('/', createCompany);
 
 export default router;

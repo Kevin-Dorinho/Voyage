@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import { z } from 'zod';
-import { createUser } from '../services/payment.js';
+import { createPayment } from '../services/payment.js';
 
 const router = Router();
 
-router.post('/', createUser);
+router.post('/', createPayment);
 export default router;

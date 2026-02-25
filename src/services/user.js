@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { z } from 'zod';
 const prisma = new PrismaClient();
 
 //rec: requisição, o que está vindo do front end

@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { z } from 'zod';
 import { createUser } from '../services/user.js';
 
 const router = Router();
