@@ -11,7 +11,7 @@ app.use(cors()); // aqui falo qual cors
 app.use(express.json()); // aqui falo que vai usar o formato json
 
 app.use('/company', companyRouter);
-app.use('/user', userRoarter);
+app.use('/user', userRouter);
 app.use('/address', addressRouter);
 app.use('/payment', paymentRouter);
 
