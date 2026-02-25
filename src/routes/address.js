@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { createAdrress } from '../services/address';
+import { createAdrress } from '../services/address.js';
 
 const router = router();
 

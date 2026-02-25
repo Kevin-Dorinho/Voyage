@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"; 
-const prisma = PrismaClient();
+const prisma = new PrismaClient();
 
 //req: requisição do que esta vindo do frontend
 //res: response o que vou responder

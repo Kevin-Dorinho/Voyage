@@ -1,6 +1,6 @@
 import { Prismaclient } from "@prisma/client";
 import { z } from 'zod';
-const prisma =  Prismaclient();
+const prisma = new Prismaclient();
 
 export async function creatCompany(rec, res, _next){
     const data = req.body

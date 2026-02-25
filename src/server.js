@@ -1,10 +1,10 @@
 import 'dotenv/config'; //chaves
 import express from 'express'; // frameworks
 import cors from 'cors'; // ele vai permitir a comunicação com o frontend
-import companyRouter from './routes/company'
-import userRouter from './routes/user'
-import addressRouter from './routes/address'
-import paymentRouter from './routes/payment'
+import companyRouter from './routes/company.js'
+import userRouter from './routes/user.js'
+import addressRouter from './routes/address.js'
+import paymentRouter from './routes/payment.js'
 
 const app = express(); // estou criando um app
 app.use(cors()); // aqui falo qual cors
