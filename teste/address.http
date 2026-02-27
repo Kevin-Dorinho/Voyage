@@ -1,0 +1,11 @@
+POST http://localhost:3000/address HTTP/1.1
+content-type: application/json
+
+{
+    "place":    "Av. São Carlos",
+    "number":   "3677",
+    "zipcode":  "13566-330", 
+    "lat":      -21.998805079666727,
+    "long":     -47.89103669675602,
+    "url":      ""
+}
