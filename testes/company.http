@@ -1,0 +1,10 @@
+POST http://localhost:3000/company HTTP/1.1
+content-type: application/json
+
+{
+    "name":     "Tabajara Grill",
+    "category": "Churrasqueria",
+    "cnpj":     "48.023.246/0001-05",
+    "evaluate": 0,
+    "places":   "Avenida São Carlos"
+}
