@@ -92,7 +92,7 @@ model Address {
   id            Int       @id @default(autoincrement())
 
   place         String
-  number        Int
+  number        String
 
   users         User[]  @relation("addressUser")
   addressCompany AddressCompany[]
