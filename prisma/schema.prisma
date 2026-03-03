@@ -45,7 +45,7 @@ model Payment{
   value          Int
   paymentForm    String
   advertising    String
-  key            Int
+  key            String
   type           String
   
   creatAt   DateTime @default(now())
