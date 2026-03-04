@@ -21,9 +21,18 @@ content-type: application/json
 
 ### Listar por proximidade
 GET http://localhost:3000/address/ HTTP/1.1
+content-type: application/json
+
+### Filtrar do Usuario
+GET http://localhost:3000/address?user=name HTTP/1.1
+content-type: application/json
+
+### Filtar por companhia
+GET http://localhost:3000/address?company= HTTP/1.1
+content-type: application/json
 
 ### Listar por categoria
 
 ### Listar por melhor avaliados
 
-### 
+### listar 
