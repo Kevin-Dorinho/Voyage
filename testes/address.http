@@ -1,3 +1,4 @@
+### criando um endereço
 POST http://localhost:3000/address HTTP/1.1
 content-type: application/json
 
@@ -9,3 +10,11 @@ content-type: application/json
     "long":     -47.89103669675602,
     "url":      ""
 }
+
+### Listar todos os endereços
+GET http://localhost:3000/address HTTP/1.1
+content-type: application/json
+
+### Listar um unico endereço
+GET http://localhost:3000/address/2 HTTP/1.1
+content-type: application/json
