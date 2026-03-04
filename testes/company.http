@@ -1,3 +1,4 @@
+### criando uma Company
 POST http://localhost:3000/company HTTP/1.1
 content-type: application/json
 
@@ -8,3 +9,8 @@ content-type: application/json
     "evaluate": 0,
     "places":   "Avenida São Carlos"
 }
+
+### Listar todos as companies
+
+GET http://localhost:3000/company HTTP/1.1
+content-type: application/json
