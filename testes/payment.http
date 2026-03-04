@@ -1,3 +1,4 @@
+### criando um pagamento
 POST http://localhost:3000/payment HTTP/1.1
 content-type: application/json
 
@@ -11,3 +12,11 @@ content-type: application/json
     "key":            "169999999",
     "type":           "phone"
 }
+
+### Listar todos os pagamentos
+GET http://localhost:3000/payment/ HTTP/1.1
+content-type: application/json
+
+### Adicionar um unico pagamento
+GET http://localhost:3000/payment/1 HTTP/1.1
+content-type: application/json
