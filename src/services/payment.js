@@ -10,3 +10,14 @@ export async function createPayment(req, res, _next){
     let p = await prisma.payment.create({data});
     return res.status(201).json(p);
 }
+
+export async function readPayment(req, res, _next) {
+    let payments = await prisma.payment.findMany();
+    return res.status(200).json(payments);
+}
+
+export async function showPayment(req, res, _next) {
+    let id = Number(req.params.id);
+    let p = await prisma.payment.findFirst({where: {id:id} });
+    return res.status(200).json(p);
+}
