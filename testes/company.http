@@ -14,3 +14,7 @@ content-type: application/json
 
 GET http://localhost:3000/company HTTP/1.1
 content-type: application/json
+
+### Lista uma unica company
+GET http://localhost:3000/company/1 HTTP/1.1
+content-type: application/json
