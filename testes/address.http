@@ -18,3 +18,12 @@ content-type: application/json
 ### Listar um unico endereço
 GET http://localhost:3000/address/2 HTTP/1.1
 content-type: application/json
+
+### Listar por proximidade
+GET http://localhost:3000/address/ HTTP/1.1
+
+### Listar por categoria
+
+### Listar por melhor avaliados
+
+### 
