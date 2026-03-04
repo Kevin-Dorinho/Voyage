@@ -3,12 +3,13 @@ POST http://localhost:3000/company HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "Tabajara Grill",
-    "category": "Churrasqueria",
-    "cnpj":     "48.023.246/0001-05",
+    "name":     "Casa do Pão de Queijo",
+    "category": "Lanchonete",
+    "cnpj":     "61.851.929/0001-00",
     "evaluate": 0,
-    "places":   "Avenida São Carlos"
+    "places":   "Avenida São Carlos, Centro"
 }
+
 
 ### Listar todos as companies
 
@@ -17,4 +18,12 @@ content-type: application/json
 
 ### Lista uma unica company
 GET http://localhost:3000/company/1 HTTP/1.1
+content-type: application/json
+
+### Filtro das companies
+GET http://localhost:3000/company?name=que HTTP/1.1
+content-type: application/json
+
+### Filtro das adrress
+GET http://localhost:3000/company?address=Ave HTTP/1.1
 content-type: application/json

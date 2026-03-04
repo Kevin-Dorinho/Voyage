@@ -9,6 +9,14 @@ export async function createCompany(req, res, _next){
 }
 
 export async function readCompany(req, res, _next) {
+    
+    const {name, address } = req.query
+
+    let consult = {}
+
+    if (name) consult.name= {ilike: "%"+name+"%"}
+    if (address) consult.name= {ilike: "%"+address+"%"}
+
     let companies = await prisma.company.findMany()
     return res.status(200).json(companies);
 }
