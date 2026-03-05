@@ -12,9 +12,17 @@ export async function createAddress(req, res, _next){
 }
 
 export async function readAddress(req, res, _next) {
-    let address = await prisma.address.findMany();
+
+     const {lat, long, place, number,} = req.query
+     
+    let consult = {}
+
+    
+
+    let address = await prisma.address.findMany(); 
     return res.status(200).json(address);
 }
+
 
 export async function showAddress(req, res, _next) {
     let id = Number(req.params.id);

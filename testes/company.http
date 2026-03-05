@@ -17,13 +17,16 @@ GET http://localhost:3000/company HTTP/1.1
 content-type: application/json
 
 ### Lista uma unica company
+
 GET http://localhost:3000/company/1 HTTP/1.1
 content-type: application/json
 
 ### Filtro das companies
+
 GET http://localhost:3000/company?name=que HTTP/1.1
 content-type: application/json
 
 ### Filtro das adrress
+
 GET http://localhost:3000/company?address=Ave HTTP/1.1
 content-type: application/json
