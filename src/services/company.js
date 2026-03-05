@@ -14,8 +14,8 @@ export async function readCompany(req, res, _next) {
 
     let consult = {}
 
-    if (name) consult.name= {ilike: "%"+name+"%"}
-    if (address) consult.name= {ilike: "%"+address+"%"}
+    if (name) consult.name= {contains: "%"+name+"%"}
+    if (address) consult.name= {contains: "%"+address+"%"}
 
     let companies = await prisma.company.findMany()
     return res.status(200).json(companies);
