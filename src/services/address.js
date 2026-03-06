@@ -12,15 +12,50 @@ export async function createAddress(req, res, _next){
 }
 
 export async function readAddress(req, res, _next) {
+    const { lat, long, user, category, company, favorite, radius } = req.query
 
-     const {lat, long, place, number,} = req.query
-     
     let consult = {}
 
-    
+    if (lat && long) {
+        const latitude = parseFloat(lat)
+        const longitude = parseFloat(long)
+        const r = radius? parseFloat(radius) : 0.05 // ~5km padrão
 
-    let address = await prisma.address.findMany(); 
-    return res.status(200).json(address);
+        consult = {
+            lat: {
+                gte: latitude - r,
+                lte: latitude + r,
+            },
+            long: {
+                gte: longitude - r,
+                lte: longitude + r,
+            },
+        }
+    } else if (lat) {
+        consult.lat = { equals: parseFloat(lat) }
+    } else if (long) {
+        consult.long = { equals: parseFloat(long) }
+    }
+
+    if (user) {
+        consult.users = { some: { id: parseInt(user) } }
+    }
+
+    if (company) {
+        consult.addressCompany = { some: { companyId: parseInt(company) } }
+    }
+
+    if (category) {
+        consult.addressCategory = {some: { companiId: parsenInt(category) } }
+    }
+
+    if (favorite) {
+        consult.addressFavorite = {some: {companyId: parseInt(favorite) } }
+    }
+
+    const address = await prisma.address.findMany({where: consult})
+
+    return res.status(200).json(address)
 }
 
 

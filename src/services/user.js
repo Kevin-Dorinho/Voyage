@@ -12,7 +12,16 @@ export async function createUser(req, res, _next){
 }
 
 export async function readUser(req, res, _next){
-    let users = await prisma.user.findMany();
+    const {name,type,signature,email} = req.query;
+    
+    let consult = {}
+    if (name) consult.name = {contains: "%"+name+"%"}
+    if (email) consult.email = {contains: "%"+email+"%"}
+    if (type) consult.type = {contains: "%"+type+"%"}
+    if (signature) consult.signature = {contains: "%"+signature+"%"}
+
+    let users = await prisma.user.findMany({where: consult})
+
     return res.status(200).json(users);
 }
 
