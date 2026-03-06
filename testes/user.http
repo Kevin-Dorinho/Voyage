@@ -16,3 +16,19 @@ content-type: application/json
 ### listando um unico usuario
 GET http://localhost:3000/user/1 HTTP/1.1
 content-type: application/json
+
+### 
+GET http://localhost:3000/user?email=jjunior234534@berinjela.com HTTP/1.1
+content-type: application/json
+
+### 
+GET http://localhost:3000/user?name HTTP/1.1
+content-type: application/json
+
+### 
+GET http://localhost:3000/user?type HTTP/1.1
+content-type: application/json
+
+### 
+GET http://localhost:3000/user?signature HTTP/1.1
+content-type: application/json
