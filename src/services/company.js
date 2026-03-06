@@ -10,14 +10,15 @@ export async function createCompany(req, res, _next){
 
 export async function readCompany(req, res, _next) {
     
-    const {name, address } = req.query
+    const {name, address, category } = req.query
 
     let consult = {}
 
-    if (name) consult.name= {contains: "%"+name+"%"}
-    if (address) consult.name= {contains: "%"+address+"%"}
+    if (name) consult.name = {contains: "%"+name+"%"}
+    if (address) consult.address = {contains: "%"+address+"%"}
+    if (category) consult.category = {contains: "%"+category+"%"}
 
-    let companies = await prisma.company.findMany()
+    let companies = await prisma.company.findMany({where: consult})
     return res.status(200).json(companies);
 }
 
