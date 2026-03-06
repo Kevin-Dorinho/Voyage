@@ -12,9 +12,21 @@ export async function createPayment(req, res, _next){
 }
 
 export async function readPayment(req, res, _next) {
-    let payments = await prisma.payment.findMany();
+    const {companyId, to_date, due_date, paymentForm, advertising, type} = req.query
+    
+    let consult = {}
+    if(companyId) consult.companyId = Number (companyId)
+    if(to_date && due_date) consult.to_date = {lt: Number(to_date), gt: Number(due_date)}
+    if(paymentForm) consult.paymentForm = {contains: "%"+paymentForm+"%"}
+    if(advertising) consult.advertising = {contains: "%"+advertising+"%"}
+    if(type) consult.type = {contains: "%"+type+"%"}
+
+    let payments = await prisma.payment.findMany({where: consult});
+
     return res.status(200).json(payments);
 }
+
+    
 
 export async function showPayment(req, res, _next) {
     let id = Number(req.params.id);
