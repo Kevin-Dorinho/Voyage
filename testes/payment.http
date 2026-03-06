@@ -1,3 +1,4 @@
+### criando um pagamento
 POST http://localhost:3000/payment HTTP/1.1
 content-type: application/json
 
@@ -11,3 +12,35 @@ content-type: application/json
     "key":            "169999999",
     "type":           "phone"
 }
+
+### Listar todos os pagamentos
+GET http://localhost:3000/payment/ HTTP/1.1
+content-type: application/json
+
+### Adicionar um unico pagamento
+GET http://localhost:3000/payment/1 HTTP/1.1
+content-type: application/json
+
+###
+GET http://localhost:3000/payment?companyId HTTP/1.1
+content-type: application/json
+
+### Data do pagamento
+GET http://localhost:3000/payment?to_date=2026-02-26 00:00:00Z HTTP/1.1
+content-type: application/json
+
+### Data de vencimento
+GET http://localhost:3000/payment?due_date=2026-02-28 00:00:00Z HTTP/1.1
+content-type: application/json
+
+### Forma de Pagamento
+GET http://localhost:3000/payment?paymentForm=PIX HTTP/1.1
+content-type: application/json
+
+### Anuncio
+GET http://localhost:3000/payment?advertising=Melhor Churrascaria HTTP/1.1
+content-type: application/json
+
+### Tipo
+GET http://localhost:3000/payment?type=phone HTTP/1.1
+content-type: application/json

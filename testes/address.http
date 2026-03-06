@@ -1,3 +1,4 @@
+### criando um endereço
 POST http://localhost:3000/address HTTP/1.1
 content-type: application/json
 
@@ -9,3 +10,37 @@ content-type: application/json
     "long":     -47.89103669675602,
     "url":      ""
 }
+
+### Listar todos os endereços
+GET http://localhost:3000/address HTTP/1.1
+content-type: application/json
+
+### Listar um unico endereço
+GET http://localhost:3000/address/2 HTTP/1.1
+content-type: application/json
+
+### Listar por lat
+GET http://localhost:3000/address?lat HTTP/1.1
+content-type: application/json
+
+### Listar por long
+GET http://localhost:3000/address?long HTTP/1.1
+content-type: application/json
+
+### Filtrar do Usuario
+GET http://localhost:3000/address?user=name HTTP/1.1
+content-type: application/json
+
+### Filtar por companhia
+GET http://localhost:3000/address?company= HTTP/1.1
+content-type: application/json
+
+### Listar por categoria
+GET http://localhost:3000/address? HTTP/1.1
+content-type: application/json
+
+### Listar por melhor avaliados
+GET http://localhost:3000/address HTTP/1.1
+content-type: application/json
+
+### listar 
