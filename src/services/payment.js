@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client"; 
 import { z } from 'zod';
+import {attachSave} from "../utils/save.js";
 const prisma = new PrismaClient();
+
 
 //req: requisição do que esta vindo do frontend
 //res: response o que vou responder
@@ -41,6 +43,8 @@ export async function editPayment(req, res, _next) {
     if(!p){
         return res.status(404).json("Não encontrei "+ id);
     }
+
+    p = attachSave(p, 'payment');
 
     if(to_date) p.to_date = to_date;
     if(due_date) p.due_date = to_date;
