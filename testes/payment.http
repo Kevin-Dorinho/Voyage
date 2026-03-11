@@ -44,3 +44,17 @@ content-type: application/json
 ### Tipo
 GET http://localhost:3000/payment?type=phone HTTP/1.1
 content-type: application/json
+
+### editando um pagamento
+PUT http://localhost:3000/payment/1 HTTP/1.1
+content-type: application/json
+
+{
+    "toDate":         "2026-02-26 00:00:00Z",
+    "dueDate":        "2026-02-28 00:00:00Z",
+    "value":          20,
+    "paymentForm":    "CARTAO",
+    "advertising":    "Melhor Churrascaria",
+    "key":            "169999999",
+    "type":           "phone"
+}

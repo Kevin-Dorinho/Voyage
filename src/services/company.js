@@ -29,22 +29,26 @@ export async function editCompany(req, res, _next) {
 
     const {name, places, category, cnpj } = req.body
     let id = Number(req.params.id);
+    let c = await prisma.company.findFirst({where: {id: id}})
 
-    if(!u){
+    if(!c){
         return res.status(404).json("Não econtrei " + id);
     }
 
-    u = attachSave(u, 'user');
+
+
+    c = attachSave(c, 'company');
     
     if (name) c.name = name
     if (places) c.places = places
     if (category) c.category = category
     if (cnpj) c.cnpj = cnpj
 
-    c.save();
+   
+    await c.save();
 
-    let c = await prisma.company.findFirst({where: {id: id}})
-    return res.status(200).json(companies);
+    
+    return res.status(202).json(c);
 
 }
 
