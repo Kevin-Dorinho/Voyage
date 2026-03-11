@@ -60,64 +60,36 @@ export async function readAddress(req, res, _next) {
     return res.status(200).json(address)
 }
 
-export async function editAddress(req, res, _next) {
-    const { lat, long, user, category, company, favorite, radius } = req.body
-
+export async function showAddress(req, res, _next) {
     let id = Number(req.params.id);
+    let a = await prisma.address.findFirst({where: {id:id} });
+    return res.status(200).json(a);
+}
 
+
+export async function editAddress(req, res, _next) {
+    let id = Number(req.params.id);
+    
+    const { lat, long, user, category, company, radius } = req.body
+    
+    let a = await prisma.address.findFirst({where: {id:id} })
+    console.log(id)
     if(!a){
         return res.status(404).json("Não encontrei "+ id);
     }
 
     a = attachSave(a, 'address');
 
-    if (lat && long) {
-        const latitude = parseFloat(lat)
-        const longitude = parseFloat(long)
-        const r = radius? parseFloat(radius) : 0.05 // ~5km padrão
+    if (lat) a.lat = lat
+    if (long) a.long = long
+    if (user) a.user = user
+    if (category) a.category = category
+    if (company) a.company = company
+    if (radius) a.radius = radius
 
-        edit = {
-            lat: {
-                gte: latitude - r,
-                lte: latitude + r,
-            },
-            long: {
-                gte: longitude - r,
-                lte: longitude + r,
-            },
-        }
-    } else if (lat) {
-        a.lat = { equals: parseFloat(lat) }
-    } else if (long) {
-        a.long = { equals: parseFloat(long) }
-    }
-
-    if (user) {
-        a.users = { some: { id: parseInt(user) } }
-    }
-
-    if (company) {
-        a.Company = { some: { companyId: parseInt(company) } }
-    }
-
-    if (category) {
-        a.Category = {some: { companiId: parsenInt(category) } }
-    }
-
-    if (favorite) {
-        a.Favorite = {some: {companyId: parseInt(favorite) } }
-    }
-
-    let a = await prisma.address.findFirst({where: {id:id} });
+    
 
     await a.save();
 
-    return res.status(202).json(address)
-}
-
-
-export async function showAddress(req, res, _next) {
-    let id = Number(req.params.id);
-    let a = await prisma.address.findFirst({where: {id:id} });
-    return res.status(200).json(a);
+    return res.status(202).json(a);
 }

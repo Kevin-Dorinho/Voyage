@@ -7,7 +7,7 @@ const router = Router();
 router.post('/', createAddress);
 router.get('/', readAddress);
 router.get('/:id', showAddress);
-router.put('/id', editAddress )
+router.put('/:id', editAddress )
 
 
 export default  router;

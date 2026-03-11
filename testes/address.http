@@ -52,7 +52,7 @@ GET http://localhost:3000/address?favorites= HTTP/1.1
 content-type: application/json
 
 ### editando todos os campos do endereço
-PUT  http://localhost:3000/address/1= HTTP/1.1
+PUT  http://localhost:3000/address/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -65,7 +65,7 @@ content-type: application/json
 }
 
 ### editando apenas um campo do endereço
-PUT  http://localhost:3000/address/1= HTTP/1.1
+PUT  http://localhost:3000/address/1 HTTP/1.1
 content-type: application/json
 
 {
