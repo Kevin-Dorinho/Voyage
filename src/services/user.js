@@ -12,7 +12,16 @@ export async function createUser(req, res, _next){
 }
 
 export async function readUser(req, res, _next){
-    let users = await prisma.user.findMany();
+    const {name,type,signature,email} = req.query;
+    
+    let consult = {}
+    if (name) consult.name = {contains: "%"+name+"%"}
+    if (email) consult.email = {contains: "%"+email+"%"}
+    if (type) consult.type = {contains: "%"+type+"%"}
+    if (signature) consult.signature = {contains: "%"+signature+"%"}
+
+    let users = await prisma.user.findMany({where: consult})
+
     return res.status(200).json(users);
 }
 
@@ -21,3 +30,26 @@ export async function showUser(req, res, _next){
     let u = await prisma.user.findFirst({where: {id:id} });
     return res.status(200).json(u);
 }
+
+export async function editUser(req, res, _next){
+    let id = Number(req.params.id);
+    const {name,type,signature,email} = req.body;
+
+    let u = await prisma.user.findFirst({where: {id:id} })
+    
+    if(!u){
+        return res.status(404).json("Not found"+id);
+    }
+
+    u = attachSave(u, 'user');
+
+    if (name) u.name = name
+    if (email) u.email = email
+    if (type) u.type = type
+    if (signature) u.signature = signature
+
+    await u.save();
+
+    return res.status(202).json(u);
+}
+

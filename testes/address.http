@@ -3,11 +3,11 @@ POST http://localhost:3000/address HTTP/1.1
 content-type: application/json
 
 {
-    "place":    "Av. São Carlos",
-    "number":   "3677",
+    "place":    "Av. São Carlos, Centro",
+    "number":   "1242",
     "zipcode":  "13566-330", 
-    "lat":      -21.998805079666727,
-    "long":     -47.89103669675602,
+    "lat":      -22.022011888377065,
+    "long":     -47.8904711,
     "url":      ""
 }
 
@@ -19,16 +19,24 @@ content-type: application/json
 GET http://localhost:3000/address/2 HTTP/1.1
 content-type: application/json
 
-### Listar por lat
-GET http://localhost:3000/address?lat HTTP/1.1
+### Buscar por lat + long (raio padrão ~5km)
+GET http://localhost:3000/address?lat=-22.0221&long=-47.8904 HTTP/1.1
 content-type: application/json
 
-### Listar por long
-GET http://localhost:3000/address?long HTTP/1.1
+### Buscar por lat + long com raio customizado
+GET http://localhost:3000/address?lat=-22.02&long=-47.89&radius=0.2 HTTP/1.1
 content-type: application/json
 
-### Filtrar do Usuario
-GET http://localhost:3000/address?user=name HTTP/1.1
+### Buscar só por lat
+GET http://localhost:3000/address?lat=-23.5505 HTTP/1.1
+content-type: application/json
+
+### Buscar só por long
+GET http://localhost:3000/address?long=-46.6333 HTTP/1.1
+content-type: application/json
+
+### Combinar com filtro de usuário
+GET http://localhost:3000/address?lat=-23.5505&long=-46.6333&user=1 HTTP/1.1
 content-type: application/json
 
 ### Filtar por companhia
@@ -36,11 +44,35 @@ GET http://localhost:3000/address?company= HTTP/1.1
 content-type: application/json
 
 ### Listar por categoria
-GET http://localhost:3000/address? HTTP/1.1
+GET http://localhost:3000/address?category= HTTP/1.1
 content-type: application/json
 
-### Listar por melhor avaliados
-GET http://localhost:3000/address HTTP/1.1
+### Listar por favoritos
+GET http://localhost:3000/address?favorites= HTTP/1.1
 content-type: application/json
 
-### listar 
+### editando todos os campos do endereço
+PUT  http://localhost:3000/address/1= HTTP/1.1
+content-type: application/json
+
+{
+    "place":    "Av. São Carlos, Centro",
+    "number":   "1242",
+    "zipcode":  "13566-330", 
+    "lat":      -22.022011888377065,
+    "long":     -47.8904711,
+    "url":      ""
+}
+
+### editando apenas um campo do endereço
+PUT  http://localhost:3000/address/1= HTTP/1.1
+content-type: application/json
+
+{
+    "place":    "Av. São Carlos, Centro",
+    "number":   "1242",
+    "zipcode":  "13566-330", 
+    "lat":      -22.022011888377065,
+    "long":     -47.8904711,
+    "url":      ""
+}
