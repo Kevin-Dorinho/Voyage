@@ -1,4 +1,4 @@
-### criando um usuario
+### criando um usuario.
 POST http://localhost:3000/user/ HTTP/1.1
 content-type: application/json
 
@@ -9,11 +9,11 @@ content-type: application/json
     "password":     "jjjunior8538"
 }
 
-### listar todos os usuarios
+### listar todos os usuarios.
 GET http://localhost:3000/user/ HTTP/1.1
 content-type: application/json
 
-### listando um unico usuario
+### listando um unico usuario.
 GET http://localhost:3000/user/1 HTTP/1.1
 content-type: application/json
 
@@ -32,3 +32,29 @@ content-type: application/json
 ### 
 GET http://localhost:3000/user?signature HTTP/1.1
 content-type: application/json
+
+### editanto todos os campos de usuario.
+PUT http://localhost:3000/user/1 HTTP/1.1
+content-type: application/json
+
+{
+
+  "name":        "João Junior",
+  "type":        "user",
+  "email":       "jjunior234534@berinjela.com",
+  "password":    "jjjunior8538"
+
+}
+
+### editanto apenas um campo de usuario.
+PUT http://localhost:3000/user/1 HTTP/1.1
+content-type: application/json
+
+{
+
+  "name":        "Paulo",
+  "type":        "Owner",
+  "email":       "Pauloportas43@gmail.com",
+  "password":    "ppaulo234"
+
+}
