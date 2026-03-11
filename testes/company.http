@@ -28,10 +28,37 @@ content-type: application/json
 
 ### Filtro das adrress
 
-GET http://localhost:3000/company?address=Ave HTTP/1.1
+GET http://localhost:3000/company?places=Ave HTTP/1.1
 content-type: application/json
 
 ### Filtro das categorias
 
 GET http://localhost:3000/company?category=chur HTTP/1.1
 content-type: application/json
+
+### Editar apenas um campo do usuario
+
+PUT http://localhost:3000/company/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name":     "teste",
+    "category": "Lanchonete",
+    "cnpj":     "61.851.929/0001-00",
+    "evaluate": 0,
+    "places":   "Avenida São Carlos, Centro"
+}
+
+### Editar todos os campos do usuario
+
+PUT http://localhost:3000/company/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name":     "Casa do Pão de Queijo",
+    "category": "Lanchonete",
+    "cnpj":     "61.851.929/0001-00",
+    "evaluate": 0,
+    "places":   "Avenida São Carlos, Centro"
+}
+
