@@ -30,3 +30,26 @@ export async function showUser(req, res, _next){
     let u = await prisma.user.findFirst({where: {id:id} });
     return res.status(200).json(u);
 }
+
+export async function editUser(req, res, _next){
+    let id = Number(req.params.id);
+    const {name,type,signature,email} = req.body;
+
+    let u = await prisma.user.findFirst({where: {id:id} })
+    
+    if(!u){
+        return res.status(404).json("Not found"+id);
+    }
+
+    u = attachSave(u, 'user');
+
+    if (name) u.name = name
+    if (email) u.email = email
+    if (type) u.type = type
+    if (signature) u.signature = signature
+
+    await u.save();
+
+    return res.status(202).json(u);
+}
+
