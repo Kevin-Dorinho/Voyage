@@ -58,3 +58,7 @@ content-type: application/json
     "key":            "169999999",
     "type":           "phone"
 }
+
+### deletando um pagamento
+DELETE http://localhost:3000/payment/1 HTTP/1.1
+content-type: application/json

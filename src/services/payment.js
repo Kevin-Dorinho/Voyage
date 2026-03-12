@@ -57,3 +57,15 @@ export async function editPayment(req, res, _next) {
     await p.save();
     return res.status(202).json(p);
 }
+
+export async function deletePayment(req, res, _next) {
+    let id = Number(req.params.id);
+    let p = await prisma.payment.findFirst({where: {id:id} })
+
+    if(p){
+        await prisma.payment.delete({where: {id:id} });
+        return res.status(404).json("deletado com sucesso");
+    }
+    
+    return res.status(200).json("Não foi encontrado");
+}
