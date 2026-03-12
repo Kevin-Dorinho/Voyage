@@ -76,3 +76,7 @@ content-type: application/json
     "long":     -47.8904711,
     "url":      ""
 }
+
+### editando apenas um endereço
+DELETE http://localhost:3000/address/1 HTTP/1.1
+content-type: application/json

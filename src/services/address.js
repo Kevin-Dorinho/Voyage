@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { z } from 'zod';
 import { attachSave} from "../utils/save.js";
+import { id } from "zod/locales";
 
 const prisma = new PrismaClient();
 
@@ -92,4 +93,17 @@ export async function editAddress(req, res, _next) {
     await a.save();
 
     return res.status(202).json(a);
+}
+
+export async function deleteAddress(req, res, _next)  {
+
+    let id = Number(req.params.id);
+    let d = await prisma.address.findFirst({where: {id:id} });
+
+    if(d){
+        return res.status(201).json("id deletado "+ id);
+    }else{
+    return  res.status(404).json("id não encontrado "+id);
+    }    
+
 }
