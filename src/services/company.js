@@ -18,7 +18,7 @@ export async function readCompany(req, res, _next) {
     let consult = {}
 
     if (name) consult.name = {contains: "%"+name+"%"}
-    if (places) consult.places = {contains: "%"+address+"%"}
+    if (places) consult.places = {contains: "%"+places+"%"}
     if (category) consult.category = {contains: "%"+category+"%"}
 
     let companies = await prisma.company.findMany({where: consult})
@@ -49,6 +49,20 @@ export async function editCompany(req, res, _next) {
 
     
     return res.status(202).json(c);
+
+}
+
+export async function deleteCompany(req, res, _next){
+
+    let id = Number(req.params.id);
+    let c = await prisma.company.findFirst({where: {id: id}})
+
+     if(c){
+        let c = await prisma.company.delete({where: {id: id}})
+        return res.status(200).json ("USUARIO DELETADO " + id );
+    }else{
+        return res.status(404).json("Não econtrei " + id);
+    }
 
 }
 
