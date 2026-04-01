@@ -3,11 +3,11 @@ POST http://localhost:3000/company HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "testes",
-    "category": "Lanchonete",
-    "cnpj":     "61",
-    "evaluate": 0,
-    "places":   "Av"
+    "name":     "Savegnago",
+    "category": "Supermercado",
+    "cnpj":     "71.322.150/0044-08",
+    "evaluate": 5.1,
+    "places":   "Av. Comendador Alfredo Maffei, 3600"
 }
 
 
