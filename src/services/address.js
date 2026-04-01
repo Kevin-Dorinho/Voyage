@@ -21,9 +21,14 @@ const prisma = new PrismaClient();
 export async function createAddress(req, res, _next) {
     try {
         const createSchema = z.object({
-            place: z.string().min(3, "O endereço deve ter no mínimo 3 caracteres."),
-            number: z.string().min(1, "O número é obrigatório."),
-            zipcode: z.string().min(8, "CEP inválido."),
+            place: z.string()
+                .min(3, "O endereço deve ter no mínimo 3 caracteres.")
+                .regex(/^[a-zA-ZÀ-ÿ\s,.\-]+$/, "O endereço não pode conter números ou caracteres especiais anormais."),
+            number: z.string()
+                .min(1, "O número é obrigatório.")
+                .regex(/^\d{1,6}(?:\s?[a-zA-Z])?$/, "O número deve ter ter até 6 números e no máximo uma letra (ex: 102 F ou 123 b)."),
+            zipcode: z.string()
+                .regex(/^\d{5}-?\d{3}$/, "CEP inválido. Use o formato 00000-000."),
             lat: z.preprocess((val) => parseFloat(val), z.number().min(-90, "Latitude inválida.").max(90, "Latitude inválida.")),
             long: z.preprocess((val) => parseFloat(val), z.number().min(-180, "Longitude inválida.").max(180, "Longitude inválida."))
         });
@@ -172,9 +177,15 @@ export async function editAddress(req, res, _next) {
         if (isNaN(id)) return res.status(400).json({ error: "ID de endereço inválido." });
 
         const editSchema = z.object({
-            place: z.string().optional(),
-            number: z.string().optional(),
-            zipcode: z.string().optional(),
+            place: z.string()
+                .regex(/^[a-zA-ZÀ-ÿ\s,.\-]+$/, "O endereço não pode conter números ou caracteres especiais anormais.")
+                .optional(),
+            number: z.string()
+                .regex(/^\d{1,6}(?:\s?[a-zA-Z])?$/, "O número deve ter até 6 números e no máximo uma letra (ex: 102 F ou 123 b).")
+                .optional(),
+            zipcode: z.string()
+                .regex(/^\d{5}-?\d{3}$/, "CEP inválido. Use o formato 00000-000.")
+                .optional(),
             lat: z.number().min(-90).max(90).optional(),
             long: z.number().min(-180).max(180).optional()
         });

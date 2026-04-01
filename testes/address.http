@@ -63,7 +63,7 @@ content-type: application/json
 }
 
 ### editando apenas um endereço
-DELETE http://localhost:3000/address/1 HTTP/1.1
+DELETE http://localhost:3000/address/15 HTTP/1.1
 content-type: application/json
 
 
@@ -74,23 +74,23 @@ Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0g
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="place"
 
-Av. São Carlos, Centro
+Florisberto aparecido da silva, Cidade aracy
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="number"
 
-1242
+189
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="zipcode"
 
-13566-330
+13573-168
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="lat"
 
--22.022011888377065
+-22.058444234048984
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="long"
 
--47.8904711
+-47.90917365444325
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="file"; filename="pizza.jpg"
 Content-Type: image/jpeg
