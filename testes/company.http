@@ -3,11 +3,11 @@ POST http://localhost:3000/company HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "teste para deletar",
+    "name":     "testes",
     "category": "Lanchonete",
-    "cnpj":     "61.851.929/0001-00",
+    "cnpj":     "61",
     "evaluate": 0,
-    "places":   "Avenida São Carlos, Centro"
+    "places":   "Av"
 }
 
 
