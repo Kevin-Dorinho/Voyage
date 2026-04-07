@@ -9,8 +9,7 @@
     "start": "node src/server.js",
     "migrate": "prisma migrate dev",
     "studio": "prisma studio",
-    "generate": "prisma generate",
-    "seed": "node src/seed.js"
+    "generate": "prisma generate"
   },
   "keywords": [],
   "author": "",
