@@ -3,10 +3,12 @@ POST http://localhost:3000/user/ HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "João Junior",
-    "type":         "user",
-    "email":        "jjunior234534@berinjela.com",
-    "password":     "jjjunior8538"
+    "name":         "Paulo Junior",
+    "type":         "client",
+    "email":        "badfffsa@berinjela.com",
+    "password":     "B@atat13inha",
+    "phone":        "19846274838",
+    "cpf":          "27895277847"
 }
 
 ### listar todos os usuarios.
@@ -14,7 +16,7 @@ GET http://localhost:3000/user/ HTTP/1.1
 content-type: application/json
 
 ### listando um unico usuario.
-GET http://localhost:3000/user/1 HTTP/1.1
+GET http://localhost:3000/user/2 HTTP/1.1
 content-type: application/json
 
 ### 
@@ -42,7 +44,8 @@ content-type: application/json
   "name":        "João Junior",
   "type":        "user",
   "email":       "jjunior234534@berinjela.com",
-  "password":    "jjjunior8538"
+  "password":    "jjjunior8538",
+  "phone":       "69696969696"
 
 }
 
