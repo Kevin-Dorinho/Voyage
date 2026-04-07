@@ -53,7 +53,7 @@ content-type: application/json
     "toDate":         "2026-02-26 00:00:00Z",
     "dueDate":        "2026-02-28 00:00:00Z",
     "value":          20,
-    "paymentForm":    "CARTAO",
+    "paymentForm":    "PIX",
     "advertising":    "Melhor Churrascaria",
     "key":            "169999999",
     "type":           "phone"
