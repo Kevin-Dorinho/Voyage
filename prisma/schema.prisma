@@ -24,6 +24,8 @@ model User{
   email       String
   password    String
   favorites   Favorite[]
+  phone       String?
+  cpf         String?
 
   signature   Signature @default(BASIC)
   address     Address[]  @relation("addressUser")
