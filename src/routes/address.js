@@ -1,13 +1,19 @@
 import { Router } from 'express';
 
-import { createAddress, readAddress, showAddress, editAddress } from '../services/address.js';
+import multer from 'multer';
+
+import { createAddress, readAddress, showAddress, editAddress, deleteAddress } from '../services/address.js';
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = Router();
 
-router.post('/', createAddress);
+router.post('/', upload.single('file'), createAddress);
 router.get('/', readAddress);
 router.get('/:id', showAddress);
-router.put('/:id', editAddress )
+router.put('/:id', editAddress );
+router.delete('/:id', deleteAddress)
+
 
 
 export default  router;

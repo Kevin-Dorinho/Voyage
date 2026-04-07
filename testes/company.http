@@ -3,11 +3,11 @@ POST http://localhost:3000/company HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "Casa do Pão de Queijo",
-    "category": "Lanchonete",
-    "cnpj":     "61.851.929/0001-00",
-    "evaluate": 0,
-    "places":   "Avenida São Carlos, Centro"
+    "name":     "Savegnago",
+    "category": "Supermercado",
+    "cnpj":     "71.322.150/0044-08",
+    "evaluate": 5.1,
+    "places":   "Av. Comendador Alfredo Maffei, 3600"
 }
 
 
@@ -18,7 +18,7 @@ content-type: application/json
 
 ### Lista uma unica company
 
-GET http://localhost:3000/company/1 HTTP/1.1
+GET http://localhost:3000/company/3 HTTP/1.1
 content-type: application/json
 
 ### Filtro das companies
@@ -61,4 +61,10 @@ content-type: application/json
     "evaluate": 0,
     "places":   "Avenida São Carlos, Centro"
 }
+
+
+### Deletando campo de usuario
+
+DELETE http://localhost:3000/company/3 HTTP/1.1
+content-type: application/json
 
