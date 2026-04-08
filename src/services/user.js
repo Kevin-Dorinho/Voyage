@@ -87,7 +87,7 @@ export async function createUser(req, res, _next) {
         return res.status(201).json(u);
     } catch (error) {
         console.error("Error in createUser:", error);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ error: error.message });
     }
 }
 
