@@ -5,12 +5,11 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "node src/server.js",
-    "start": "node src/server.js",
+    "dev": "node server.js",
+    "start": "node server.js",
     "migrate": "prisma migrate dev",
     "studio": "prisma studio",
-    "generate": "prisma generate",
-    "postinstall": "prisma generate"
+    "generate": "prisma generate"
   },
   "keywords": [],
   "author": "",
