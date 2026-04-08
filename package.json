@@ -2,11 +2,11 @@
   "name": "kevin",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
-    "start": "node server.js",
+    "dev": "node src/server.js",
+    "start": "node src/server.js",
     "migrate": "prisma migrate dev",
     "studio": "prisma studio",
     "generate": "prisma generate"
