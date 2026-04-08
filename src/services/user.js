@@ -103,12 +103,12 @@ export async function readUser(req, res, _next) {
         if (phone) consult.phone = { contains: "%" + phone + "%" }
         if (cpf) consult.cpf = { contains: "%" + cpf + "%" }
 
-        let users = await prisma.user.findMany({ where: consult });
+        let users = await prisma.users.findMany({ where: consult });
 
         return res.status(200).json(users);
     } catch (error) {
         console.error("Error in readUser:", error);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ error: error.message });
     }
 }
 
