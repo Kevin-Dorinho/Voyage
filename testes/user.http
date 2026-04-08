@@ -1,5 +1,5 @@
 ### criando um usuario.
-POST https://voyage-kevin.onrender.com/user/ HTTP/1.1
+POST https://voyage-teste.onrender.com/user/ HTTP/1.1
 content-type: application/json
 
 {
