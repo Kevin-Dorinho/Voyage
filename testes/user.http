@@ -3,12 +3,12 @@ POST https://voyage-kevin.onrender.com/user/ HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Paulo Junior",
+    "name":         "Paulo",
     "type":         "client",
-    "email":        "badfffsa@berinjela.com",
-    "password":     "B@atat13inha",
-    "phone":        "19846274838",
-    "cpf":          "27895277847"
+    "email":        "teste@berinjela.com",
+    "password":     "B@atAt13inha",
+    "phone":        "19844274838",
+    "cpf":          "95056280054"
 }
 
 ### listar todos os usuarios.
