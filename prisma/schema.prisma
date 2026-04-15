@@ -44,7 +44,6 @@ model Payment{
 
   toDate         DateTime
   dueDate        DateTime
-  value          Int
   paymentForm    String
   advertising    String
   key            String

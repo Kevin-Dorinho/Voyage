@@ -3,7 +3,7 @@ POST https://voyage-kevin.onrender.com/company HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "Savegnago",
+    "name":     "teste",
     "category": "Supermercado",
     "cnpj":     "71.322.150/0044-08",
     "evaluate": 5.1,

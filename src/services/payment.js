@@ -49,7 +49,7 @@ export async function showPayment(req, res, _next) {
 export async function editPayment(req, res, _next) {
     try {
         let id = Number(req.params.id);
-        const { to_date, due_date, value, paymentForm, advertising, key, type } = req.body
+        const { to_date, due_date, paymentForm, advertising, key, type } = req.body
 
         let p = await prisma.payment.findFirst({ where: { id: id } })
 
@@ -61,7 +61,6 @@ export async function editPayment(req, res, _next) {
 
         if (to_date) p.to_date = to_date;
         if (due_date) p.due_date = due_date;
-        if (value) p.value = value;
         if (paymentForm) p.paymentForm = paymentForm;
         if (advertising) p.advertising = advertising;
         if (key) p.key = key;
