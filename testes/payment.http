@@ -1,5 +1,5 @@
 ### criando um pagamento
-POST http://localhost:3000/payment HTTP/1.1
+POST voyage-teste.onrender.com/payment HTTP/1.1
 content-type: application/json
 
 {
