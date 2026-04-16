@@ -44,7 +44,10 @@ model Payment{
 
   toDate         DateTime
   dueDate        DateTime
+<<<<<<< HEAD
   value          Float
+=======
+>>>>>>> beea2d9929e84c597bc08151952ab32a001138c3
   paymentForm    String
   advertising    String
   key            String

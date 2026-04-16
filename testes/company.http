@@ -1,13 +1,13 @@
 ### criando uma Company
-POST https://voyage-kevin.onrender.com/company HTTP/1.1
+POST https://voyage-teste.onrender.com/company HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "Savegnago",
-    "category": "Supermercado",
-    "cnpj":     "71.322.150/0044-08",
-    "evaluate": 5.1,
-    "places":   "Av. Comendador Alfredo Maffei, 3600"
+    "name":     "Claro",
+    "category": "Outros",
+    "cnpj":     "40.432.544/0001-47",
+    "evaluate": 4.6,
+    "places":   "Av. São Carlos, 2283"
 }
 
 

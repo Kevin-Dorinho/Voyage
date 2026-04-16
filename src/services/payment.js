@@ -133,7 +133,7 @@ export async function showPayment(req, res, _next) {
 export async function editPayment(req, res, _next) {
     try {
         let id = Number(req.params.id);
-        if (isNaN(id)) throw new Error("Url ID Inválido");
+        const { to_date, due_date, paymentForm, advertising, key, type } = req.body
 
         const validatedData = editPaymentSchema.parse(req.body);
         let p = await prisma.payment.findFirst({ where: { id: id } });
@@ -144,13 +144,12 @@ export async function editPayment(req, res, _next) {
 
         p = attachSave(p, 'payment');
 
-        if (validatedData.toDate) p.toDate = validatedData.toDate;
-        if (validatedData.dueDate) p.dueDate = validatedData.dueDate;
-        if (validatedData.value) p.value = validatedData.value;
-        if (validatedData.paymentForm) p.paymentForm = validatedData.paymentForm;
-        if (validatedData.advertising) p.advertising = validatedData.advertising;
-        if (validatedData.key) p.key = validatedData.key;
-        if (validatedData.type) p.type = validatedData.type;
+        if (to_date) p.to_date = to_date;
+        if (due_date) p.due_date = due_date;
+        if (paymentForm) p.paymentForm = paymentForm;
+        if (advertising) p.advertising = advertising;
+        if (key) p.key = key;
+        if (type) p.type = type;
 
         await p.save();
         return res.status(202).json(p);

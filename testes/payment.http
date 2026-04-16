@@ -1,12 +1,11 @@
 ### criando um pagamento
-POST http://localhost:3000/payment HTTP/1.1
+POST voyage-teste.onrender.com/payment HTTP/1.1
 content-type: application/json
 
 {
     "companyId":      1,
     "toDate":         "2026-02-26 00:00:00Z",
     "dueDate":        "2026-02-28 00:00:00Z",
-    "value":          20.21,
     "paymentForm":    "PIX",
     "advertising":    "Melhor Churrascaria",
     "key":            "169999999",
