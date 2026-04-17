@@ -1,5 +1,8 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6Im93bmVyIiwiZW1haWwiOiJqYW9qdW5pb3JAZ21haWwuY29tIiwibmFtZSI6IkpvYW8gSnVuaW9yIiwiaWF0IjoxNzQ0NDM0MTE4LCJleHAiOjE3NDQ1MjA1MTh9.3416341634163416341634163416341634163416
+
 ### criando uma Company
-POST https://voyage-teste.onrender.com/company HTTP/1.1
+POST http://localhost:3000/company HTTP/1.1
+Authorization: Bearer <token>
 content-type: application/json
 
 {
