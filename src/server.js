@@ -10,10 +10,11 @@ const app = express(); // estou criando um app
 app.use(cors()); // aqui falo qual cors
 app.use(express.json()); // aqui falo que vai usar o formato json
 
-app.use('/company', companyRouter);
+// Rotas do projeto
+app.use('/company', auth, companyRouter);
 app.use('/user', userRouter);
 app.use('/address', addressRouter);
-app.use('/payment', paymentRouter);
+app.use('/payment', auth, paymentRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`HTTP => http://localhost:${PORT}`));

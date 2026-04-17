@@ -1,7 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import { attachSave } from "../utils/save.js";
 const prisma = new PrismaClient();
+const SECRET_KEY = process.env.JWT_SECRET || 'voyage_default_dev_secret';
 
 const cpfSchema = z.string().refine((cpf) => {
     cpf = cpf.replace(/[^\d]+/g, '');
@@ -29,6 +32,42 @@ const passwordSchema = z.string()
 const nameSchema = z.string()
     .min(3, "Nome deve ter pelo menos 3 caracteres")
     .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Nome não deve conter números ou símbolos especiais");
+
+export async function loginUser(req, res, _next) {
+    try {
+        const { email, password } = req.body;
+        
+        if (!email || !password) {
+            return res.status(400).json({ error: "E-mail e senha são obrigatórios" });
+        }
+
+        const user = await prisma.user.findFirst({ where: { email: email } });
+        
+        if (!user) {
+            return res.status(401).json({ error: "Email ou senha incorretos" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ error: "Email ou senha incorretos" });
+        }
+
+        const token = jwt.sign(
+            { sub: user.id, type: user.type, email: user.email, name: user.name },
+            SECRET_KEY,
+            { expiresIn: '1d' }
+        );
+
+        return res.status(200).json({
+            message: "Login realizado com sucesso",
+            token: token,
+            user: { id: user.id, name: user.name, type: user.type, email: user.email }
+        });
+    } catch (error) {
+        console.error("Error in loginUser:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 //rec: requisição, o que está vindo do front end
 //res: response ou responder, o que eu vou responder
@@ -81,6 +120,10 @@ export async function createUser(req, res, _next) {
             if (emailInUse) {
                 return res.status(409).json({ error: "O e-mail informado já está em uso" });
             }
+        }
+
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password, 10);
         }
 
         let u = await prisma.user.create({ data });
@@ -140,6 +183,18 @@ export async function editUser(req, res, _next) {
 
         const { name, type, signature, email, phone, cpf, password } = req.body;
 
+        // --- AUTH: DO SERVICE PARA O BANCO ---
+        // Usa o contexto da Auth injetado na req para aplicar segurança granular na camada do Prisma (Banco)
+        if (req.decoded && req.decoded.id !== id && req.decoded.type !== 'owner') {
+            return res.status(403).json({ error: "Acesso DB Negado. Você não tem permissão para editar este usuário." });
+        }
+
+        let u = await prisma.user.findFirst({ where: { id: id } });
+
+        if (!u) {
+            return res.status(404).json({ error: "Not found " + id });
+        }
+
         if (email) {
             const emailResult = z.string().email().safeParse(email);
             if (!emailResult.success) {
@@ -184,12 +239,6 @@ export async function editUser(req, res, _next) {
             }
         }
 
-        let u = await prisma.user.findFirst({ where: { id: id } });
-
-        if (!u) {
-            return res.status(404).json({ error: "Not found " + id });
-        }
-
         u = attachSave(u, 'user');
 
         if (name) u.name = name;
@@ -198,7 +247,7 @@ export async function editUser(req, res, _next) {
         if (signature) u.signature = signature;
         if (phone) u.phone = phone;
         if (cpf) u.cpf = cpf;
-        if (password) u.password = password;
+        if (password) u.password = await bcrypt.hash(password, 10);
 
         await u.save();
 
