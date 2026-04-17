@@ -6,18 +6,18 @@ content-type: application/json
     "name":         "Gabi",
     "type":         "client",
     "email":        "gabi@berinjela.com",
-    "password":     "12345",
+    "password":     "MinhaSenha@123",
     "phone":        "19844274838",
     "cpf":          "95056280054"
 }
 
 ### Login do usuario
-POST http://localhost:3000/user/login HTTP/1.1
+POST https://voyage-teste.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "yhfgh@berinjela.com",
-    "password":     "B@tatinha123"
+    "email":        "gabi@berinjela.com",
+    "password":     "MinhaSenha@123"
 }
 
 ### listar todos os usuarios.
