@@ -3,12 +3,21 @@ POST https://voyage-teste.onrender.com/user/ HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Paulo",
+    "name":         "Gabi",
     "type":         "client",
-    "email":        "teste@berinjela.com",
-    "password":     "B@atAt13inha",
+    "email":        "gabi@berinjela.com",
+    "password":     "12345",
     "phone":        "19844274838",
     "cpf":          "95056280054"
+}
+
+### Login do usuario
+POST http://localhost:3000/user/login HTTP/1.1
+content-type: application/json
+
+{
+    "email":        "yhfgh@berinjela.com",
+    "password":     "B@tatinha123"
 }
 
 ### listar todos os usuarios.

@@ -5,16 +5,12 @@ import companyRouter from './routes/company.js'
 import userRouter from './routes/user.js'
 import addressRouter from './routes/address.js'
 import paymentRouter from './routes/payment.js'
-import { auth } from './middlewares/auth.js';
 
 const app = express(); // estou criando um app
 app.use(cors()); // aqui falo qual cors
 app.use(express.json()); // aqui falo que vai usar o formato json
 
-// Como conversado, você configurará as exceções manualmente. 
-// Atualmente o middleware barra tudo que descer daqui para Router -> Service -> DB
-app.use(auth);
-
+// Rotas do projeto
 app.use('/company', companyRouter);
 app.use('/user', userRouter);
 app.use('/address', addressRouter);
