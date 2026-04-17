@@ -136,6 +136,10 @@ export async function createUser(req, res, _next) {
 
 export async function readUser(req, res, _next) {
     try {
+        if (req.decoded && req.decoded.type !== 'owner') {
+            return res.status(403).json({ error: "Acesso Negado. Apenas administradores do sistema podem listar os usuários." });
+        }
+
         const { name, type, signature, email, phone, cpf } = req.query;
 
         let consult = {}
@@ -160,6 +164,10 @@ export async function showUser(req, res, _next) {
         let id = Number(req.params.id);
         if (isNaN(id)) {
             return res.status(400).json({ error: "Invalid ID format" });
+        }
+
+        if (req.decoded && req.decoded.id !== id && req.decoded.type !== 'owner') {
+            return res.status(403).json({ error: "Acesso Negado. Você só pode acessar o seu próprio perfil." });
         }
 
         let u = await prisma.user.findFirst({ where: { id: id } });
