@@ -1,12 +1,11 @@
-### criando um usuario.
-POST https://voyage-teste.onrender.com/user/ HTTP/1.1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsInR5cGUiOiJjbGllbnQiLCJlbWFpbCI6InJvc2FuZ2VsYUBmZWxpc2JlcnRhLmNvbSIsIm5hbWUiOiJSb2ZlbGl6IiwiaWF0IjoxNzc2NDY2MDA5LCJleHAiOjE3NzY1NTI0MDl9.m6khVS6Nuvw1J5QIyJu9H0WO-uxHqCNxOkwHlpBZCq8
 content-type: application/json
 
 {
-    "name":         "Gabi",
+    "name":         "Rofeliz",
     "type":         "client",
-    "email":        "gabi@berinjela.com",
-    "password":     "12345",
+    "email":        "rosangela@felisberta.com",
+    "password":     "B@tatinha123",
     "phone":        "19844274838",
     "cpf":          "95056280054"
 }
@@ -16,7 +15,7 @@ POST http://localhost:3000/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "yhfgh@berinjela.com",
+    "email":        "rosangela@felisberta.com",
     "password":     "B@tatinha123"
 }
 
@@ -26,6 +25,7 @@ content-type: application/json
 
 ### listando um unico usuario.
 GET http://localhost:3000/user/2 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### 
