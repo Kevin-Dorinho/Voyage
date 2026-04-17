@@ -140,6 +140,18 @@ export async function editUser(req, res, _next) {
 
         const { name, type, signature, email, phone, cpf, password } = req.body;
 
+        // --- AUTH: DO SERVICE PARA O BANCO ---
+        // Usa o contexto da Auth injetado na req para aplicar segurança granular na camada do Prisma (Banco)
+        if (req.user && req.user.id !== id && req.user.type !== 'owner') {
+            return res.status(403).json({ error: "Acesso DB Negado. Você não tem permissão para editar este usuário." });
+        }
+
+        let u = await prisma.user.findFirst({ where: { id: id } });
+
+        if (!u) {
+            return res.status(404).json({ error: "Not found " + id });
+        }
+
         if (email) {
             const emailResult = z.string().email().safeParse(email);
             if (!emailResult.success) {
@@ -182,12 +194,6 @@ export async function editUser(req, res, _next) {
                 const errorMsg = nameResult.error?.issues?.[0]?.message || nameResult.error?.errors?.[0]?.message || "Nome com formato inválido";
                 return res.status(400).json({ error: errorMsg });
             }
-        }
-
-        let u = await prisma.user.findFirst({ where: { id: id } });
-
-        if (!u) {
-            return res.status(404).json({ error: "Not found " + id });
         }
 
         u = attachSave(u, 'user');
