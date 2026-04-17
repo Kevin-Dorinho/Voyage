@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import { attachSave } from "../utils/save.js";
 const prisma = new PrismaClient();
@@ -46,7 +47,8 @@ export async function loginUser(req, res, _next) {
             return res.status(401).json({ error: "Email ou senha incorretos" });
         }
 
-        if (user.password !== password) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
             return res.status(401).json({ error: "Email ou senha incorretos" });
         }
 
@@ -118,6 +120,10 @@ export async function createUser(req, res, _next) {
             if (emailInUse) {
                 return res.status(409).json({ error: "O e-mail informado já está em uso" });
             }
+        }
+
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password, 10);
         }
 
         let u = await prisma.user.create({ data });
@@ -241,7 +247,7 @@ export async function editUser(req, res, _next) {
         if (signature) u.signature = signature;
         if (phone) u.phone = phone;
         if (cpf) u.cpf = cpf;
-        if (password) u.password = password;
+        if (password) u.password = await bcrypt.hash(password, 10);
 
         await u.save();
 
