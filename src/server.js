@@ -5,6 +5,7 @@ import companyRouter from './routes/company.js'
 import userRouter from './routes/user.js'
 import addressRouter from './routes/address.js'
 import paymentRouter from './routes/payment.js'
+import { auth } from './middlewares/auth.js'
 
 const app = express(); // estou criando um app
 app.use(cors()); // aqui falo qual cors
