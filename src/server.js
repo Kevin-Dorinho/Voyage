@@ -5,14 +5,14 @@ import companyRouter from './routes/company.js'
 import userRouter from './routes/user.js'
 import addressRouter from './routes/address.js'
 import paymentRouter from './routes/payment.js'
-import { auth } from './middlewares/auth.js'
+import { auth } from './middlewares/auth.js';
 
 const app = express(); // estou criando um app
 app.use(cors()); // aqui falo qual cors
 app.use(express.json()); // aqui falo que vai usar o formato json
 
 // Rotas do projeto
-app.use('/company', auth, companyRouter);
+app.use('/company', companyRouter);
 app.use('/user', userRouter);
 app.use('/address', addressRouter);
 app.use('/payment', auth, paymentRouter);
