@@ -3,11 +3,11 @@ content-type: application/json
 
 ### criando uma Company
 POST http://localhost:3000/company HTTP/1.1
-Authorization: Bearer <token>
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
-    "name":     "Claro",
+    "name":     "Teste1",
     "category": "Outros",
     "cnpj":     "40.432.544/0001-47",
     "evaluate": 4.6,

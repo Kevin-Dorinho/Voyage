@@ -15,6 +15,8 @@ router.get('/', readAddress);
 router.get('/:id', showAddress);
 router.put('/:id', auth, upload.single('file'), editAddress);
 router.delete('/:id', auth, deleteAddress)
+router.put('/:id', editAddress);
+router.delete('/:id', deleteAddress)
 
 
 
