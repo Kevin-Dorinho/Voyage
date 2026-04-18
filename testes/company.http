@@ -1,5 +1,5 @@
 ### criando uma Company
-POST https://voyage-teste.onrender.com/company HTTP/1.1
+POST http://localhost:3000/company HTTP/1.1
 content-type: application/json
 
 {

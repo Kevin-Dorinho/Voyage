@@ -8,7 +8,9 @@ const prisma = new PrismaClient();
 function handleErrors(error, res) {
     // Tratamento para Erros de Validação dos Dados Formatados (Zod)
     if (error && error.name === 'ZodError') {
-        const errorsList = error.errors.map(err => {
+
+        const rawErrors = error.errors || error.issues || [];
+        const errorsList = rawErrors.map(err => {
             let dica = "Revise o formato dessa informação.";
             if (err.code === "invalid_type") {
                 dica = `O tipo inserido está incorreto. O sistema esperava um '${err.expected}' (Exemplo: número sem aspas), mas recebeu um '${err.received}' (Texto/String com aspas). Remova as aspas se for número.`;
@@ -70,7 +72,6 @@ const createPaymentSchema = z.object({
     companyId: z.number({ required_error: "É obrigatório informar a empresa no json (companyId)", invalid_type_error: "O campo companyId DEVE ser um Número sem aspas" }).int().positive(),
     toDate: z.coerce.date({ required_error: "Data Inicial toDate ausente", invalid_type_error: "toDate deve ter formato válido como 2026-02-28 00:00:00Z" }),
     dueDate: z.coerce.date({ required_error: "Data Final dueDate ausente", invalid_type_error: "dueDate deve ter formato válido" }),
-    value: z.number({ required_error: "Campo value está ausente", invalid_type_error: "ALERTA: O valor DEVE SER NUMÉRICO. Altere o valor no seu Testador JSON para 20 no lugar de \"20\"." }).positive("Valor deve ser numérico e maior que zero"),
     paymentForm: z.string({ required_error: "paymentForm está ausente", invalid_type_error: "paymentForm precisa ser escrito entre aspas" }).min(1, "Não aceita forms vazios"),
     advertising: z.string({ required_error: "advertising está ausente", invalid_type_error: "advertising precisa ser escrito entre aspas" }).min(1),
     key: z.string({ required_error: "Falha, a key não foi passada" }).min(1),
@@ -81,6 +82,11 @@ const editPaymentSchema = createPaymentSchema.partial();
 
 export async function createPayment(req, res, _next) {
     try {
+        // Pega o id do usuario logado no token JWT e converte para Número (para evitar erro de tipagem no Zod)
+        if (req.decoded && req.decoded.id) {
+            req.body.companyId = Number(req.decoded.id);
+        }
+
         const data = createPaymentSchema.parse(req.body);
         let p = await prisma.payment.create({ data });
         return res.status(201).json(p);

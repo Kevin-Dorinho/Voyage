@@ -3,20 +3,20 @@ POST http://localhost:3000/user/ HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Gabi",
+    "name":         "Ana",
     "type":         "client",
-    "email":        "gabi@berinjela.com",
+    "email":        "ana@berinjela.com",
     "password":     "MinhaSenha@123",
     "phone":        "19844274838",
     "cpf":          "95056280054"
 }
 
 ### Login do usuario
-POST https://voyage-teste.onrender.com/user/login HTTP/1.1
+POST http://localhost:3000/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "gabi@berinjela.com",
+    "email":        "ana@berinjela.com",
     "password":     "MinhaSenha@123"
 }
 
