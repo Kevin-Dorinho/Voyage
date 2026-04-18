@@ -1,7 +1,7 @@
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6ImNvbXBhbnkiLCJlbWFpbCI6ImNvbXBhbnlhQGVtYWlsLmNvbSIsIm5hbWUiOiJDb21wYW55IEFkZCJ9.4-2j3m9j3m9j3m9j3m9j3m9j3m9j3m9j3m9j3m9j
 
 ### Listar todos os endereços
-GET https://voyage-kevin.onrender.com/address HTTP/1.1
+GET http://localhost:3000/address HTTP/1.1
 content-type: application/json
 
 ### Listar um unico endereço
