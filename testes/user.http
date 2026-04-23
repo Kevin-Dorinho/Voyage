@@ -70,3 +70,8 @@ content-type: application/json
   "password":    "ppaulo234"
 
 }
+
+### Deletar um usuario
+DELETE http://localhost:3000/user/2 HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json

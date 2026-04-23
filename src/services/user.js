@@ -36,13 +36,13 @@ const nameSchema = z.string()
 export async function loginUser(req, res, _next) {
     try {
         const { email, password } = req.body;
-        
+
         if (!email || !password) {
             return res.status(400).json({ error: "E-mail e senha são obrigatórios" });
         }
 
         const user = await prisma.user.findFirst({ where: { email: email } });
-        
+
         if (!user) {
             return res.status(401).json({ error: "Email ou senha incorretos" });
         }
