@@ -69,7 +69,7 @@ export async function loginUser(req, res, _next) {
     }
 }
 
-//rec: requisição, o que está vindo do front end
+//rec: requisição, do que está vindo do front end
 //res: response ou responder, o que eu vou responder
 //nest: próximo, o que eu vou fazer a seguir
 export async function createUser(req, res, _next) {

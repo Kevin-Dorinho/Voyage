@@ -1,5 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6Im93bmVyIiwiZW1haWwiOiJqYW9qdW5pb3JAZ21haWwuY29tIiwibmFtZSI6IkpvYW8gSnVuaW9yIiwiaWF0IjoxNzQ0NDM0MTE4LCJleHAiOjE3NDQ1MjA1MTh9.3416341634163416341634163416341634163416
-content-type: application/json
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInR5cGUiOiJvd25lciIsImVtYWlsIjoiZmFjZWJvb2tmb2RhQGxhZ2FydG8uY29tIiwibmFtZSI6Ik1hcmsgWnVja2VuYmVyZyIsImlhdCI6MTc3Njk4MjQ1OSwiZXhwIjoxNzc3MDY4ODU5fQ.6KRzL09JZ1d_vKuCzZ8MaTkNIXi80zn-RkBGn61qkZI
 
 ### criando uma Company
 POST http://localhost:3000/company HTTP/1.1
@@ -7,22 +6,24 @@ Authorization: Bearer {{token}}
 content-type: application/json
 
 {
-    "name":     "Teste1",
+    "name":     "Teste2",
     "category": "Outros",
-    "cnpj":     "40.432.544/0001-47",
+    "cnpj":     "07.358.445/0001-97",
     "evaluate": 4.6,
-    "places":   "Av. São Carlos, 2283"
+    "places":   "General Ozorio, 1157"
 }
 
 
 ### Listar todos as companies
 
 GET http://localhost:3000/company HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Lista uma unica company
 
 GET http://localhost:3000/company/3 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Filtro das companies
@@ -43,6 +44,7 @@ content-type: application/json
 ### Editar apenas um campo do usuario
 
 PUT http://localhost:3000/company/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -56,6 +58,7 @@ content-type: application/json
 ### Editar todos os campos do usuario
 
 PUT http://localhost:3000/company/2 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -70,5 +73,6 @@ content-type: application/json
 ### Deletando campo de usuario
 
 DELETE http://localhost:3000/company/3 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
