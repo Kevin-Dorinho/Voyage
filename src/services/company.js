@@ -67,7 +67,6 @@ export async function createCompany(req, res, _next) {
 }
 
 export async function readCompany(req, res, _next) {
-
     const { name, places, category } = req.query
 
     let consult = {}
@@ -90,6 +89,16 @@ export async function editCompany(req, res, _next) {
 
         if (!c) {
             return res.status(404).json("Não econtrei " + id);
+        }
+
+        const userId = req.decoded?.id;
+
+        if (!userId) {
+            return res.status(401).json({ error: "Autenticação necessária." });
+        }
+
+        if (c.userId !== userId) {
+            return res.status(403).json({ error: "Acesso negado. Você só pode editar as suas próprias empresas." });
         }
 
         c = attachSave(c, 'company');
@@ -115,12 +124,21 @@ export async function deleteCompany(req, res, _next) {
     let id = Number(req.params.id);
     let c = await prisma.company.findFirst({ where: { id: id } })
 
-    if (c) {
-        let c = await prisma.company.delete({ where: { id: id } })
-        return res.status(200).json("USUARIO DELETADO " + id);
-    } else {
+    if (!c) {
         return res.status(404).json("Não econtrei " + id);
     }
+
+    const userId = req.decoded?.id;
+    if (!userId) {
+        return res.status(401).json({ error: "Autenticação necessária." });
+    }
+
+    if (c.userId !== userId) {
+        return res.status(403).json({ error: "Acesso negado. Você só pode deletar as suas próprias empresas." });
+    }
+
+    await prisma.company.delete({ where: { id: id } })
+    return res.status(200).json("EMPRESA DELETADA " + id);
 
 }
 
