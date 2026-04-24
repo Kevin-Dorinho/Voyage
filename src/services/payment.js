@@ -99,7 +99,7 @@ export async function createPayment(req, res, _next) {
     } catch (error) {
 
         console.log(error.message);
-        return handleErrors(error, res);
+        return res.status(402).json({ erro: error.message, data: data })
     }
 }
 
