@@ -56,6 +56,14 @@ const companySchema = z.object({
 export async function createCompany(req, res, _next) {
     try {
         const data = companySchema.parse(req.body);
+
+        if (data.cnpj) {
+            const cnpjInUse = await prisma.company.findFirst({ where: { cnpj: data.cnpj } });
+            if (cnpjInUse) {
+                return res.status(409).json({ error: "O CNPJ informado já está em uso" });
+            }
+        }
+
         let c = await prisma.company.create({ data });
         return res.status(201).json(c);
     } catch (error) {
@@ -106,7 +114,13 @@ export async function editCompany(req, res, _next) {
         if (name) c.name = name
         if (places) c.places = places
         if (category) c.category = category
-        if (cnpj) c.cnpj = cnpj
+        if (cnpj) {
+            const cnpjInUse = await prisma.company.findFirst({ where: { cnpj: cnpj, id: { not: id } } });
+            if (cnpjInUse) {
+                return res.status(409).json({ error: "O CNPJ informado já está em uso" });
+            }
+            c.cnpj = cnpj;
+        }
 
         await c.save();
 

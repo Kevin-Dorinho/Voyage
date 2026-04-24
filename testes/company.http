@@ -7,7 +7,7 @@ Authorization: Bearer {{token}}
 content-type: application/json
 
 {
-    "name":     "Teste1",
+    "name":     "Kevin",
     "category": "Outros",
     "cnpj":     "07.358.445/0001-97",
     "evaluate": 4.6,
@@ -78,7 +78,7 @@ content-type: application/json
 
 ### Deletando campo de usuario
 
-DELETE https://voyagegabi.onrender.com/company/3 HTTP/1.1
+DELETE https://voyagegabi.onrender.com/company/4 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
