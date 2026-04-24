@@ -1,4 +1,5 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsInR5cGUiOiJvd25lciIsImVtYWlsIjoiZmFjZWJvb2tmb2RhQGxhZ2FydG8uY29tIiwibmFtZSI6Ik1hcmsgWnVja2VuYmVyZyIsImlhdCI6MTc3Njk4MjQ1OSwiZXhwIjoxNzc3MDY4ODU5fQ.6KRzL09JZ1d_vKuCzZ8MaTkNIXi80zn-RkBGn61qkZI
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoicGlwb3F1aW5hMTIzQGxhZ2FydG8uY29tIiwibmFtZSI6IkpvbmFzIFBpcG9jYSIsImlhdCI6MTc3Njk5MzAxMSwiZXhwIjoxNzc3MDc5NDExfQ.cwi_MK6KN8h_B_foTVP32LvqoVl8TI03LvUPdk6gJKs
+
 
 ### criando uma Company
 POST http://localhost:3000/company HTTP/1.1
@@ -6,13 +7,13 @@ Authorization: Bearer {{token}}
 content-type: application/json
 
 {
-    "name":     "Teste2",
+    "name":     "Teste4",
     "category": "Outros",
     "cnpj":     "07.358.445/0001-97",
     "evaluate": 4.6,
-    "places":   "General Ozorio, 1157"
+    "places":   "Pedro Sampaio, 1567"
 }
-
+### cnpj ta sem unique
 
 ### Listar todos as companies
 
@@ -20,30 +21,35 @@ GET http://localhost:3000/company HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
+### Listar todos as companies sem estar logado tbm
+
+GET https://voyage-i5zo.onrender.com/company HTTP/1.1
+content-type: application/json
+
 ### Lista uma unica company
 
-GET http://localhost:3000/company/3 HTTP/1.1
+GET https://voyage-i5zo.onrender.com/company/3 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Filtro das companies
 
-GET http://localhost:3000/company?name=que HTTP/1.1
+GET https://voyage-i5zo.onrender.com/company?name=que HTTP/1.1
 content-type: application/json
 
 ### Filtro das adrress
 
-GET http://localhost:3000/company?places=Ave HTTP/1.1
+GET https://voyage-i5zo.onrender.com/company?places=Ave HTTP/1.1
 content-type: application/json
 
 ### Filtro das categorias
 
-GET http://localhost:3000/company?category=chur HTTP/1.1
+GET https://voyage-i5zo.onrender.com/company?category=chur HTTP/1.1
 content-type: application/json
 
 ### Editar apenas um campo do usuario
 
-PUT http://localhost:3000/company/1 HTTP/1.1
+PUT https://voyage-i5zo.onrender.com/company/1 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
@@ -57,7 +63,7 @@ content-type: application/json
 
 ### Editar todos os campos do usuario
 
-PUT http://localhost:3000/company/2 HTTP/1.1
+PUT https://voyage-i5zo.onrender.com/company/2 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
@@ -72,7 +78,7 @@ content-type: application/json
 
 ### Deletando campo de usuario
 
-DELETE http://localhost:3000/company/3 HTTP/1.1
+DELETE https://voyage-i5zo.onrender.com/company/3 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 

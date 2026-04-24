@@ -19,15 +19,15 @@ export const auth = (req, res, next) => {
     const token = parts[1];
 
     try {
-        const decoded = jwt.verify(token, SECRET_KEY);
+        const logged = jwt.verify(token, SECRET_KEY);
         // Anexa as informações do usuário logado na requisição (ex: req.user.id)
-        req.decoded = {
-            id: decoded.sub,
-            type: decoded.type,
-            email: decoded.email,
-            name: decoded.name
+        req.logged = {
+            id: logged.sub,
+            type: logged.type,
+            email: logged.email,
+            name: logged.name
         }
-        
+
         // Passa para as Rotas (e consequentemente para o Service)
         return next();
     } catch (err) {

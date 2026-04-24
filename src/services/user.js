@@ -136,7 +136,7 @@ export async function createUser(req, res, _next) {
 
 export async function readUser(req, res, _next) {
     try {
-        if (req.decoded && req.decoded.type !== 'owner') {
+        if (req.logged && req.logged.type !== 'owner') {
             return res.status(403).json({ error: "Acesso Negado. Apenas administradores do sistema podem listar os usuários." });
         }
 
@@ -166,7 +166,7 @@ export async function showUser(req, res, _next) {
             return res.status(400).json({ error: "Invalid ID format" });
         }
 
-        if (req.decoded && req.decoded.id !== id && req.decoded.type !== 'owner') {
+        if (req.logged && req.logged.id !== id && req.logged.type !== 'owner') {
             return res.status(403).json({ error: "Acesso Negado. Você só pode acessar o seu próprio perfil." });
         }
 
@@ -193,7 +193,7 @@ export async function editUser(req, res, _next) {
 
         // --- AUTH: DO SERVICE PARA O BANCO ---
         // Usa o contexto da Auth injetado na req para aplicar segurança granular na camada do Prisma (Banco)
-        if (req.decoded && req.decoded.id !== id && req.decoded.type !== 'owner') {
+        if (req.logged && req.logged.id !== id && req.logged.type !== 'owner') {
             return res.status(403).json({ error: "Acesso DB Negado. Você não tem permissão para editar este usuário." });
         }
 

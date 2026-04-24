@@ -91,7 +91,7 @@ export async function editCompany(req, res, _next) {
             return res.status(404).json("Não econtrei " + id);
         }
 
-        const userId = req.decoded?.id;
+        const userId = req.logged?.id;
 
         if (!userId) {
             return res.status(401).json({ error: "Autenticação necessária." });
@@ -128,7 +128,7 @@ export async function deleteCompany(req, res, _next) {
         return res.status(404).json("Não econtrei " + id);
     }
 
-    const userId = req.decoded?.id;
+    const userId = req.logged?.id;
     if (!userId) {
         return res.status(401).json({ error: "Autenticação necessária." });
     }

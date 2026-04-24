@@ -69,7 +69,6 @@ function handleErrors(error, res) {
 
 // Schemas blindados para as Regras de Negócios
 const createPaymentSchema = z.object({
-    companyId: z.number({ required_error: "É obrigatório informar a empresa no json (companyId)", invalid_type_error: "O campo companyId DEVE ser um Número sem aspas" }).int().positive(),
     toDate: z.coerce.date({ required_error: "Data Inicial toDate ausente", invalid_type_error: "toDate deve ter formato válido como 2026-02-28 00:00:00Z" }),
     dueDate: z.coerce.date({ required_error: "Data Final dueDate ausente", invalid_type_error: "dueDate deve ter formato válido" }),
     paymentForm: z.string({ required_error: "paymentForm está ausente", invalid_type_error: "paymentForm precisa ser escrito entre aspas" }).min(1, "Não aceita forms vazios"),
@@ -83,14 +82,22 @@ const editPaymentSchema = createPaymentSchema.partial();
 export async function createPayment(req, res, _next) {
     try {
         // Pega o id do usuario logado no token JWT e converte para Número (para evitar erro de tipagem no Zod)
-        if (req.decoded && req.decoded.id) {
-            req.body.companyId = Number(req.decoded.id);
+        const data = createPaymentSchema.parse(req.body);
+        if (req.logged && req.logged.id) {
+            if (req.logged.type === "owner") {
+                let c = await prisma.company.findFirst({ where: { userId: Number(req.logged.id) } });
+                data.companyId = Number(c.id);
+            }
         }
 
-        const data = createPaymentSchema.parse(req.body);
+        console.log(data);
+
+
         let p = await prisma.payment.create({ data });
         return res.status(201).json(p);
     } catch (error) {
+
+        console.log(error.message);
         return handleErrors(error, res);
     }
 }

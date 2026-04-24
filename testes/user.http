@@ -1,54 +1,65 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsInR5cGUiOiJjbGllbnQiLCJlbWFpbCI6InJvc2FuZ2VsYUBmZWxpc2JlcnRhLmNvbSIsIm5hbWUiOiJSb2ZlbGl6IiwiaWF0IjoxNzc2NDY2MDA5LCJleHAiOjE3NzY1NTI0MDl9.m6khVS6Nuvw1J5QIyJu9H0WO-uxHqCNxOkwHlpBZCq8
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWFyY2l1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJNYXJjaXVzIEh1bWJlcnRvIiwiaWF0IjoxNzc2OTg1NTQ4LCJleHAiOjE3NzcwNzE5NDh9.qGfrZbZkQJqZ4hfiUbx2V-1CYAY6-kjG5LgIxJ5UM-k
 
 ### refazendo o cadastro que cometeu suicidio.
 POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Mark Zuckenberg",
+    "name":         "Jonas Pipoca",
     "type":         "owner",
-    "email":        "facebookfoda@lagarto.com",
+    "email":        "pipoquina123@lagarto.com",
     "password":     "B@tatinha123",
     "phone":        "19844453838",
-    "cpf":          "913.447.280-06"
+    "cpf":          "420.953.720-93" 
+}
+### cpf ta sem unique
+
+### Login do usuario marcius
+POST https://voyage-i5zo.onrender.com/user/login HTTP/1.1
+content-type: application/json
+
+{
+    "email":        "marcius@lagarto.com",
+    "password":     "B@tatinha123"
 }
 
-### Login do usuario
+### Login do  humbertol
 POST http://localhost:3000/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "facebookfoda@lagarto.com",
+    "email":        "pipoquina123@lagarto.com",
     "password":     "B@tatinha123"
 }
+
 
 ### listar todos os usuarios.
 GET https://voyage-kevin.onrender.com/user/ HTTP/1.1
 content-type: application/json
 
 ### listando um unico usuario.
-GET http://localhost:3000/user/2 HTTP/1.1
+GET https://voyage-i5zo.onrender.com/user/2 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### 
-GET http://localhost:3000/user?email=jjunior234534@berinjela.com HTTP/1.1
+GET https://voyage-i5zo.onrender.com/user?email=jjunior234534@berinjela.com HTTP/1.1
 content-type: application/json
 
 ### 
-GET http://localhost:3000/user?name HTTP/1.1
+GET https://voyage-i5zo.onrender.com/user?name HTTP/1.1
 content-type: application/json
 
 ### 
-GET http://localhost:3000/user?type HTTP/1.1
+GET https://voyage-i5zo.onrender.com/user?type HTTP/1.1
 content-type: application/json
 
 ### 
-GET http://localhost:3000/user?signature HTTP/1.1
+GET https://voyage-i5zo.onrender.com/user?signature HTTP/1.1
 content-type: application/json
 
 ### editanto todos os campos de usuario.
-PUT http://localhost:3000/user/1 HTTP/1.1
+PUT https://voyage-i5zo.onrender.com/user/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -62,7 +73,7 @@ content-type: application/json
 }
 
 ### editanto apenas um campo de usuario.
-PUT http://localhost:3000/user/1 HTTP/1.1
+PUT https://voyage-i5zo.onrender.com/user/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -75,6 +86,6 @@ content-type: application/json
 }
 
 ### Deletar um usuario
-DELETE http://localhost:3000/user/2 HTTP/1.1
+DELETE https://voyage-i5zo.onrender.com/user/2 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json

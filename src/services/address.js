@@ -36,9 +36,9 @@ export async function createAddress(req, res, _next) {
         const validation = createSchema.safeParse(req.body);
 
         if (!validation.success) {
-            return res.status(400).json({ 
-                error: "Dados de endereço inválidos.", 
-                detalhes: validation.error.format() 
+            return res.status(400).json({
+                error: "Dados de endereço inválidos.",
+                detalhes: validation.error.format()
             });
         }
 
@@ -77,7 +77,7 @@ export async function readAddress(req, res, _next) {
         if (lat && long) {
             const latitude = parseFloat(lat)
             const longitude = parseFloat(long)
-            
+
             if (isNaN(latitude) || isNaN(longitude) || latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
                 return res.status(400).json({ error: "Latitude ou Longitude em formato inválido ou fora dos limites." });
             }
@@ -154,11 +154,11 @@ export async function readAddress(req, res, _next) {
 export async function showAddress(req, res, _next) {
     try {
         let id = Number(req.params.id);
-        
+
         if (isNaN(id)) return res.status(400).json({ error: "ID de endereço inválido." });
 
         let a = await prisma.address.findUnique({ where: { id: id } });
-        
+
         if (!a) {
             return res.status(404).json({ error: "Endereço não encontrado." });
         }
@@ -207,16 +207,16 @@ export async function editAddress(req, res, _next) {
 
         updateData.url = await uploadToImgBB(req.file);
 
-        const existingAddress = await prisma.address.findUnique({ 
+        const existingAddress = await prisma.address.findUnique({
             where: { id: id },
-            include: { users: true } 
+            include: { users: true }
         });
 
         if (!existingAddress) {
             return res.status(404).json({ error: `Endereço com id ${id} não existe e não pode ser editado.` });
         }
 
-        const loggedId = Number(req.decoded.id);
+        const loggedId = Number(req.logged.id);
         const isOwner = existingAddress.users.some(user => user.id === loggedId);
 
         if (!isOwner) {
@@ -238,10 +238,10 @@ export async function editAddress(req, res, _next) {
 export async function deleteAddress(req, res, _next) {
     try {
         let id = Number(req.params.id);
-        
+
         if (isNaN(id)) return res.status(400).json({ error: "ID de endereço inválido." });
 
-        let d = await prisma.address.findUnique({ 
+        let d = await prisma.address.findUnique({
             where: { id: id },
             include: { users: true }
         });
@@ -250,13 +250,13 @@ export async function deleteAddress(req, res, _next) {
             return res.status(404).json({ error: `Falha na exclusão: Endereço com id ${id} não encontrado.` });
         }
 
-        const loggedId = Number(req.decoded.id);
+        const loggedId = Number(req.logged.id);
         const isOwner = d.users.some(user => user.id === loggedId);
 
         if (!isOwner) {
             return res.status(403).json({ error: "Acesso negado. Somente o dono deste endereço pode deletá-lo." });
         }
-        
+
         await prisma.address.delete({ where: { id: id } });
 
         return res.status(200).json({ message: `Endereço com id ${id} deletado com sucesso.` });
