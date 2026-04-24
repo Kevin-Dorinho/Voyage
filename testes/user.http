@@ -1,16 +1,16 @@
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWFyY2l1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJNYXJjaXVzIEh1bWJlcnRvIiwiaWF0IjoxNzc2OTg1NTQ4LCJleHAiOjE3NzcwNzE5NDh9.qGfrZbZkQJqZ4hfiUbx2V-1CYAY6-kjG5LgIxJ5UM-k
 
 ### refazendo o cadastro que cometeu suicidio.
-POST http://localhost:3000/user HTTP/1.1
+POST https://voyage-i5zo.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Jonas Pipoca",
+    "name":         "Jonas Matheus",
     "type":         "owner",
-    "email":        "pipoquina123@lagarto.com",
+    "email":        "matheus@lagarto.com",
     "password":     "B@tatinha123",
     "phone":        "19844453838",
-    "cpf":          "420.953.720-93" 
+    "cpf":          "395.464.790-71" 
 }
 ### cpf ta sem unique
 
@@ -24,11 +24,11 @@ content-type: application/json
 }
 
 ### Login do  humbertol
-POST http://localhost:3000/user/login HTTP/1.1
+POST https://voyage-i5zo.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "pipoquina123@lagarto.com",
+    "email":        "matheus@lagarto.com",
     "password":     "B@tatinha123"
 }
 

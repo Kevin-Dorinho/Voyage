@@ -80,6 +80,7 @@ const createPaymentSchema = z.object({
 const editPaymentSchema = createPaymentSchema.partial();
 
 export async function createPayment(req, res, _next) {
+    console.log("chegou aqui");
     try {
         // Pega o id do usuario logado no token JWT e converte para Número (para evitar erro de tipagem no Zod)
         const data = createPaymentSchema.parse(req.body);

@@ -1,7 +1,7 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoicGlwb3F1aW5hMTIzQGxhZ2FydG8uY29tIiwibmFtZSI6IkpvbmFzIFBpcG9jYSIsImlhdCI6MTc3Njk5MzAxMSwiZXhwIjoxNzc3MDc5NDExfQ.cwi_MK6KN8h_B_foTVP32LvqoVl8TI03LvUPdk6gJKs
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWF0aGV1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJKb25hcyBNYXRoZXVzIiwiaWF0IjoxNzc3MDcwNzI3LCJleHAiOjE3NzcxNTcxMjd9.oAmS0sNd220wL4Rissy0roHZXjMxyai_ky1LgVQgMog
 
 ### criando um pagamento
-POST http://localhost:3000/payment HTTP/1.1
+POST https://voyage-i5zo.onrender.com/payment HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
@@ -16,7 +16,7 @@ content-type: application/json
 
 
 ### Listar todos os pagamentos
-GET http://localhost:3000/payment/ HTTP/1.1
+GET https://voyage-i5zo.onrender.com/payment/ HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
