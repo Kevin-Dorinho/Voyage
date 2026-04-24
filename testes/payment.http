@@ -1,7 +1,7 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWF0aGV1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJKb25hcyBNYXRoZXVzIiwiaWF0IjoxNzc3MDcwNzI3LCJleHAiOjE3NzcxNTcxMjd9.oAmS0sNd220wL4Rissy0roHZXjMxyai_ky1LgVQgMog
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWF0aGV1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJKb25hcyBNYXRoZXVzIiwiaWF0IjoxNzc3MDcxOTM2LCJleHAiOjE3NzcxNTgzMzZ9.lSrpzPzS8leUivkjcqjJVFMpo7EiwSh5erED2AFDDc8
 
 ### criando um pagamento
-POST https://voyage-i5zo.onrender.com/payment HTTP/1.1
+POST https://voyagegabi.onrender.com/payment HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
@@ -16,52 +16,52 @@ content-type: application/json
 
 
 ### Listar todos os pagamentos
-GET https://voyage-i5zo.onrender.com/payment/ HTTP/1.1
+GET https://voyagegabi.onrender.com/payment/ HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Adicionar um unico pagamento
-GET https://voyage-i5zo.onrender.com/payment/3 HTTP/1.1
+GET https://voyagegabi.onrender.com/payment/3 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Listar um unico pagamento (Com Autenticação)
-GET https://voyage-i5zo.onrender.com/payment/3 HTTP/1.1
+GET https://voyagegabi.onrender.com/payment/3 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ###
-GET https://voyage-i5zo.onrender.com/payment?companyId HTTP/1.1
+GET https://voyagegabi.onrender.com/payment?companyId HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Data do pagamento
-GET https://voyage-i5zo.onrender.com/payment?to_date=2026-02-26 00:00:00Z HTTP/1.1
+GET https://voyagegabi.onrender.com/payment?to_date=2026-02-26 00:00:00Z HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Data de vencimento
-GET https://voyage-i5zo.onrender.com/payment?due_date=2026-02-28 00:00:00Z HTTP/1.1
+GET https://voyagegabi.onrender.com/payment?due_date=2026-02-28 00:00:00Z HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Forma de Pagamento
-GET https://voyage-i5zo.onrender.com/payment?paymentForm=PIX HTTP/1.1
+GET https://voyagegabi.onrender.com/payment?paymentForm=PIX HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Anuncio
-GET https://voyage-i5zo.onrender.com/payment?advertising=Melhor Churrascaria HTTP/1.1
+GET https://voyagegabi.onrender.com/payment?advertising=Melhor Churrascaria HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Tipo
-GET https://voyage-i5zo.onrender.com/payment?type=phone HTTP/1.1
+GET https://voyagegabi.onrender.com/payment?type=phone HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### editando um pagamento
-PUT https://voyage-i5zo.onrender.com/payment/3 HTTP/1.1
+PUT https://voyagegabi.onrender.com/payment/3 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
@@ -75,6 +75,6 @@ content-type: application/json
 }
 
 ### deletando um pagamento
-DELETE https://voyage-i5zo.onrender.com/payment/1 HTTP/1.1
+DELETE https://voyagegabi.onrender.com/payment/1 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json

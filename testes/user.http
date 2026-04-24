@@ -1,7 +1,7 @@
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWFyY2l1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJNYXJjaXVzIEh1bWJlcnRvIiwiaWF0IjoxNzc2OTg1NTQ4LCJleHAiOjE3NzcwNzE5NDh9.qGfrZbZkQJqZ4hfiUbx2V-1CYAY6-kjG5LgIxJ5UM-k
 
 ### refazendo o cadastro que cometeu suicidio.
-POST https://voyage-i5zo.onrender.com/user HTTP/1.1
+POST https://voyagegabi.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
@@ -15,7 +15,7 @@ content-type: application/json
 ### cpf ta sem unique
 
 ### Login do usuario marcius
-POST https://voyage-i5zo.onrender.com/user/login HTTP/1.1
+POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
@@ -24,7 +24,7 @@ content-type: application/json
 }
 
 ### Login do  humbertol
-POST https://voyage-i5zo.onrender.com/user/login HTTP/1.1
+POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
@@ -38,28 +38,28 @@ GET https://voyage-kevin.onrender.com/user/ HTTP/1.1
 content-type: application/json
 
 ### listando um unico usuario.
-GET https://voyage-i5zo.onrender.com/user/2 HTTP/1.1
+GET https://voyagegabi.onrender.com/user/2 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### 
-GET https://voyage-i5zo.onrender.com/user?email=jjunior234534@berinjela.com HTTP/1.1
+GET https://voyagegabi.onrender.com/user?email=jjunior234534@berinjela.com HTTP/1.1
 content-type: application/json
 
 ### 
-GET https://voyage-i5zo.onrender.com/user?name HTTP/1.1
+GET https://voyagegabi.onrender.com/user?name HTTP/1.1
 content-type: application/json
 
 ### 
-GET https://voyage-i5zo.onrender.com/user?type HTTP/1.1
+GET https://voyagegabi.onrender.com/user?type HTTP/1.1
 content-type: application/json
 
 ### 
-GET https://voyage-i5zo.onrender.com/user?signature HTTP/1.1
+GET https://voyagegabi.onrender.com/user?signature HTTP/1.1
 content-type: application/json
 
 ### editanto todos os campos de usuario.
-PUT https://voyage-i5zo.onrender.com/user/1 HTTP/1.1
+PUT https://voyagegabi.onrender.com/user/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -73,7 +73,7 @@ content-type: application/json
 }
 
 ### editanto apenas um campo de usuario.
-PUT https://voyage-i5zo.onrender.com/user/1 HTTP/1.1
+PUT https://voyagegabi.onrender.com/user/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -86,6 +86,6 @@ content-type: application/json
 }
 
 ### Deletar um usuario
-DELETE https://voyage-i5zo.onrender.com/user/2 HTTP/1.1
+DELETE https://voyagegabi.onrender.com/user/2 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
