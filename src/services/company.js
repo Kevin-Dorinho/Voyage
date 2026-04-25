@@ -64,13 +64,17 @@ export async function createCompany(req, res, _next) {
             }
         }
 
+        if (req.logged?.id) {
+            data.userId = req.logged.id;
+        }
+
         let c = await prisma.company.create({ data });
         return res.status(201).json(c);
     } catch (error) {
         if (error instanceof z.ZodError) {
             return res.status(400).json({ errors: error.issues.map(e => e.message) });
         }
-        return res.status(500).json({ error: "Erro interno no servidor." });
+        res.status(500).json({ error: "Erro interno no servidor.", details: error.message });
     }
 }
 
