@@ -5,12 +5,12 @@ POST https://voyagegabi.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Jonas Matheus",
+    "name":         "Amanda",
     "type":         "owner",
-    "email":        "matheus@lagarto.com",
+    "email":        "amanda@gmail.com",
     "password":     "B@tatinha123",
     "phone":        "19844453838",
-    "cpf":          "395.464.790-71" 
+    "cpf":          "897.125.190-58" 
 }
 ### cpf ta sem unique
 
@@ -19,7 +19,7 @@ POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "marcius@lagarto.com",
+    "email":        "amanda@gmail.com",
     "password":     "B@tatinha123"
 }
 
