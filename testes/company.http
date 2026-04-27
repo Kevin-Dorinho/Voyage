@@ -19,7 +19,7 @@ content-type: application/json
 
 GET https://voyagegabi.onrender.com/company HTTP/1.1
 Authorization: Bearer {{token}}
-content-type: application/json
+content-type: application/jso
 
 ### Listar todos as companies sem estar logado tbm
 
