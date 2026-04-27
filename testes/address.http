@@ -2,6 +2,7 @@
 
 ### Listar todos os endereços
 GET https://voyagegabi.onrender.com/address HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Listar um unico endereço
@@ -11,38 +12,47 @@ content-type: application/json
 
 ### Buscar por lat + long (raio padrão ~5km)
 GET https://voyagegabi.onrender.com/address?lat=-22.0221&long=-47.8904 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Buscar por lat + long com raio customizado
 GET https://voyagegabi.onrender.com/address?lat=-22.02&long=-47.89&radius=0.2 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Buscar só por lat
 GET https://voyagegabi.onrender.com/address?lat=-23.5505 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Buscar só por long
 GET https://voyagegabi.onrender.com/address?long=-46.6333 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Combinar com filtro de usuário
 GET https://voyagegabi.onrender.com/address?lat=-23.5505&long=-46.6333&user=1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Filtar por companhia
 GET https://voyagegabi.onrender.com/address?company= HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Listar por categoria
 GET https://voyagegabi.onrender.com/address?category= HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Listar por favoritos
 GET https://voyagegabi.onrender.com/address?favorites= HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### editando todos os campos do endereço
 PUT  https://voyagegabi.onrender.com/address/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -55,6 +65,7 @@ content-type: application/json
 
 ### editando apenas um campo do endereço
 PUT  https://voyagegabi.onrender.com/address/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -67,11 +78,13 @@ content-type: application/json
 
 ### editando apenas um endereço
 DELETE https://voyagegabi.onrender.com/address/15 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 
 ### 
 POST https://voyagegabi.onrender.com/address
+Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
