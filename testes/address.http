@@ -1,48 +1,58 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWFyY2l1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJNYXJjaXVzIEh1bWJlcnRvIiwiaWF0IjoxNzc2OTg1NTQ4LCJleHAiOjE3NzcwNzE5NDh9.qGfrZbZkQJqZ4hfiUbx2V-1CYAY6-kjG5LgIxJ5UM-k
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoiam9uYXNiaXhhQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXRoZXVzIiwiaWF0IjoxNzc3NDIyMjQ2LCJleHAiOjE3Nzc1MDg2NDZ9.2JX6rSH0xtQ3DBzrM6rvNF5kcY7DfqxbDvhUM91c0cY
 
 ### Listar todos os endereços
 GET https://voyagegabi.onrender.com/address HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Listar um unico endereço
-GET https://voyagegabi.onrender.com/address/2 HTTP/1.1
+GET https://voyagegabi.onrender.com/address/1 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Buscar por lat + long (raio padrão ~5km)
 GET https://voyagegabi.onrender.com/address?lat=-22.0221&long=-47.8904 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Buscar por lat + long com raio customizado
 GET https://voyagegabi.onrender.com/address?lat=-22.02&long=-47.89&radius=0.2 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Buscar só por lat
 GET https://voyagegabi.onrender.com/address?lat=-23.5505 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Buscar só por long
 GET https://voyagegabi.onrender.com/address?long=-46.6333 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Combinar com filtro de usuário
 GET https://voyagegabi.onrender.com/address?lat=-23.5505&long=-46.6333&user=1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Filtar por companhia
 GET https://voyagegabi.onrender.com/address?company= HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Listar por categoria
 GET https://voyagegabi.onrender.com/address?category= HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### Listar por favoritos
 GET https://voyagegabi.onrender.com/address?favorites= HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### editando todos os campos do endereço
 PUT  https://voyagegabi.onrender.com/address/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -55,6 +65,7 @@ content-type: application/json
 
 ### editando apenas um campo do endereço
 PUT  https://voyagegabi.onrender.com/address/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -67,33 +78,35 @@ content-type: application/json
 
 ### editando apenas um endereço
 DELETE https://voyagegabi.onrender.com/address/15 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 
 ### 
 POST https://voyagegabi.onrender.com/address
+Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="place"
 
-Florisberto aparecido da silva, Cidade aracy
+Avenida Republica do Libano Jardim Cruzeiro do Sul
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="number"
 
-189
+361
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="zipcode"
 
-13573-168
+37706-188
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="lat"
 
--22.058444234048984
+-22.039868725959483
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="long"
 
--47.90917365444325
+-47.892198217902575
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="file"; filename="pizza.jpg"
 Content-Type: image/jpeg

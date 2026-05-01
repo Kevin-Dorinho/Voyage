@@ -1,16 +1,16 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWFyY2l1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJNYXJjaXVzIEh1bWJlcnRvIiwiaWF0IjoxNzc2OTg1NTQ4LCJleHAiOjE3NzcwNzE5NDh9.qGfrZbZkQJqZ4hfiUbx2V-1CYAY6-kjG5LgIxJ5UM-k
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJ0eXBlIjoib3duZXIiLCJlbWFpbCI6ImpvbmFzYml4YUBnbWFpbC5jb20iLCJuYW1lIjoiTWF0aGV1cyIsImlhdCI6MTc3NzU5MDM0MywiZXhwIjoxNzc3Njc2NzQzfQ.LrzRp6qVDs0Ma41xfhyDZlRD74ZCdk1Yqd3umKrMb38
 
 ### refazendo o cadastro que cometeu suicidio.
 POST https://voyagegabi.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Jonas Matheus",
+    "name":         "kevin",
     "type":         "owner",
-    "email":        "matheus@lagarto.com",
+    "email":        "jonasbixa@gmail.com",
     "password":     "B@tatinha123",
-    "phone":        "19844453838",
-    "cpf":          "395.464.790-71" 
+    "phone":        "19997404538",
+    "cpf":          "886.272.590-62" 
 }
 ### cpf ta sem unique
 
@@ -19,7 +19,7 @@ POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "marcius@lagarto.com",
+    "email":        "jonasbixa@gmail.com",
     "password":     "B@tatinha123"
 }
 
@@ -28,13 +28,14 @@ POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "matheus@lagarto.com",
+    "email":        "jonasbixa@gmail.com",
     "password":     "B@tatinha123"
 }
 
 
 ### listar todos os usuarios.
-GET https://voyage-kevin.onrender.com/user/ HTTP/1.1
+GET https://voyagegabi.onrender.com/user/ HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### listando um unico usuario.
@@ -74,14 +75,15 @@ content-type: application/json
 
 ### editanto apenas um campo de usuario.
 PUT https://voyagegabi.onrender.com/user/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
 
-  "name":        "Paulo",
-  "type":        "Owner",
-  "email":       "Pauloportas43@gmail.com",
-  "password":    "ppaulo234"
+  "name":        "Kevingay",
+  "type":        "owner",
+  "email":       "kevuinsaf@gmail.com",
+  "password":    "B@tatinha123"
 
 }
 

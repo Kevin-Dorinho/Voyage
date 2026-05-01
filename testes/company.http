@@ -1,5 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWF0aGV1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJKb25hcyBNYXRoZXVzIiwiaWF0IjoxNzc3MDcxOTM2LCJleHAiOjE3NzcxNTgzMzZ9.lSrpzPzS8leUivkjcqjJVFMpo7EiwSh5erED2AFDDc8
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoiYW1hbmRhQGdtYWlsLmNvbSIsIm5hbWUiOiJBbWFuZGEiLCJpYXQiOjE3NzcwNzg0NTIsImV4cCI6MTc3NzE2NDg1Mn0.HFjepR8D2LWiSRmKr36I0_gyugQUPPrszsi0CzVh6d0
 
 ### criando uma Company
 POST https://voyagegabi.onrender.com/company HTTP/1.1
@@ -7,19 +6,18 @@ Authorization: Bearer {{token}}
 content-type: application/json
 
 {
-    "name":     "Kevin1",
-    "category": "Outros",
-    "cnpj":     "07.358.445/0001-97",
+    "name":     "teste",
+    "category": "Lanchonete",
+    "cnpj":     "26.936.588/0001-83",
     "evaluate": 4.6,
-    "places":   "Pedro Sampaio, 1567"
+    "places":   "Vila Prado"
 }
-### cnpj ta sem unique
 
 ### Listar todos as companies
 
 GET https://voyagegabi.onrender.com/company HTTP/1.1
 Authorization: Bearer {{token}}
-content-type: application/json
+content-type: application/jso
 
 ### Listar todos as companies sem estar logado tbm
 
