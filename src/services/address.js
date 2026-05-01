@@ -63,8 +63,7 @@ export async function createAddress(req, res, _next) {
 
         return res.status(201).json(address);
     } catch (error) {
-        console.error("Erro ao criar endereço:", error);
-        return res.status(500).json({ error: "Erro interno do servidor ao tentar cadastrar o endereço." });
+        return res.status(500).json({ error: error.message });
     }
 }
 

@@ -5,12 +5,12 @@ POST https://voyagegabi.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Laura",
+    "name":         "kevin",
     "type":         "owner",
-    "email":        "laura@gmail.com",
+    "email":        "jonasbixa@gmail.com",
     "password":     "B@tatinha123",
-    "phone":        "19844453838",
-    "cpf":          "897.125.190-58" 
+    "phone":        "19997404538",
+    "cpf":          "886.272.590-62" 
 }
 ### cpf ta sem unique
 
@@ -19,7 +19,7 @@ POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "laura@gmail.com",
+    "email":        "jonasbixa@gmail.com",
     "password":     "B@tatinha123"
 }
 
@@ -28,13 +28,14 @@ POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "amanda@gmail.com",
+    "email":        "jonasbixa@gmail.com",
     "password":     "B@tatinha123"
 }
 
 
 ### listar todos os usuarios.
-GET https://voyage-kevin.onrender.com/user/ HTTP/1.1
+GET https://voyagegabi.onrender.com/user/ HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 ### listando um unico usuario.
@@ -75,14 +76,15 @@ content-type: application/json
 
 ### editanto apenas um campo de usuario.
 PUT https://voyagegabi.onrender.com/user/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
 
-  "name":        "Paulo",
-  "type":        "Owner",
-  "email":       "Pauloportas43@gmail.com",
-  "password":    "ppaulo234"
+  "name":        "Kevingay",
+  "type":        "owner",
+  "email":       "kevuinsaf@gmail.com",
+  "password":    "B@tatinha123"
 
 }
 
