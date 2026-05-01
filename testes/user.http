@@ -1,13 +1,13 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWFyY2l1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJNYXJjaXVzIEh1bWJlcnRvIiwiaWF0IjoxNzc2OTg1NTQ4LCJleHAiOjE3NzcwNzE5NDh9.qGfrZbZkQJqZ4hfiUbx2V-1CYAY6-kjG5LgIxJ5UM-k
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsInR5cGUiOiJvd25lciIsImVtYWlsIjoibGF1cmFAZ21haWwuY29tIiwibmFtZSI6IkxhdXJhIiwiaWF0IjoxNzc3NDI0NDE5LCJleHAiOjE3Nzc1MTA4MTl9.8pH4_wNJYCYGqe-w6AN3qz6rk6kDQF8wCJ9ChIXTDxI
 
 ### refazendo o cadastro que cometeu suicidio.
 POST https://voyagegabi.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Amanda",
+    "name":         "Laura",
     "type":         "owner",
-    "email":        "amanda@gmail.com",
+    "email":        "laura@gmail.com",
     "password":     "B@tatinha123",
     "phone":        "19844453838",
     "cpf":          "897.125.190-58" 
@@ -19,16 +19,16 @@ POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "amanda@gmail.com",
+    "email":        "laura@gmail.com",
     "password":     "B@tatinha123"
 }
 
-### Login do  humbertol
+### Login do  2
 POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "matheus@lagarto.com",
+    "email":        "amanda@gmail.com",
     "password":     "B@tatinha123"
 }
 
@@ -60,15 +60,16 @@ content-type: application/json
 
 ### editanto todos os campos de usuario.
 PUT https://voyagegabi.onrender.com/user/1 HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
 
-  "name":        "João Junior",
-  "type":        "user",
-  "email":       "jjunior234534@berinjela.com",
-  "password":    "jjjunior8538",
-  "phone":       "69696969696"
+  "name":        "Laura",
+  "type":        "owner",
+  "email":       "lauraa@gmail.com",
+  "password":    "B@tatinha123",
+  "phone":       "19844453838"
 
 }
 
@@ -86,6 +87,6 @@ content-type: application/json
 }
 
 ### Deletar um usuario
-DELETE https://voyagegabi.onrender.com/user/2 HTTP/1.1
+DELETE https://voyagegabi.onrender.com/user/1 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
