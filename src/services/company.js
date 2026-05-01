@@ -55,6 +55,11 @@ const companySchema = z.object({
 
 export async function createCompany(req, res, _next) {
     try {
+        // AUTH: apenas owners podem criar empresas
+        if (!req.logged || req.logged.type !== 'owner') {
+            return res.status(403).json({ error: "Acesso negado. Apenas owners podem criar empresas." });
+        }
+
         const data = companySchema.parse(req.body);
 
         if (data.cnpj) {
