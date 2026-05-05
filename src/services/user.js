@@ -127,7 +127,18 @@ export async function createUser(req, res, _next) {
         }
 
         let u = await prisma.user.create({ data });
-        return res.status(201).json(u);
+
+        const token = jwt.sign(
+            { sub: u.id, type: u.type, email: u.email, name: u.name },
+            SECRET_KEY,
+            { expiresIn: '1d' }
+        );
+
+        return res.status(201).json({
+            message: "Usuário criado com sucesso",
+            token: token,
+            user: u
+        });
     } catch (error) {
         console.error("Error in createUser:", error);
         return res.status(500).json({ error: error.message });
