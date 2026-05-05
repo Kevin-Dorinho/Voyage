@@ -5,12 +5,12 @@ POST https://voyagegabi.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "Amanda",
-    "type":         "owner",
-    "email":        "amanda@gmail.com",
+    "name":         "testeadmin",
+    "type":         "admin",
+    "email":        "testeadmin@gmail.com",
     "password":     "B@tatinha123",
     "phone":        "19844453838",
-    "cpf":          "897.125.190-58" 
+    "cpf":          "403.609.150-60" 
 }
 ### cpf ta sem unique
 
@@ -42,7 +42,7 @@ GET https://voyagegabi.onrender.com/user/2 HTTP/1.1
 Authorization: Bearer {{token}}
 content-type: application/json
 
-### 
+### -----------
 GET https://voyagegabi.onrender.com/user?email=jjunior234534@berinjela.com HTTP/1.1
 content-type: application/json
 

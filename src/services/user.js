@@ -22,7 +22,7 @@ const cpfSchema = z.string().refine((cpf) => {
     return true;
 });
 
-const typeSchema = z.enum(["client", "owner"]);
+const typeSchema = z.enum(["client", "owner", "admin"]);
 const passwordSchema = z.string()
     .min(10, "Senha deve ter no mínimo 10 caracteres")
     .regex(/[A-Z]/, "Senha deve ter pelo menos uma letra maiúscula")
@@ -97,7 +97,13 @@ export async function createUser(req, res, _next) {
         if (data.type) {
             const typeResult = typeSchema.safeParse(data.type);
             if (!typeResult.success) {
-                return res.status(400).json({ error: "Tipo deve ser 'client' ou 'owner'" });
+                return res.status(400).json({ error: "Tipo deve ser 'client', 'owner' ou 'admin'" });
+            }
+            if (data.type === 'admin') {
+                const adminCount = await prisma.user.count({ where: { type: 'admin' } });
+                if (adminCount >= 5) {
+                    return res.status(403).json({ error: "Limite máximo de 5 contas admin atingido." });
+                }
             }
         }
         if (data.password) {
@@ -136,7 +142,7 @@ export async function createUser(req, res, _next) {
 
 export async function readUser(req, res, _next) {
     try {
-        if (req.logged && req.logged.type !== 'owner') {
+        if (req.logged && req.logged.type !== 'admin') {
             return res.status(403).json({ error: "Acesso Negado. Apenas administradores do sistema podem listar os usuários." });
         }
 
@@ -166,7 +172,7 @@ export async function showUser(req, res, _next) {
             return res.status(400).json({ error: "Invalid ID format" });
         }
 
-        if (req.logged && req.logged.id !== id && req.logged.type !== 'owner') {
+        if (req.logged && req.logged.id !== id && req.logged.type !== 'admin') {
             return res.status(403).json({ error: "Acesso Negado. Você só pode acessar o seu próprio perfil." });
         }
 
@@ -193,7 +199,7 @@ export async function editUser(req, res, _next) {
 
         // --- AUTH: DO SERVICE PARA O BANCO ---
         // Usa o contexto da Auth injetado na req para aplicar segurança granular na camada do Prisma (Banco)
-        if (req.logged && req.logged.id !== id && req.logged.type !== 'owner') {
+        if (req.logged && req.logged.id !== id && req.logged.type !== 'admin') {
             return res.status(403).json({ error: "Acesso DB Negado. Você não tem permissão para editar este usuário." });
         }
 
@@ -229,7 +235,13 @@ export async function editUser(req, res, _next) {
         if (type) {
             const typeResult = typeSchema.safeParse(type);
             if (!typeResult.success) {
-                return res.status(400).json({ error: "Tipo deve ser 'client' ou 'owner'" });
+                return res.status(400).json({ error: "Tipo deve ser 'client', 'owner' ou 'admin'" });
+            }
+            if (type === 'admin' && u.type !== 'admin') {
+                const adminCount = await prisma.user.count({ where: { type: 'admin' } });
+                if (adminCount >= 5) {
+                    return res.status(403).json({ error: "Limite máximo de 5 contas admin atingido." });
+                }
             }
         }
         if (password) {
