@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsInR5cGUiOiJvd25lciIsImVtYWlsIjoibGF1cmFAZ21haWwuY29tIiwibmFtZSI6IkxhdXJhIiwiaWF0IjoxNzc3NDI0NDE5LCJleHAiOjE3Nzc1MTA4MTl9.8pH4_wNJYCYGqe-w6AN3qz6rk6kDQF8wCJ9ChIXTDxI
+@token = {{login.response.body.token}}
 
 ### refazendo o cadastro que cometeu suicidio.
 POST https://voyagegabi.onrender.com/user HTTP/1.1
@@ -15,15 +15,7 @@ content-type: application/json
 ### cpf ta sem unique
 
 ### Login do usuario marcius
-POST https://voyagegabi.onrender.com/user/login HTTP/1.1
-content-type: application/json
-
-{
-    "email":        "jonasbixa@gmail.com",
-    "password":     "B@tatinha123"
-}
-
-### Login do  2
+# @name login
 POST https://voyagegabi.onrender.com/user/login HTTP/1.1
 content-type: application/json
 
