@@ -80,7 +80,6 @@ const createPaymentSchema = z.object({
 const editPaymentSchema = createPaymentSchema.partial();
 
 export async function createPayment(req, res, _next) {
-    console.log("chegou aqui");
     try {
         // Pega o id do usuario logado no token JWT e converte para Número (para evitar erro de tipagem no Zod)
         const data = createPaymentSchema.parse(req.body);
@@ -91,15 +90,11 @@ export async function createPayment(req, res, _next) {
             }
         }
 
-        console.log(data);
-
-
         let p = await prisma.payment.create({ data });
         return res.status(201).json(p);
     } catch (error) {
-
         console.log(error.message);
-        return res.status(402).json({ erro: error.message, data: data })
+        return res.status(402).json({ erro: error.message })
     }
 }
 
@@ -114,9 +109,9 @@ export async function readPayment(req, res, _next) {
             consult.companyId = numId;
         }
         if (to_date && due_date) consult.toDate = { lt: new Date(to_date), gt: new Date(due_date) };
-        if (paymentForm) consult.paymentForm = { contains: "%" + paymentForm + "%" };
-        if (advertising) consult.advertising = { contains: "%" + advertising + "%" };
-        if (type) consult.type = { contains: "%" + type + "%" };
+        if (paymentForm) consult.paymentForm = { contains: paymentForm };
+        if (advertising) consult.advertising = { contains: advertising };
+        if (type) consult.type = { contains: type };
 
         let payments = await prisma.payment.findMany({ where: consult });
         return res.status(200).json(payments);
@@ -158,8 +153,8 @@ export async function editPayment(req, res, _next) {
 
         p = attachSave(p, 'payment');
 
-        if (to_date) p.to_date = to_date;
-        if (due_date) p.due_date = due_date;
+        if (to_date) p.toDate = to_date;
+        if (due_date) p.dueDate = due_date;
         if (paymentForm) p.paymentForm = paymentForm;
         if (advertising) p.advertising = advertising;
         if (key) p.key = key;

@@ -1,80 +1,83 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWF0aGV1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJKb25hcyBNYXRoZXVzIiwiaWF0IjoxNzc3MDc0MzQ4LCJleHAiOjE3NzcxNjA3NDh9.0-3-179419982919579782
+### ========================================
+### VOYAGE — PAYMENT
+### Token capturado automaticamente do user.http
+### Execute user.http primeiro (loginOwner)
+### ========================================
 
-### criando um pagamento
-POST https://voyagegabi.onrender.com/payment HTTP/1.1
-Authorization: Bearer {{token}}
+@base = https://voyagegabi.onrender.com
+@ownerToken = {{loginOwner.response.body.token}}
+@paymentId = {{createPayment.response.body.id}}
+
+### Criando um pagamento
+# @name createPayment
+POST {{base}}/payment HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
-    "toDate":         "2026-02-26 00:00:00Z",
-    "dueDate":        "2026-02-28 00:00:00Z",
-    "paymentForm":    "PIX",
-    "advertising":    "Melhor Churrascaria",
-    "key":            "169999999",
-    "type":           "phone"
+    "toDate":      "2026-02-26T00:00:00Z",
+    "dueDate":     "2026-02-28T00:00:00Z",
+    "paymentForm": "PIX",
+    "advertising": "Melhor Churrascaria",
+    "key":         "169999999",
+    "type":        "phone"
 }
-
 
 ### Listar todos os pagamentos
-GET https://voyagegabi.onrender.com/payment/ HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/payment HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Adicionar um unico pagamento
-GET https://voyagegabi.onrender.com/payment/3 HTTP/1.1
-Authorization: Bearer {{token}}
+### Listar um único pagamento
+GET {{base}}/payment/3 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Listar um unico pagamento (Com Autenticação)
-GET https://voyagegabi.onrender.com/payment/3 HTTP/1.1
-Authorization: Bearer {{token}}
+### Filtro por companyId
+GET {{base}}/payment?companyId=1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-###
-GET https://voyagegabi.onrender.com/payment?companyId HTTP/1.1
-Authorization: Bearer {{token}}
+### Filtro por data de início
+GET {{base}}/payment?to_date=2026-02-26T00:00:00Z HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Data do pagamento
-GET https://voyagegabi.onrender.com/payment?to_date=2026-02-26 00:00:00Z HTTP/1.1
-Authorization: Bearer {{token}}
+### Filtro por data de vencimento
+GET {{base}}/payment?due_date=2026-02-28T00:00:00Z HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Data de vencimento
-GET https://voyagegabi.onrender.com/payment?due_date=2026-02-28 00:00:00Z HTTP/1.1
-Authorization: Bearer {{token}}
+### Filtro por forma de pagamento
+GET {{base}}/payment?paymentForm=PIX HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Forma de Pagamento
-GET https://voyagegabi.onrender.com/payment?paymentForm=PIX HTTP/1.1
-Authorization: Bearer {{token}}
+### Filtro por anúncio
+GET {{base}}/payment?advertising=Melhor%20Churrascaria HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Anuncio
-GET https://voyagegabi.onrender.com/payment?advertising=Melhor Churrascaria HTTP/1.1
-Authorization: Bearer {{token}}
+### Filtro por tipo
+GET {{base}}/payment?type=phone HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Tipo
-GET https://voyagegabi.onrender.com/payment?type=phone HTTP/1.1
-Authorization: Bearer {{token}}
-content-type: application/json
-
-### editando um pagamento
-PUT https://voyagegabi.onrender.com/payment/3 HTTP/1.1
-Authorization: Bearer {{token}}
+### Editar pagamento
+PUT {{base}}/payment/3 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
-    "toDate":         "2026-02-26 00:00:00Z",
-    "dueDate":        "2026-02-28 00:00:00Z",
-    "paymentForm":    "PIX",
-    "advertising":    "Melhor Churrascaria",
-    "key":            "169999999",
-    "type":           "phone"
+    "toDate":      "2026-02-26T00:00:00Z",
+    "dueDate":     "2026-02-28T00:00:00Z",
+    "paymentForm": "PIX",
+    "advertising": "Melhor Churrascaria",
+    "key":         "169999999",
+    "type":        "phone"
 }
 
-### deletando um pagamento
-DELETE https://voyagegabi.onrender.com/payment/1 HTTP/1.1
-Authorization: Bearer {{token}}
+### Deletar pagamento
+DELETE {{base}}/payment/1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json

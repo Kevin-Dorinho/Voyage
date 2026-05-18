@@ -160,12 +160,12 @@ export async function readUser(req, res, _next) {
         const { name, type, signature, email, phone, cpf } = req.query;
 
         let consult = {}
-        if (name) consult.name = { contains: "%" + name + "%" }
-        if (email) consult.email = { contains: "%" + email + "%" }
-        if (type) consult.type = { contains: "%" + type + "%" }
-        if (signature) consult.signature = { contains: "%" + signature + "%" }
-        if (phone) consult.phone = { contains: "%" + phone + "%" }
-        if (cpf) consult.cpf = { contains: "%" + cpf + "%" }
+        if (name) consult.name = { contains: name }
+        if (email) consult.email = { contains: email }
+        if (type) consult.type = { contains: type }
+        if (signature) consult.signature = { contains: signature }
+        if (phone) consult.phone = { contains: phone }
+        if (cpf) consult.cpf = { contains: cpf }
 
         let users = await prisma.user.findMany({ where: consult });
 

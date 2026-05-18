@@ -1,11 +1,12 @@
 import axios from "axios";
+import 'dotenv/config';
 
 async function testImgBBInvalidFile() {
     try {
         const fakeBuffer = Buffer.from("< ./pizza.jpg");
         const base64Image = fakeBuffer.toString("base64");
 
-        const url = `https://api.imgbb.com/1/upload?key=d87221a48f813c45572c79d91351678d`;
+        const url = `https://api.imgbb.com/1/upload?key=${process.env.IMG_BB_KEY}`;
 
         const formData = new URLSearchParams();
         formData.append("image", base64Image);

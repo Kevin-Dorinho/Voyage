@@ -1,90 +1,85 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoiam9uYXNiaXhhQGdtYWlsLmNvbSIsIm5hbWUiOiJNYXRoZXVzIiwiaWF0IjoxNzc3NDIyMjQ2LCJleHAiOjE3Nzc1MDg2NDZ9.2JX6rSH0xtQ3DBzrM6rvNF5kcY7DfqxbDvhUM91c0cY
+### ========================================
+### VOYAGE — ADDRESS
+### Token capturado automaticamente do user.http
+### Execute user.http primeiro (loginOwner)
+### ========================================
+
+@base = https://voyagegabi.onrender.com
+@ownerToken = {{loginOwner.response.body.token}}
+@addressId = {{createAddress.response.body.id}}
 
 ### Listar todos os endereços
-GET https://voyagegabi.onrender.com/address HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Listar um unico endereço
-GET https://voyagegabi.onrender.com/address/1 HTTP/1.1
-Authorization: Bearer {{token}}
+### Listar um único endereço
+GET {{base}}/address/1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ### Buscar por lat + long (raio padrão ~5km)
-GET https://voyagegabi.onrender.com/address?lat=-22.0221&long=-47.8904 HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address?lat=-22.0221&long=-47.8904 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ### Buscar por lat + long com raio customizado
-GET https://voyagegabi.onrender.com/address?lat=-22.02&long=-47.89&radius=0.2 HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address?lat=-22.02&long=-47.89&radius=0.2 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ### Buscar só por lat
-GET https://voyagegabi.onrender.com/address?lat=-23.5505 HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address?lat=-23.5505 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ### Buscar só por long
-GET https://voyagegabi.onrender.com/address?long=-46.6333 HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address?long=-46.6333 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ### Combinar com filtro de usuário
-GET https://voyagegabi.onrender.com/address?lat=-23.5505&long=-46.6333&user=1 HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address?lat=-23.5505&long=-46.6333&user=1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Filtar por companhia
-GET https://voyagegabi.onrender.com/address?company= HTTP/1.1
-Authorization: Bearer {{token}}
+### Filtrar por companhia
+GET {{base}}/address?company=1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ### Listar por categoria
-GET https://voyagegabi.onrender.com/address?category= HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address?category=Pizzaria HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ### Listar por favoritos
-GET https://voyagegabi.onrender.com/address?favorites= HTTP/1.1
-Authorization: Bearer {{token}}
+GET {{base}}/address?favorite=1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### editando todos os campos do endereço
-PUT  https://voyagegabi.onrender.com/address/1 HTTP/1.1
-Authorization: Bearer {{token}}
-content-type: application/json
-
-{
-    "place":    "Av. São Carlos, Centro",
-    "number":   "1242",
-    "zipcode":  "13566-330", 
-    "lat":      -22.022011888377065,
-    "long":     -47.8904711,
-}
-
-### editando apenas um campo do endereço
-PUT  https://voyagegabi.onrender.com/address/1 HTTP/1.1
-Authorization: Bearer {{token}}
+### Editar endereço
+PUT {{base}}/address/1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
-    "place":    "Av. São Carlos, Centro",
-    "number":   "1242",
-    "zipcode":  "13566-330", 
-    "lat":      -22.022011888377065,
-    "long":     -47.8904711,
+    "place":   "Av. São Carlos, Centro",
+    "number":  "1242",
+    "zipcode": "13566-330",
+    "lat":     -22.022011888377065,
+    "long":    -47.8904711
 }
 
-### editando apenas um endereço
-DELETE https://voyagegabi.onrender.com/address/15 HTTP/1.1
-Authorization: Bearer {{token}}
+### Deletar endereço
+DELETE {{base}}/address/15 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-
-### 
-POST https://voyagegabi.onrender.com/address
-Authorization: Bearer {{token}}
+### Criar endereço com imagem
+# @name createAddress
+POST {{base}}/address
+Authorization: Bearer {{ownerToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW

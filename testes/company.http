@@ -1,8 +1,17 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoiYW1hbmRhQGdtYWlsLmNvbSIsIm5hbWUiOiJBbWFuZGEiLCJpYXQiOjE3NzcwNzg0NTIsImV4cCI6MTc3NzE2NDg1Mn0.HFjepR8D2LWiSRmKr36I0_gyugQUPPrszsi0CzVh6d0
+### ========================================
+### VOYAGE — COMPANY
+### Token capturado automaticamente do user.http
+### Execute user.http primeiro (loginOwner)
+### ========================================
 
-### criando uma Company
-POST https://voyagegabi.onrender.com/company HTTP/1.1
-Authorization: Bearer {{token}}
+@base = https://voyagegabi.onrender.com
+@ownerToken = {{loginOwner.response.body.token}}
+@companyId = {{createCompany.response.body.id}}
+
+### Criando uma Company
+# @name createCompany
+POST {{base}}/company HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
@@ -13,42 +22,35 @@ content-type: application/json
     "places":   "Vila Prado"
 }
 
-### Listar todos as companies
-
-GET https://voyagegabi.onrender.com/company HTTP/1.1
-Authorization: Bearer {{token}}
-content-type: application/jso
-
-### Listar todos as companies sem estar logado tbm
-
-GET https://voyagegabi.onrender.com/company HTTP/1.1
+### Listar todas as companies (autenticado)
+GET {{base}}/company HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Lista uma unica company
-
-GET https://voyagegabi.onrender.com/company/3 HTTP/1.1
-Authorization: Bearer {{token}}
+### Listar todas as companies sem estar logado
+GET {{base}}/company HTTP/1.1
 content-type: application/json
 
-### Filtro das companies
-
-GET https://voyagegabi.onrender.com/company?name=que HTTP/1.1
+### Listar uma única company
+GET {{base}}/company/3 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
-### Filtro das adrress
-
-GET https://voyagegabi.onrender.com/company?places=Ave HTTP/1.1
+### Filtro por nome
+GET {{base}}/company?name=que HTTP/1.1
 content-type: application/json
 
-### Filtro das categorias
-
-GET https://voyagegabi.onrender.com/company?category=chur HTTP/1.1
+### Filtro por endereço
+GET {{base}}/company?places=Ave HTTP/1.1
 content-type: application/json
 
-### Editar apenas um campo do usuario
+### Filtro por categoria
+GET {{base}}/company?category=chur HTTP/1.1
+content-type: application/json
 
-PUT https://voyagegabi.onrender.com/company/1 HTTP/1.1
-Authorization: Bearer {{token}}
+### Editar company
+PUT {{base}}/company/1 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
@@ -59,10 +61,9 @@ content-type: application/json
     "places":   "Avenida São Carlos, Centro"
 }
 
-### Editar todos os campos do usuario
-
-PUT https://voyagegabi.onrender.com/company/2 HTTP/1.1
-Authorization: Bearer {{token}}
+### Editar outra company
+PUT {{base}}/company/2 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
@@ -73,10 +74,7 @@ content-type: application/json
     "places":   "Avenida São Carlos, Centro"
 }
 
-
-### Deletando campo de usuario
-
-DELETE https://voyagegabi.onrender.com/company/4 HTTP/1.1
-Authorization: Bearer {{token}}
+### Deletar company
+DELETE {{base}}/company/4 HTTP/1.1
+Authorization: Bearer {{ownerToken}}
 content-type: application/json
-
