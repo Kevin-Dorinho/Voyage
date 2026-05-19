@@ -1,16 +1,4 @@
-@token = {{login.response.body.token}}
-
-
-
-### Login do usuario
-# @name login
-POST https://voyagegabi.onrender.com/user/login HTTP/1.1
-content-type: application/json
-
-{
-    "email":        "jonasbixa@gmail.com",
-    "password":     "B@tatinha123"
-}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoibWF0aGV1c0BsYWdhcnRvLmNvbSIsIm5hbWUiOiJKb25hcyBNYXRoZXVzIiwiaWF0IjoxNzc3MDc0MzQ4LCJleHAiOjE3NzcxNjA3NDh9.0-3-179419982919579782
 
 ### criando um pagamento
 POST https://voyagegabi.onrender.com/payment HTTP/1.1

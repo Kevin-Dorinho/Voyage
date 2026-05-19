@@ -1,14 +1,4 @@
-@token = {{login.response.body.token}}
-
-### Login do usuario marcius
-# @name login
-POST https://voyagegabi.onrender.com/user/login HTTP/1.1
-content-type: application/json
-
-{
-    "email":        "jonasbixa@gmail.com",
-    "password":     "B@tatinha123"
-}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJvd25lciIsImVtYWlsIjoiYW1hbmRhQGdtYWlsLmNvbSIsIm5hbWUiOiJBbWFuZGEiLCJpYXQiOjE3NzcwNzg0NTIsImV4cCI6MTc3NzE2NDg1Mn0.HFjepR8D2LWiSRmKr36I0_gyugQUPPrszsi0CzVh6d0
 
 ### criando uma Company
 POST https://voyagegabi.onrender.com/company HTTP/1.1
