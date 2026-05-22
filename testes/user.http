@@ -35,16 +35,16 @@ content-type: application/json
 
 ### 2. Criar client
 # @name createClient
-POST {{base}}/user HTTP/1.1
+POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "João Client",
+    "name":     "Marcius Db",
     "type":     "client",
-    "email":    "client@voyage.com",
-    "password": "B@tatinha123",
+    "email":    "marcius.db@voyage.com",
+    "password": "123@Umdois",
     "phone":    "19844450002",
-    "cpf":      "529.982.247-25"
+    "cpf":      "430.969.400-45"
 }
 
 ###
@@ -86,8 +86,8 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "client@voyage.com",
-    "password": "B@tatinha123"
+    "email":    "marcius.db@voyage.com",
+    "password": "123@Umdois"
 }
 
 ###
