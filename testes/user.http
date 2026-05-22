@@ -1,94 +1,221 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsInR5cGUiOiJvd25lciIsImVtYWlsIjoibGF1cmFAZ21haWwuY29tIiwibmFtZSI6IkxhdXJhIiwiaWF0IjoxNzc3NDI0NDE5LCJleHAiOjE3Nzc1MTA4MTl9.8pH4_wNJYCYGqe-w6AN3qz6rk6kDQF8wCJ9ChIXTDxI
+### ========================================
+### VOYAGE — USER
+### Execute os blocos de cima para baixo
+### Os tokens são capturados automaticamente
+### ========================================
 
-### refazendo o cadastro que cometeu suicidio.
+@base = https://voyagegabi.onrender.com
+
+@ownerToken = {{loginOwner.response.body.token}}
+@clientToken =  {{loginClient.response.body.token}}
+@adminToken =  {{loginAdmin.response.body.token}}
+
+@ownerId = {{createOwner.response.body.user.id}}
+@clientId = {{createClient.response.body.user.id}}
+@adminId = {{createAdmin.response.body.user.id}}
+
+
+### --- CRIAR USUÁRIOS ---
+
+### 1. Criar owner
+# @name createOwner
+POST {{base}}/user HTTP/1.1
+content-type: application/json
+
+{
+    "name":     "Teste um",
+    "type":     "owner",
+    "email":    "teste1@voyage.com",
+    "password": "123@Umdois",
+    "phone":    "19844450001",
+    "cpf":      "52432396073"
+}
+
+###
+
+### 2. Criar client
+# @name createClient
 POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":         "kevin",
-    "type":         "owner",
-    "email":        "jonasbixa@gmail.com",
-    "password":     "B@tatinha123",
-    "phone":        "19997404538",
-    "cpf":          "886.272.590-62" 
+    "name":     "Marcius Db",
+    "type":     "client",
+    "email":    "marcius.db@voyage.com",
+    "password": "123@Umdois",
+    "phone":    "19844450002",
+    "cpf":      "430.969.400-45"
 }
-### cpf ta sem unique
 
-### Login do usuario marcius
-POST https://voyagegabi.onrender.com/user/login HTTP/1.1
+###
+
+### 3. Criar admin
+# @name createAdmin
+POST {{base}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "jonasbixa@gmail.com",
-    "password":     "B@tatinha123"
+    "name":     "Kevin Admin",
+    "type":     "admin",
+    "email":    "kevin@voyage.com",
+    "password": "Kevin@12345",
+    "phone":    "19912345678",
+    "cpf":      "014.291.120-85"
 }
 
-### Login do  2
-POST https://voyagegabi.onrender.com/user/login HTTP/1.1
+###
+
+
+### --- LOGIN ---
+
+### 4. Login owner
+# @name loginOwner
+POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":        "jonasbixa@gmail.com",
-    "password":     "B@tatinha123"
+    "email":    "teste1@voyage.com",
+    "password": "123@Umdois"
 }
 
+###
 
-### listar todos os usuarios.
-GET https://voyagegabi.onrender.com/user/ HTTP/1.1
-Authorization: Bearer {{token}}
-content-type: application/json
-
-### listando um unico usuario.
-GET https://voyagegabi.onrender.com/user/2 HTTP/1.1
-Authorization: Bearer {{token}}
-content-type: application/json
-
-### 
-GET https://voyagegabi.onrender.com/user?email=jjunior234534@berinjela.com HTTP/1.1
-content-type: application/json
-
-### 
-GET https://voyagegabi.onrender.com/user?name HTTP/1.1
-content-type: application/json
-
-### 
-GET https://voyagegabi.onrender.com/user?type HTTP/1.1
-content-type: application/json
-
-### 
-GET https://voyagegabi.onrender.com/user?signature HTTP/1.1
-content-type: application/json
-
-### editanto todos os campos de usuario.
-PUT https://voyagegabi.onrender.com/user/1 HTTP/1.1
-Authorization: Bearer {{token}}
+### 5. Login client
+# @name loginClient
+POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-
-  "name":        "Laura",
-  "type":        "owner",
-  "email":       "lauraa@gmail.com",
-  "password":    "B@tatinha123",
-  "phone":       "19844453838"
-
+    "email":    "marcius.db@voyage.com",
+    "password": "123@Umdois"
 }
 
-### editanto apenas um campo de usuario.
-PUT https://voyagegabi.onrender.com/user/1 HTTP/1.1
-Authorization: Bearer {{token}}
+###
+
+### 6. Login admin
+# @name loginAdmin
+POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-
-  "name":        "Kevingay",
-  "type":        "owner",
-  "email":       "kevuinsaf@gmail.com",
-  "password":    "B@tatinha123"
-
+    "email":    "admin@voyage.com",
+    "password": "B@tatinha123"
 }
 
-### Deletar um usuario
-DELETE https://voyagegabi.onrender.com/user/1 HTTP/1.1
-Authorization: Bearer {{token}}
+###
+
+
+### --- LEITURA ---
+
+### 7. Listar todos os usuários (só admin pode)
+GET {{base}}/user HTTP/1.1
+Authorization: Bearer {{adminToken}}
 content-type: application/json
+
+###
+
+### 8. Buscar por email
+GET {{base}}/user?email=owner@voyage.com HTTP/1.1
+Authorization: Bearer {{adminToken}}
+content-type: application/json
+
+###
+
+### 9. Buscar por tipo
+GET {{base}}/user?type=owner HTTP/1.1
+Authorization: Bearer {{adminToken}}
+content-type: application/json
+
+###
+
+### 10. Ver próprio perfil (owner)
+GET {{base}}/user/{{ownerId}} HTTP/1.1
+Authorization: Bearer {{ownerToken}}
+content-type: application/json
+
+###
+
+### 11. Ver próprio perfil (client)
+GET {{base}}/user/{{clientId}} HTTP/1.1
+Authorization: Bearer {{clientToken}}
+content-type: application/json
+
+###
+
+### 12. Admin vendo perfil de outro usuário
+GET {{base}}/user/{{ownerId}} HTTP/1.1
+Authorization: Bearer {{adminToken}}
+content-type: application/json
+
+###
+
+
+### --- EDIÇÃO ---
+
+### 13. Owner editando o próprio perfil
+PUT {{base}}/user/{{ownerId}} HTTP/1.1
+Authorization: Bearer {{ownerToken}}
+content-type: application/json
+
+{
+    "name":  "Maria Owner Editada",
+    "phone": "19899990001"
+}
+
+###
+
+### 14. Admin editando outro usuário
+PUT {{base}}/user/{{clientId}} HTTP/1.1
+Authorization: Bearer {{adminToken}}
+content-type: application/json
+
+{
+    "name": "João Client Editado"
+}
+
+###
+
+
+### --- DELEÇÃO ---
+
+### 15. Deletar usuário (admin)
+### ATENÇÃO: descomente só quando quiser apagar de verdade
+# DELETE {{base}}/user/{{clientId}} HTTP/1.1
+# Authorization: Bearer {{adminToken}}
+# content-type: application/json
+
+###
+
+
+### --- ERROS ESPERADOS ---
+
+### 16. Login com senha errada (401)
+POST {{base}}/user/login HTTP/1.1
+content-type: application/json
+
+{
+    "email":    "owner@voyage.com",
+    "password": "SenhaErrada@99"
+}
+
+###
+
+### 17. Client tentando listar todos os usuários (403)
+GET {{base}}/user HTTP/1.1
+Authorization: Bearer {{clientToken}}
+content-type: application/json
+
+###
+
+### 18. Client tentando ver perfil de outro (403)
+GET {{base}}/user/{{ownerId}} HTTP/1.1
+Authorization: Bearer {{clientToken}}
+content-type: application/json
+
+###
+
+### 19. Requisição sem token (401)
+GET {{base}}/user/{{ownerId}} HTTP/1.1
+content-type: application/json
+
+###

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import { attachSave } from "../utils/save.js";
+
 const prisma = new PrismaClient();
 const SECRET_KEY = process.env.JWT_SECRET || 'voyage_default_dev_secret';
 
@@ -22,7 +23,7 @@ const cpfSchema = z.string().refine((cpf) => {
     return true;
 });
 
-const typeSchema = z.enum(["client", "owner"]);
+const typeSchema = z.enum(["client", "owner", "admin"]);
 const passwordSchema = z.string()
     .min(10, "Senha deve ter no mínimo 10 caracteres")
     .regex(/[A-Z]/, "Senha deve ter pelo menos uma letra maiúscula")
@@ -97,7 +98,7 @@ export async function createUser(req, res, _next) {
         if (data.type) {
             const typeResult = typeSchema.safeParse(data.type);
             if (!typeResult.success) {
-                return res.status(400).json({ error: "Tipo deve ser 'client' ou 'owner'" });
+                return res.status(400).json({ error: "Tipo deve ser 'client', 'owner' ou 'admin'" });
             }
         }
         if (data.password) {
@@ -127,7 +128,18 @@ export async function createUser(req, res, _next) {
         }
 
         let u = await prisma.user.create({ data });
-        return res.status(201).json(u);
+
+        const token = jwt.sign(
+            { sub: u.id, type: u.type, email: u.email, name: u.name },
+            SECRET_KEY,
+            { expiresIn: '1d' }
+        );
+
+        return res.status(201).json({
+            message: "Usuário criado com sucesso",
+            token: token,
+            user: u
+        });
     } catch (error) {
         console.error("Error in createUser:", error);
         return res.status(500).json({ error: error.message });
@@ -136,19 +148,19 @@ export async function createUser(req, res, _next) {
 
 export async function readUser(req, res, _next) {
     try {
-        if (req.logged && req.logged.type !== 'owner') {
+        if (req.logged && req.logged.type !== 'admin') {
             return res.status(403).json({ error: "Acesso Negado. Apenas administradores do sistema podem listar os usuários." });
         }
 
         const { name, type, signature, email, phone, cpf } = req.query;
 
         let consult = {}
-        if (name) consult.name = { contains: "%" + name + "%" }
-        if (email) consult.email = { contains: "%" + email + "%" }
-        if (type) consult.type = { contains: "%" + type + "%" }
-        if (signature) consult.signature = { contains: "%" + signature + "%" }
-        if (phone) consult.phone = { contains: "%" + phone + "%" }
-        if (cpf) consult.cpf = { contains: "%" + cpf + "%" }
+        if (name) consult.name = { contains: name }
+        if (email) consult.email = { contains: email }
+        if (type) consult.type = { contains: type }
+        if (signature) consult.signature = { contains: signature }
+        if (phone) consult.phone = { contains: phone }
+        if (cpf) consult.cpf = { contains: cpf }
 
         let users = await prisma.user.findMany({ where: consult });
 
@@ -166,7 +178,7 @@ export async function showUser(req, res, _next) {
             return res.status(400).json({ error: "Invalid ID format" });
         }
 
-        if (req.logged && req.logged.id !== id && req.logged.type !== 'owner') {
+        if (req.logged && req.logged.id !== id && req.logged.type !== 'admin') {
             return res.status(403).json({ error: "Acesso Negado. Você só pode acessar o seu próprio perfil." });
         }
 
@@ -193,7 +205,7 @@ export async function editUser(req, res, _next) {
 
         // --- AUTH: DO SERVICE PARA O BANCO ---
         // Usa o contexto da Auth injetado na req para aplicar segurança granular na camada do Prisma (Banco)
-        if (req.logged && req.logged.id !== id && req.logged.type !== 'owner') {
+        if (req.logged && req.logged.id !== id && req.logged.type !== 'admin') {
             return res.status(403).json({ error: "Acesso DB Negado. Você não tem permissão para editar este usuário." });
         }
 
@@ -229,7 +241,7 @@ export async function editUser(req, res, _next) {
         if (type) {
             const typeResult = typeSchema.safeParse(type);
             if (!typeResult.success) {
-                return res.status(400).json({ error: "Tipo deve ser 'client' ou 'owner'" });
+                return res.status(400).json({ error: "Tipo deve ser 'client', 'owner' ou 'admin'" });
             }
         }
         if (password) {

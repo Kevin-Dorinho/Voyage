@@ -84,16 +84,18 @@ export async function createCompany(req, res, _next) {
 }
 
 export async function readCompany(req, res, _next) {
-    const { name, places, category } = req.query
-
-    let consult = {}
-
-    if (name) consult.name = { contains: "%" + name + "%" }
-    if (places) consult.places = { contains: "%" + places + "%" }
-    if (category) consult.category = { contains: "%" + category + "%" }
-
-    let companies = await prisma.company.findMany({ where: consult })
-    return res.status(200).json(companies);
+    try {
+        const { name, places, category } = req.query;
+        let consult = {};
+        if (name) consult.name = { contains: name };
+        if (places) consult.places = { contains: places };
+        if (category) consult.category = { contains: category };
+        let companies = await prisma.company.findMany({ where: consult });
+        return res.status(200).json(companies);
+    } catch (error) {
+        console.error("Erro ao buscar empresas:", error);
+        return res.status(500).json({ error: "Erro interno ao buscar empresas." });
+    }
 }
 
 export async function editCompany(req, res, _next) {
@@ -168,5 +170,5 @@ export async function deleteCompany(req, res, _next) {
 export async function showCompany(req, res, _next) {
     let id = Number(req.params.id);
     let c = await prisma.company.findFirst({ where: { id: id } });
-    return res.status(202).json(c);
+    return res.status(200).json(c);
 }
