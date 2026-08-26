@@ -29,7 +29,8 @@ export async function createAddress(req, res, _next) {
             zipcode: z.string()
                 .regex(/^\d{5}-?\d{3}$/, "CEP inválido. Use o formato 00000-000."),
             lat: z.preprocess((val) => parseFloat(val), z.number().min(-90, "Latitude inválida.").max(90, "Latitude inválida.")),
-            long: z.preprocess((val) => parseFloat(val), z.number().min(-180, "Longitude inválida.").max(180, "Longitude inválida."))
+            long: z.preprocess((val) => parseFloat(val), z.number().min(-180, "Longitude inválida.").max(180, "Longitude inválida.")),
+            url: z.string().url("URL de imagem inválida.").optional().or(z.literal(''))
         });
 
         const validation = createSchema.safeParse(req.body);
@@ -43,12 +44,6 @@ export async function createAddress(req, res, _next) {
 
         const data = validation.data;
 
-        if (!req.file) {
-            return res.status(400).json({ error: "É obrigatório enviar uma imagem (preferencialmente o logo da empresa ou uma foto nítida do local)." });
-        }
-
-        const imageUrl = await uploadToImgBB(req.file);
-
         const address = await prisma.address.create({
             data: {
                 place: data.place,
@@ -56,7 +51,7 @@ export async function createAddress(req, res, _next) {
                 zipcode: data.zipcode,
                 lat: data.lat,
                 long: data.long,
-                url: imageUrl || "",
+                url: data.url || "",
             },
         });
 
@@ -185,7 +180,8 @@ export async function editAddress(req, res, _next) {
                 .regex(/^\d{5}-?\d{3}$/, "CEP inválido. Use o formato 00000-000.")
                 .optional(),
             lat: z.number().min(-90).max(90).optional(),
-            long: z.number().min(-180).max(180).optional()
+            long: z.number().min(-180).max(180).optional(),
+            url: z.string().url("URL de imagem inválida.").optional()
         });
 
         const validation = editSchema.safeParse(req.body);
@@ -198,12 +194,6 @@ export async function editAddress(req, res, _next) {
         }
 
         const updateData = validation.data;
-
-        if (!req.file) {
-            return res.status(400).json({ error: "Ao editar o endereço é obrigatório reenviar uma imagem (logo ou foto nítida do local)." });
-        }
-
-        updateData.url = await uploadToImgBB(req.file);
 
         const existingAddress = await prisma.address.findUnique({
             where: { id: id },

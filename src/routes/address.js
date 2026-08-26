@@ -10,10 +10,10 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 const router = Router();
 
-router.post('/', upload.single('file'), createAddress);
+router.post('/', createAddress);
 router.get('/', readAddress);
 router.get('/:id', showAddress);
-router.put('/:id', auth, upload.single('file'), editAddress);
+router.put('/:id', auth, editAddress);
 router.delete('/:id', auth, deleteAddress)
 
 

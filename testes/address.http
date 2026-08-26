@@ -4,7 +4,7 @@
 ### 2. O token é capturado automaticamente
 ### ========================================
 
-@base = https://voyagegabi.onrender.com
+@base = http://localhost:3000
 @ownerToken = {{loginOwner.response.body.token}}
 @addressId = {{createAddress.response.body.id}}
 
@@ -15,8 +15,8 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "teste1@voyage.com",
-    "password": "123@Umdois"
+    "email":    "teste3@voyage.com",
+    "password": "123@Umtres"
 }
 
 ###
@@ -86,36 +86,18 @@ content-type: application/json
 
 ### Criar endereço com imagem
 # @name createAddress
-POST {{base}}/address
+POST {{base}}/address HTTP/1.1
 Authorization: Bearer {{ownerToken}}
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+content-type: application/json
 
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="place"
-
-Jardim Cruzeiro do Sul
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="number"
-
-361
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="zipcode"
-
-37706-188
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="lat"
-
--22.039868725959483
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="long"
-
--47.892198217902575
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="pizza.jpg"
-Content-Type: image/jpeg
-
-< ./pizza.jpg
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+{
+    "place":   "Vila Monteiro",
+    "number":  "2452",
+    "zipcode": "13560710",
+    "lat":     -22.025031401090143,
+    "long":    -47.88533838241694,
+    "url":     "https://i.ibb.co/S4DWWxG5/ratti.jpg"
+}
 
 ###
 
