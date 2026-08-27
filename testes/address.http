@@ -4,7 +4,7 @@
 ### 2. O token é capturado automaticamente
 ### ========================================
 
-@base = http://localhost:3000
+@base = https://voyagegabi.onrender.com
 @ownerToken = {{loginOwner.response.body.token}}
 @addressId = {{createAddress.response.body.id}}
 
@@ -123,3 +123,6 @@ content-type: application/json
 # content-type: application/json
 
 ###
+
+
+# http://localhost:3000
