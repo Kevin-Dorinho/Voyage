@@ -23,12 +23,12 @@ POST {{base}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "Teste tres",
+    "name":     "Teste quatro",
     "type":     "owner",
-    "email":    "teste3@voyage.com",
+    "email":    "teste4@voyage.com",
     "password": "123@Umtres",
-    "phone":    "19844450001",
-    "cpf":      "55073360087"
+    "phone":    "19844450004",
+    "cpf":      "608.179.430-05"
 }
 
 ###
@@ -74,8 +74,8 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "teste1@voyage.com",
-    "password": "123@Umdois"
+    "email":    "teste4@voyage.com",
+    "password": "123@Umtres"
 }
 
 ###

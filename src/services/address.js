@@ -44,6 +44,8 @@ export async function createAddress(req, res, _next) {
 
         const data = validation.data;
 
+        const loggedId = req.logged?.id ? Number(req.logged.id) : null;
+
         const address = await prisma.address.create({
             data: {
                 place: data.place,
@@ -52,6 +54,7 @@ export async function createAddress(req, res, _next) {
                 lat: data.lat,
                 long: data.long,
                 url: data.url || "",
+                ...(loggedId ? { users: { connect: [{ id: loggedId }] } } : {})
             },
         });
 

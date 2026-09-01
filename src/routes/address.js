@@ -10,7 +10,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 const router = Router();
 
-router.post('/', createAddress);
+router.post('/', auth, createAddress);
 router.get('/', readAddress);
 router.get('/:id', showAddress);
 router.put('/:id', auth, editAddress);

@@ -15,7 +15,7 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "teste3@voyage.com",
+    "email":    "teste4@voyage.com",
     "password": "123@Umtres"
 }
 
@@ -91,12 +91,12 @@ Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
-    "place":   "Vila Monteiro",
-    "number":  "2452",
-    "zipcode": "13560710",
-    "lat":     -22.025031401090143,
-    "long":    -47.88533838241694,
-    "url":     "https://i.ibb.co/S4DWWxG5/ratti.jpg"
+    "place":   "Av. República do Líbano",
+    "number":  "361",
+    "zipcode": "13572081",
+    "lat":     -22.039941044491304,
+    "long":    -47.89219337202847,
+    "url":     "https://i.ibb.co/qN0yR1y4/bistro.jpg"
 }
 
 ###
@@ -107,11 +107,12 @@ Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
-    "place":   "Av. São Carlos, Centro",
-    "number":  "1242",
-    "zipcode": "13566-330",
-    "lat":     -22.022011888377065,
-    "long":    -47.8904711
+    "place":   "Av. República do Líbano",
+    "number":  "361",
+    "zipcode": "13572081",
+    "lat":     -22.039941044491304,
+    "long":    -47.89219337202847,
+    "url":     "https://i.ibb.co/qN0yR1y4/bistro.jpg"
 }
 
 ###
