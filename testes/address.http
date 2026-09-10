@@ -91,11 +91,11 @@ Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
-    "place":   "Av. República do Líbano",
-    "number":  "361",
-    "zipcode": "13572081",
-    "lat":     -22.039941044491304,
-    "long":    -47.89219337202847,
+    "place":   "Rua José Rodrigues Sampaio",
+    "number":  "576",
+    "zipcode": "13560710",
+    "lat":     -22.02503133989126,
+    "long":    -47.88520965123229,
     "url":     "https://i.ibb.co/qN0yR1y4/bistro.jpg"
 }
 

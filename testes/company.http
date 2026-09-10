@@ -15,8 +15,8 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "teste1@voyage.com",
-    "password": "123@Umdois"
+    "email":    "teste4@voyage.com",
+    "password": "123@Umtres"
 }
 
 ###
