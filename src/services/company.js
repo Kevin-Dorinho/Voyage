@@ -4,8 +4,12 @@ import { attachSave } from "../utils/save.js";
 
 const prisma = new PrismaClient();
 
+function cleanCNPJ(cnpj) {
+    return cnpj ? cnpj.replace(/[^\d]+/g, '') : '';
+}
+
 function isValidCNPJ(cnpj) {
-    cnpj = cnpj.replace(/[^\d]+/g, '');
+    cnpj = cleanCNPJ(cnpj);
     if (cnpj.length !== 14) return false;
     if (/^(\d)\1+$/.test(cnpj)) return false;
 
@@ -45,41 +49,37 @@ const companySchema = z.object({
     }),
     cnpj: z.string({ required_error: "CNPJ é obrigatório" })
         .regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$|^\d{14}$/, "CNPJ inválido. Verifique a formatação do campo.")
-        .refine((val) => isValidCNPJ(val), { message: "CNPJ inválido (não passou na verificação de dígitos matemáticos)." }),
+        .refine((val) => isValidCNPJ(val), { message: "CNPJ inválido (não passou na verificação de dígitos matemáticos)." })
+        .transform((val) => cleanCNPJ(val)),
     evaluate: z.number({ invalid_type_error: "A avaliação deve ser um número." })
-        .min(0, "Agradecemos seu prestigio com a empresa mas o limite é até zero.")
-        .max(5, "Agradecemos seu prestigio com a empresa mas o limite é até cinco.")
+        .min(0, "A avaliação deve ser no mínimo 0.")
+        .max(5, "A avaliação deve ser no máximo 5.")
         .optional(),
     places: z.string({ required_error: "Endereço é obrigatório" }).min(5, "Endereço incorreto / muito curto forneça detalhes do local")
 });
 
 export async function createCompany(req, res, _next) {
     try {
-        // AUTH: apenas owners podem criar empresas
-        if (!req.logged || req.logged.type !== 'owner') {
-            return res.status(403).json({ error: "Acesso negado. Apenas owners podem criar empresas." });
+        if (!req.logged || (req.logged.type !== 'owner' && req.logged.type !== 'admin')) {
+            return res.status(403).json({ error: "Acesso negado. Apenas owners e administradores podem criar empresas." });
         }
 
         const data = companySchema.parse(req.body);
 
-        if (data.cnpj) {
-            const cnpjInUse = await prisma.company.findFirst({ where: { cnpj: data.cnpj } });
-            if (cnpjInUse) {
-                return res.status(409).json({ error: "O CNPJ informado já está em uso" });
-            }
+        const cnpjInUse = await prisma.company.findFirst({ where: { cnpj: data.cnpj } });
+        if (cnpjInUse) {
+            return res.status(409).json({ error: "O CNPJ informado já está em uso" });
         }
 
-        if (req.logged?.id) {
-            data.userId = req.logged.id;
-        }
+        data.userId = Number(req.logged.id);
 
-        let c = await prisma.company.create({ data });
+        const c = await prisma.company.create({ data });
         return res.status(201).json(c);
     } catch (error) {
         if (error instanceof z.ZodError) {
             return res.status(400).json({ errors: error.issues.map(e => e.message) });
         }
-        res.status(500).json({ error: "Erro interno no servidor.", details: error.message });
+        return res.status(500).json({ error: "Erro interno no servidor.", details: error.message });
     }
 }
 
@@ -90,7 +90,7 @@ export async function readCompany(req, res, _next) {
         if (name) consult.name = { contains: name };
         if (places) consult.places = { contains: places };
         if (category) consult.category = { contains: category };
-        let companies = await prisma.company.findMany({ where: consult });
+        const companies = await prisma.company.findMany({ where: consult });
         return res.status(200).json(companies);
     } catch (error) {
         console.error("Erro ao buscar empresas:", error);
@@ -100,37 +100,42 @@ export async function readCompany(req, res, _next) {
 
 export async function editCompany(req, res, _next) {
     try {
-        const parsedBody = companySchema.partial().parse(req.body);
-        const { name, places, category, cnpj } = parsedBody;
-
-        let id = Number(req.params.id);
-        let c = await prisma.company.findFirst({ where: { id: id } })
-
-        if (!c) {
-            return res.status(404).json("Não econtrei " + id);
-        }
-
-        const userId = req.logged?.id;
-
+        const userId = req.logged?.id ? Number(req.logged.id) : null;
         if (!userId) {
             return res.status(401).json({ error: "Autenticação necessária." });
         }
 
-        if (c.userId !== userId) {
+        let id = Number(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "ID de empresa inválido." });
+        }
+
+        let c = await prisma.company.findFirst({ where: { id: id } });
+
+        if (!c) {
+            return res.status(404).json({ error: "Empresa não encontrada: " + id });
+        }
+
+        if (c.userId !== userId && req.logged.type !== 'admin') {
             return res.status(403).json({ error: "Acesso negado. Você só pode editar as suas próprias empresas." });
         }
 
+        const parsedBody = companySchema.partial().parse(req.body);
+        const { name, places, category, cnpj, evaluate } = parsedBody;
+
         c = attachSave(c, 'company');
 
-        if (name) c.name = name
-        if (places) c.places = places
-        if (category) c.category = category
+        if (name) c.name = name;
+        if (places) c.places = places;
+        if (category) c.category = category;
+        if (evaluate !== undefined) c.evaluate = evaluate;
         if (cnpj) {
-            const cnpjInUse = await prisma.company.findFirst({ where: { cnpj: cnpj, id: { not: id } } });
+            const clean = cleanCNPJ(cnpj);
+            const cnpjInUse = await prisma.company.findFirst({ where: { cnpj: clean, id: { not: id } } });
             if (cnpjInUse) {
                 return res.status(409).json({ error: "O CNPJ informado já está em uso" });
             }
-            c.cnpj = cnpj;
+            c.cnpj = clean;
         }
 
         await c.save();
@@ -145,30 +150,48 @@ export async function editCompany(req, res, _next) {
 }
 
 export async function deleteCompany(req, res, _next) {
+    try {
+        const userId = req.logged?.id ? Number(req.logged.id) : null;
+        if (!userId) {
+            return res.status(401).json({ error: "Autenticação necessária." });
+        }
 
-    let id = Number(req.params.id);
-    let c = await prisma.company.findFirst({ where: { id: id } })
+        let id = Number(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "ID de empresa inválido." });
+        }
 
-    if (!c) {
-        return res.status(404).json("Não econtrei " + id);
+        let c = await prisma.company.findFirst({ where: { id: id } });
+
+        if (!c) {
+            return res.status(404).json({ error: "Empresa não encontrada: " + id });
+        }
+
+        if (c.userId !== userId && req.logged.type !== 'admin') {
+            return res.status(403).json({ error: "Acesso negado. Você só pode deletar as suas próprias empresas." });
+        }
+
+        await prisma.company.delete({ where: { id: id } });
+        return res.status(200).json({ message: "Empresa deletada com sucesso: " + id });
+    } catch (error) {
+        return res.status(500).json({ error: "Erro interno no servidor ao tentar deletar empresa." });
     }
-
-    const userId = req.logged?.id;
-    if (!userId) {
-        return res.status(401).json({ error: "Autenticação necessária." });
-    }
-
-    if (c.userId !== userId) {
-        return res.status(403).json({ error: "Acesso negado. Você só pode deletar as suas próprias empresas." });
-    }
-
-    await prisma.company.delete({ where: { id: id } })
-    return res.status(200).json("EMPRESA DELETADA " + id);
-
 }
 
 export async function showCompany(req, res, _next) {
-    let id = Number(req.params.id);
-    let c = await prisma.company.findFirst({ where: { id: id } });
-    return res.status(200).json(c);
-}
+    try {
+        let id = Number(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "ID de empresa inválido." });
+        }
+
+        let c = await prisma.company.findFirst({ where: { id: id } });
+        if (!c) {
+            return res.status(404).json({ error: "Empresa não encontrada." });
+        }
+
+        return res.status(200).json(c);
+    } catch (error) {
+        return res.status(500).json({ error: "Erro interno ao buscar empresa." });
+    }
+}

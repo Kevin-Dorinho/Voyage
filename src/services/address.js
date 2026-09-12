@@ -1,39 +1,58 @@
 import { PrismaClient } from "@prisma/client";
 import { z } from 'zod';
 import { attachSave } from "../utils/save.js";
-
 import axios from "axios";
-
 import "dotenv/config";
-
-// multer direto aqui (sem middleware separado)
-
-
-
-
 
 const prisma = new PrismaClient();
 
-//req: requisição o que está vindo do front end
-//res: response, o que eu vou responder
-//next: proximo o que vou fazer a seguir
+export async function uploadToImgBB(file) {
+    try {
+        const base64Image = file.buffer.toString("base64");
+        const url = `https://api.imgbb.com/1/upload?key=${process.env.IMG_BB_KEY}`;
+
+        const formData = new URLSearchParams();
+        formData.append("image", base64Image);
+
+        const response = await axios.post(url, formData.toString(), {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        });
+
+        return response.data.data.url;
+    } catch (error) {
+        console.error("Erro ao enviar para ImgBB:", error.response?.data || error);
+        throw new Error("Erro no upload para ImgBB");
+    }
+}
+
 export async function createAddress(req, res, _next) {
     try {
         const createSchema = z.object({
             place: z.string()
                 .min(3, "O endereço deve ter no mínimo 3 caracteres.")
-                .regex(/^[a-zA-ZÀ-ÿ\s,.\-]+$/, "O endereço não pode conter números ou caracteres especiais anormais."),
+                .regex(/^[a-zA-Z0-9À-ÿ\s,.\-]+$/, "O endereço possui caracteres especiais inválidos."),
             number: z.string()
                 .min(1, "O número é obrigatório.")
-                .regex(/^\d{1,6}(?:\s?[a-zA-Z])?$/, "O número deve ter ter até 6 números e no máximo uma letra (ex: 102 F ou 123 b)."),
+                .regex(/^\d{1,6}(?:\s?[a-zA-Z])?$/, "O número deve ter até 6 números e no máximo uma letra (ex: 102 F ou 123 b)."),
             zipcode: z.string()
-                .regex(/^\d{5}-?\d{3}$/, "CEP inválido. Use o formato 00000-000."),
+                .regex(/^\d{5}-?\d{3}$|^\d{8}$/, "CEP inválido. Use o formato 00000-000 ou 8 dígitos."),
             lat: z.preprocess((val) => parseFloat(val), z.number().min(-90, "Latitude inválida.").max(90, "Latitude inválida.")),
             long: z.preprocess((val) => parseFloat(val), z.number().min(-180, "Longitude inválida.").max(180, "Longitude inválida.")),
-            url: z.string().url("URL de imagem inválida.").optional().or(z.literal(''))
+            url: z.string().url("URL de imagem inválida.").optional().or(z.literal('')),
+            companyId: z.coerce.number().optional()
         });
 
-        const validation = createSchema.safeParse(req.body);
+        let imageUrl = req.body.url || "";
+        if (req.file) {
+            imageUrl = await uploadToImgBB(req.file);
+        }
+
+        const bodyToValidate = { ...req.body };
+        if (imageUrl) bodyToValidate.url = imageUrl;
+
+        const validation = createSchema.safeParse(bodyToValidate);
 
         if (!validation.success) {
             return res.status(400).json({
@@ -43,19 +62,36 @@ export async function createAddress(req, res, _next) {
         }
 
         const data = validation.data;
-
         const loggedId = req.logged?.id ? Number(req.logged.id) : null;
 
+        const addressData = {
+            place: data.place,
+            number: data.number,
+            zipcode: data.zipcode,
+            lat: data.lat,
+            long: data.long,
+            url: data.url || "",
+            ...(loggedId ? { users: { connect: [{ id: loggedId }] } } : {})
+        };
+
+        if (data.companyId) {
+            const companyExists = await prisma.company.findUnique({ where: { id: data.companyId } });
+            if (!companyExists) {
+                return res.status(404).json({ error: "Empresa indicada no companyId não existe." });
+            }
+            addressData.addressCompany = {
+                create: {
+                    companyId: data.companyId
+                }
+            };
+        }
+
         const address = await prisma.address.create({
-            data: {
-                place: data.place,
-                number: data.number,
-                zipcode: data.zipcode,
-                lat: data.lat,
-                long: data.long,
-                url: data.url || "",
-                ...(loggedId ? { users: { connect: [{ id: loggedId }] } } : {})
-            },
+            data: addressData,
+            include: {
+                addressCompany: true,
+                users: true
+            }
         });
 
         return res.status(201).json(address);
@@ -66,19 +102,19 @@ export async function createAddress(req, res, _next) {
 
 export async function readAddress(req, res, _next) {
     try {
-        const { lat, long, user, category, company, favorite, radius } = req.query
+        const { lat, long, user, category, company, favorite, radius } = req.query;
 
-        let consult = {}
+        let consult = {};
 
         if (lat && long) {
-            const latitude = parseFloat(lat)
-            const longitude = parseFloat(long)
+            const latitude = parseFloat(lat);
+            const longitude = parseFloat(long);
 
             if (isNaN(latitude) || isNaN(longitude) || latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
                 return res.status(400).json({ error: "Latitude ou Longitude em formato inválido ou fora dos limites." });
             }
 
-            const r = radius ? parseFloat(radius) : 0.05 // ~5km padrão
+            const r = radius ? parseFloat(radius) : 0.05;
 
             consult = {
                 lat: {
@@ -89,26 +125,25 @@ export async function readAddress(req, res, _next) {
                     gte: longitude - r,
                     lte: longitude + r,
                 },
-            }
+            };
         } else if (lat) {
             const latitude = parseFloat(lat);
             if (isNaN(latitude)) return res.status(400).json({ error: "Latitude inválida." });
-            consult.lat = { equals: latitude }
+            consult.lat = { equals: latitude };
         } else if (long) {
             const longitude = parseFloat(long);
             if (isNaN(longitude)) return res.status(400).json({ error: "Longitude inválida." });
-            consult.long = { equals: longitude }
+            consult.long = { equals: longitude };
         }
 
         if (user) {
-            consult.users = { some: { id: parseInt(user) } }
+            consult.users = { some: { id: parseInt(user) } };
         }
 
         if (company) {
-            consult.addressCompany = { some: { companyId: parseInt(company) } }
+            consult.addressCompany = { some: { companyId: parseInt(company) } };
         }
 
-        // Filtro validando e corrigido para procurar a categoria de company (associação do schema real)
         if (category) {
             const categoryExists = await prisma.company.findFirst({
                 where: { category: { equals: category } }
@@ -124,23 +159,27 @@ export async function readAddress(req, res, _next) {
                     ...(consult.addressCompany?.some || {}),
                     company: { category: { equals: category } }
                 }
-            }
+            };
         }
 
         if (favorite) {
-            // Corrige o filtro associando ao User Favorites da empresa atrelada ao endereço
             consult.addressCompany = {
                 ...(consult.addressCompany || {}),
                 some: {
                     ...(consult.addressCompany?.some || {}),
                     company: { favorites: { some: { userId: parseInt(favorite) } } }
                 }
-            }
+            };
         }
 
-        const address = await prisma.address.findMany({ where: consult })
+        const address = await prisma.address.findMany({
+            where: consult,
+            include: {
+                addressCompany: true
+            }
+        });
 
-        return res.status(200).json(address)
+        return res.status(200).json(address);
     } catch (error) {
         console.error("Erro ao ler endereços:", error);
         return res.status(500).json({ error: "Erro interno ao buscar endereços." });
@@ -153,7 +192,13 @@ export async function showAddress(req, res, _next) {
 
         if (isNaN(id)) return res.status(400).json({ error: "ID de endereço inválido." });
 
-        let a = await prisma.address.findUnique({ where: { id: id } });
+        let a = await prisma.address.findUnique({
+            where: { id: id },
+            include: {
+                addressCompany: true,
+                users: true
+            }
+        });
 
         if (!a) {
             return res.status(404).json({ error: "Endereço não encontrado." });
@@ -168,26 +213,39 @@ export async function showAddress(req, res, _next) {
 
 export async function editAddress(req, res, _next) {
     try {
-        let id = Number(req.params.id);
+        const loggedId = req.logged?.id ? Number(req.logged.id) : null;
+        if (!loggedId) {
+            return res.status(401).json({ error: "Autenticação obrigatória." });
+        }
 
+        let id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "ID de endereço inválido." });
 
         const editSchema = z.object({
             place: z.string()
-                .regex(/^[a-zA-ZÀ-ÿ\s,.\-]+$/, "O endereço não pode conter números ou caracteres especiais anormais.")
+                .regex(/^[a-zA-Z0-9À-ÿ\s,.\-]+$/, "O endereço possui caracteres especiais inválidos.")
                 .optional(),
             number: z.string()
                 .regex(/^\d{1,6}(?:\s?[a-zA-Z])?$/, "O número deve ter até 6 números e no máximo uma letra (ex: 102 F ou 123 b).")
                 .optional(),
             zipcode: z.string()
-                .regex(/^\d{5}-?\d{3}$/, "CEP inválido. Use o formato 00000-000.")
+                .regex(/^\d{5}-?\d{3}$|^\d{8}$/, "CEP inválido. Use o formato 00000-000 ou 8 dígitos.")
                 .optional(),
             lat: z.number().min(-90).max(90).optional(),
             long: z.number().min(-180).max(180).optional(),
-            url: z.string().url("URL de imagem inválida.").optional()
+            url: z.string().url("URL de imagem inválida.").optional().or(z.literal('')),
+            companyId: z.coerce.number().optional()
         });
 
-        const validation = editSchema.safeParse(req.body);
+        let imageUrl = req.body.url;
+        if (req.file) {
+            imageUrl = await uploadToImgBB(req.file);
+        }
+
+        const bodyToValidate = { ...req.body };
+        if (imageUrl !== undefined) bodyToValidate.url = imageUrl;
+
+        const validation = editSchema.safeParse(bodyToValidate);
 
         if (!validation.success) {
             return res.status(400).json({
@@ -200,23 +258,46 @@ export async function editAddress(req, res, _next) {
 
         const existingAddress = await prisma.address.findUnique({
             where: { id: id },
-            include: { users: true }
+            include: { users: true, addressCompany: true }
         });
 
         if (!existingAddress) {
             return res.status(404).json({ error: `Endereço com id ${id} não existe e não pode ser editado.` });
         }
 
-        const loggedId = Number(req.logged.id);
         const isOwner = existingAddress.users.some(user => user.id === loggedId);
+        const isAdmin = req.logged.type === 'admin';
 
-        if (!isOwner) {
+        if (!isOwner && !isAdmin) {
             return res.status(403).json({ error: "Acesso negado. Somente o dono deste endereço pode fazer alterações." });
+        }
+
+        const { companyId, ...fieldsToUpdate } = updateData;
+
+        if (companyId) {
+            const companyExists = await prisma.company.findUnique({ where: { id: companyId } });
+            if (!companyExists) {
+                return res.status(404).json({ error: "Empresa informada no companyId não existe." });
+            }
+
+            const existingLink = await prisma.addressCompany.findFirst({
+                where: { addressId: id, companyId: companyId }
+            });
+
+            if (!existingLink) {
+                await prisma.addressCompany.create({
+                    data: {
+                        addressId: id,
+                        companyId: companyId
+                    }
+                });
+            }
         }
 
         const updatedAddress = await prisma.address.update({
             where: { id: id },
-            data: updateData
+            data: fieldsToUpdate,
+            include: { addressCompany: true, users: true }
         });
 
         return res.status(202).json(updatedAddress);
@@ -228,8 +309,12 @@ export async function editAddress(req, res, _next) {
 
 export async function deleteAddress(req, res, _next) {
     try {
-        let id = Number(req.params.id);
+        const loggedId = req.logged?.id ? Number(req.logged.id) : null;
+        if (!loggedId) {
+            return res.status(401).json({ error: "Autenticação obrigatória." });
+        }
 
+        let id = Number(req.params.id);
         if (isNaN(id)) return res.status(400).json({ error: "ID de endereço inválido." });
 
         let d = await prisma.address.findUnique({
@@ -241,13 +326,15 @@ export async function deleteAddress(req, res, _next) {
             return res.status(404).json({ error: `Falha na exclusão: Endereço com id ${id} não encontrado.` });
         }
 
-        const loggedId = Number(req.logged.id);
         const isOwner = d.users.some(user => user.id === loggedId);
+        const isAdmin = req.logged.type === 'admin';
 
-        if (!isOwner) {
+        if (!isOwner && !isAdmin) {
             return res.status(403).json({ error: "Acesso negado. Somente o dono deste endereço pode deletá-lo." });
         }
 
+        // Deletar associações primeiro para não violar foreign keys
+        await prisma.addressCompany.deleteMany({ where: { addressId: id } });
         await prisma.address.delete({ where: { id: id } });
 
         return res.status(200).json({ message: `Endereço com id ${id} deletado com sucesso.` });
@@ -257,27 +344,5 @@ export async function deleteAddress(req, res, _next) {
     }
 }
 
-
-async function uploadToImgBB(file) {
-    try {
-        const base64Image = file.buffer.toString("base64");
-
-        const url = `https://api.imgbb.com/1/upload?key=${process.env.IMG_BB_KEY}`;
-
-        const formData = new URLSearchParams();
-        formData.append("image", base64Image);
-
-        const response = await axios.post(url, formData.toString(), {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-        });
-
-        return response.data.data.url;
-    } catch (error) {
-        console.error("Erro ao enviar para ImgBB:", error.response?.data || error);
-        throw new Error("Erro no upload");
-    }
-}
 
 

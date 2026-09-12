@@ -16,7 +16,7 @@ content-type: application/json
 
 {
     "email":    "teste4@voyage.com",
-    "password": "123@Umtres"
+    "password": "Password@2026"
 }
 
 ###
@@ -29,11 +29,12 @@ content-type: application/json
 ###
 
 ### Listar um único endereço
-GET {{base}}/address/1 HTTP/1.1
+GET {{base}}/address/{{addressId}} HTTP/1.1
 Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ###
+
 
 ### Buscar por lat + long (raio padrão ~5km)
 GET {{base}}/address?lat=-22.0221&long=-47.8904 HTTP/1.1

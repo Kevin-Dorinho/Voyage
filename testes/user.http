@@ -26,7 +26,7 @@ content-type: application/json
     "name":     "Teste quatro",
     "type":     "owner",
     "email":    "teste4@voyage.com",
-    "password": "123@Umtres",
+    "password": "Password@2026",
     "phone":    "19844450004",
     "cpf":      "608.179.430-05"
 }
@@ -35,14 +35,14 @@ content-type: application/json
 
 ### 2. Criar client
 # @name createClient
-POST http://localhost:3000/user HTTP/1.1
+POST {{base}}/user HTTP/1.1
 content-type: application/json
 
 {
     "name":     "Marcius Db",
     "type":     "client",
     "email":    "marcius.db@voyage.com",
-    "password": "123@Umdois",
+    "password": "Password@2026",
     "phone":    "19844450002",
     "cpf":      "430.969.400-45"
 }
@@ -56,9 +56,9 @@ content-type: application/json
 
 {
     "name":     "Kevin Admin",
-    "type":     "admin",
+    "type":     "client",
     "email":    "kevin@voyage.com",
-    "password": "Kevin@12345",
+    "password": "SuperAdmin@2026",
     "phone":    "19912345678",
     "cpf":      "014.291.120-85"
 }
@@ -75,7 +75,7 @@ content-type: application/json
 
 {
     "email":    "teste4@voyage.com",
-    "password": "123@Umtres"
+    "password": "Password@2026"
 }
 
 ###
@@ -87,7 +87,7 @@ content-type: application/json
 
 {
     "email":    "marcius.db@voyage.com",
-    "password": "123@Umdois"
+    "password": "Password@2026"
 }
 
 ###
@@ -98,11 +98,12 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "admin@voyage.com",
-    "password": "B@tatinha123"
+    "email":    "kevin@voyage.com",
+    "password": "SuperAdmin@2026"
 }
 
 ###
+
 
 
 ### --- LEITURA ---

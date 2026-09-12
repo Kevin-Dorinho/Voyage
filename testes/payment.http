@@ -15,8 +15,8 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "teste1@voyage.com",
-    "password": "123@Umdois"
+    "email":    "teste4@voyage.com",
+    "password": "Password@2026"
 }
 
 ###
@@ -46,11 +46,12 @@ content-type: application/json
 ###
 
 ### Listar um único pagamento
-GET {{base}}/payment/3 HTTP/1.1
+GET {{base}}/payment/{{paymentId}} HTTP/1.1
 Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ###
+
 
 ### Filtro por companyId
 GET {{base}}/payment?companyId=1 HTTP/1.1

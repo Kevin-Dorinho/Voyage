@@ -16,7 +16,7 @@ content-type: application/json
 
 {
     "email":    "teste4@voyage.com",
-    "password": "123@Umtres"
+    "password": "Password@2026"
 }
 
 ###
@@ -51,32 +51,32 @@ content-type: application/json
 ###
 
 ### Listar uma única company
-GET {{base}}/company/3 HTTP/1.1
+GET {{base}}/company/{{companyId}} HTTP/1.1
 Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 ###
 
 ### Filtro por nome
-GET {{base}}/company?name=que HTTP/1.1
+GET {{base}}/company?name=Borella HTTP/1.1
 content-type: application/json
 
 ###
 
 ### Filtro por endereço
-GET {{base}}/company?places=Ave HTTP/1.1
+GET {{base}}/company?places=Rua HTTP/1.1
 content-type: application/json
 
 ###
 
 ### Filtro por categoria
-GET {{base}}/company?category=chur HTTP/1.1
+GET {{base}}/company?category=Lanchonete HTTP/1.1
 content-type: application/json
 
 ###
 
 ### Editar company
-PUT {{base}}/company/1 HTTP/1.1
+PUT {{base}}/company/{{companyId}} HTTP/1.1
 Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
@@ -84,7 +84,7 @@ content-type: application/json
     "name":     "Tabajara Grill",
     "category": "Lanchonete",
     "cnpj":     "61.851.929/0001-00",
-    "evaluate": 0,
+    "evaluate": 4.2,
     "places":   "Avenida São Carlos, Centro"
 }
 
@@ -92,8 +92,9 @@ content-type: application/json
 
 ### Deletar company
 ### ATENÇÃO: descomente só quando quiser apagar de verdade
-# DELETE {{base}}/company/4 HTTP/1.1
+# DELETE {{base}}/company/{{companyId}} HTTP/1.1
 # Authorization: Bearer {{ownerToken}}
 # content-type: application/json
 
 ###
+
