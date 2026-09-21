@@ -1,7 +1,11 @@
 
 import jwt from 'jsonwebtoken';
 
-const SECRET_KEY = process.env.JWT_SECRET || 'voyage_default_dev_secret';
+const SECRET_KEY = process.env.JWT_SECRET;
+if (!SECRET_KEY) {
+    console.warn("AVISO DE SEGURANÇA: JWT_SECRET não configurado nas variáveis de ambiente!");
+}
+const JWT_SECRET = SECRET_KEY || 'voyage_default_dev_secret';
 
 export const auth = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -19,7 +23,7 @@ export const auth = (req, res, next) => {
     const token = parts[1];
 
     try {
-        const logged = jwt.verify(token, SECRET_KEY);
+        const logged = jwt.verify(token, JWT_SECRET);
         // Anexa as informações do usuário logado na requisição (ex: req.user.id)
         req.logged = {
             id: logged.sub,
