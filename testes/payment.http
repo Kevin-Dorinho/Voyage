@@ -15,8 +15,8 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "teste1@voyage.com",
-    "password": "123@Umdois"
+    "email":    "testeke@voyage.com",
+    "password": "123@Kevin1"
 }
 
 ###
@@ -30,9 +30,9 @@ content-type: application/json
 {
     "toDate":      "2026-02-26T00:00:00Z",
     "dueDate":     "2026-02-28T00:00:00Z",
-    "paymentForm": "PIX",
-    "advertising": "Melhor Churrascaria",
-    "key":         "169999999",
+    "paymentForm": "CREDIT_CARD",
+    "advertising": "Melhor Lanchonete",
+    "key":         "",
     "type":        "phone"
 }
 
@@ -88,7 +88,7 @@ content-type: application/json
 {
     "toDate":      "2026-02-26T00:00:00Z",
     "dueDate":     "2026-02-28T00:00:00Z",
-    "paymentForm": "PIX",
+    "paymentForm": "CREDIT_CARD",
     "advertising": "Melhor Churrascaria",
     "key":         "169999999",
     "type":        "phone"

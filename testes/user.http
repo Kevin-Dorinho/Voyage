@@ -23,19 +23,19 @@ POST {{base}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "name":     "Teste tres",
+    "name":     "Teste kevin",
     "type":     "owner",
-    "email":    "teste3@voyage.com",
-    "password": "123@Umtres",
+    "email":    "testeke@voyage.com",
+    "password": "123@Kevin1",
     "phone":    "19844450001",
-    "cpf":      "55073360087"
+    "cpf":      "815.942.160-53"
 }
 
 ###
 
 ### 2. Criar client
 # @name createClient
-POST http://localhost:3000/user HTTP/1.1
+POST https://voyagegabi.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {

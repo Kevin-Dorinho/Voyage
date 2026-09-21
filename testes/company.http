@@ -15,8 +15,8 @@ POST {{base}}/user/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":    "teste1@voyage.com",
-    "password": "123@Umdois"
+    "email":    "testeke@voyage.com",
+    "password": "123@Kevin1"
 }
 
 ###
@@ -28,11 +28,11 @@ Authorization: Bearer {{ownerToken}}
 content-type: application/json
 
 {
-    "name":     "Borella Bot",
-    "category": "Lanchonete",
-    "cnpj":     "63740979000154",
-    "evaluate": 4.9,
-    "places":   "Rua 9, número 10"
+    "name":     "Gaby Artesanatos",
+    "category": "Outros",
+    "cnpj":     "43.870.372/0001-81",
+    "evaluate": 4.7,
+    "places":   "Rua 10, número 11"
 }
 
 ###
