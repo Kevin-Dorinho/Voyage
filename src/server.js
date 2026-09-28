@@ -1,21 +1,4 @@
-import 'dotenv/config'; //chaves
-import express from 'express'; // frameworks
-import cors from 'cors'; // ele vai permitir a comunicação com o frontend
-import companyRouter from './routes/company.js'
-import userRouter from './routes/user.js'
-import addressRouter from './routes/address.js'
-import paymentRouter from './routes/payment.js'
-import { auth } from './middlewares/auth.js';
-
-const app = express(); // estou criando um app
-app.use(cors()); // aqui falo qual cors
-app.use(express.json()); // aqui falo que vai usar o formato json
-
-// Rotas do projeto
-app.use('/company', auth, companyRouter);
-app.use('/user', userRouter);
-app.use('/address', addressRouter);
-app.use('/payment', auth, paymentRouter);
+import app from './app.js';
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`HTTP => http://localhost:${PORT}`));

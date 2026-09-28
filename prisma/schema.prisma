@@ -63,11 +63,32 @@ model Company{
   evaluate  Float @default(0)
   places    String
 
+  description   String?
+  phone         String?
+  email         String?
+  openingHours  String?   @map("opening_hours")
+  logo          String?
+
+  whatsapp      String?
+  instagram     String?
+  website       String?
+  subcategories String?
+  cover         String?
+  amenities     String?
+
+  street        String?
+  neighborhood  String?
+  city          String?
+  state         String?
+  complement    String?
+  zipcode       String?
+  number        String?
+
   favorites Favorite[]
   userId    Int @map("user_id")
   users     User   @relation(fields:[userId],references:[id])
   payments  Payment[]
-  adrressCompany  AddressCompany[]
+  addressCompany  AddressCompany[]
 
   createdAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -96,6 +117,12 @@ model Address {
 
   place         String
   number        String
+
+  street        String?
+  neighborhood  String?
+  city          String?
+  state         String?
+  complement    String?
 
   users         User[]  @relation("addressUser")
   addressCompany AddressCompany[]

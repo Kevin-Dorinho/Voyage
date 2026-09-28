@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
+import prisma from '../utils/prisma.js';
+import { JWT_SECRET } from '../utils/config.js';
+import { sanitizeUser, sanitizeUsers } from '../utils/sanitize.js';
 import { attachSave } from "../utils/save.js";
-const prisma = new PrismaClient();
-const SECRET_KEY = process.env.JWT_SECRET || 'voyage_default_dev_secret';
 
 const cpfSchema = z.string().refine((cpf) => {
     cpf = cpf.replace(/[^\d]+/g, '');
@@ -22,7 +22,6 @@ const cpfSchema = z.string().refine((cpf) => {
     return true;
 });
 
-const typeSchema = z.enum(["client", "owner", "admin"]);
 const passwordSchema = z.string()
     .min(10, "Senha deve ter no mínimo 10 caracteres")
     .regex(/[A-Z]/, "Senha deve ter pelo menos uma letra maiúscula")
@@ -32,6 +31,23 @@ const passwordSchema = z.string()
 const nameSchema = z.string()
     .min(3, "Nome deve ter pelo menos 3 caracteres")
     .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/, "Nome não deve conter números ou símbolos especiais");
+
+// ─── Schema explícito para cadastro público ─────────────────────────
+// Somente os campos permitidos são aceitos. Campos como id, signature,
+// timestamps e relacionamentos são ignorados pelo schema.
+const createUserSchema = z.object({
+    name: nameSchema,
+    email: z.string().email("E-mail com formato inválido"),
+    password: passwordSchema,
+    type: z.string({ required_error: "O campo 'type' é obrigatório" })
+        .refine(
+            (val) => ["client", "owner"].includes(val),
+            { message: "No cadastro público, o tipo deve ser 'client' ou 'owner'. Contas admin não podem ser criadas por esta rota." }
+        ),
+    phone: z.string().regex(/^\+?[0-9\s()+-]{8,25}$/, "Telefone com formato inválido").optional(),
+    cpf: cpfSchema.optional()
+});
+
 
 export async function loginUser(req, res, _next) {
     try {
@@ -54,17 +70,17 @@ export async function loginUser(req, res, _next) {
 
         const token = jwt.sign(
             { sub: user.id, type: user.type, email: user.email, name: user.name },
-            SECRET_KEY,
+            JWT_SECRET,
             { expiresIn: '1d' }
         );
 
         return res.status(200).json({
             message: "Login realizado com sucesso",
             token: token,
-            user: { id: user.id, name: user.name, type: user.type, email: user.email }
+            user: sanitizeUser(user)
         });
     } catch (error) {
-        console.error("Error in loginUser:", error);
+        console.error("Error in loginUser:", error.message);
         return res.status(500).json({ error: "Internal server error" });
     }
 }
@@ -74,80 +90,44 @@ export async function loginUser(req, res, _next) {
 //nest: próximo, o que eu vou fazer a seguir
 export async function createUser(req, res, _next) {
     try {
-        const data = req.body;
+        // Valida usando schema explícito — somente campos permitidos
+        const validation = createUserSchema.safeParse(req.body);
 
-        if (data.email) {
-            const emailResult = z.string().email().safeParse(data.email);
-            if (!emailResult.success) {
-                return res.status(400).json({ error: "E-mail com formato inválido" });
-            }
-        }
-        if (data.phone) {
-            const phoneResult = z.string().regex(/^\+?[0-9\s()+-]{8,25}$/).safeParse(data.phone);
-            if (!phoneResult.success) {
-                return res.status(400).json({ error: "Telefone com formato inválido" });
-            }
-        }
-        if (data.cpf) {
-            const cpfResult = cpfSchema.safeParse(data.cpf);
-            if (!cpfResult.success) {
-                return res.status(400).json({ error: "CPF inválido" });
-            }
-        }
-        if (data.type) {
-            const typeResult = typeSchema.safeParse(data.type);
-            if (!typeResult.success) {
-                return res.status(400).json({ error: "Tipo deve ser 'client', 'owner' ou 'admin'" });
-            }
-            if (data.type === 'admin') {
-                const adminCount = await prisma.user.count({ where: { type: 'admin' } });
-                if (adminCount >= 5) {
-                    return res.status(403).json({ error: "Limite máximo de 5 contas admin atingido." });
-                }
-            }
-        }
-        if (data.password) {
-            const passResult = passwordSchema.safeParse(data.password);
-            if (!passResult.success) {
-                const errorMsg = passResult.error?.issues?.[0]?.message || passResult.error?.errors?.[0]?.message || "Senha inválida";
-                return res.status(400).json({ error: errorMsg });
-            }
-        }
-        if (data.name) {
-            const nameResult = nameSchema.safeParse(data.name);
-            if (!nameResult.success) {
-                const errorMsg = nameResult.error?.issues?.[0]?.message || nameResult.error?.errors?.[0]?.message || "Nome com formato inválido";
-                return res.status(400).json({ error: errorMsg });
-            }
+        if (!validation.success) {
+            const firstError = validation.error.issues[0];
+            return res.status(400).json({ error: firstError.message });
         }
 
-        if (data.email) {
-            const emailInUse = await prisma.user.findFirst({ where: { email: data.email } });
-            if (emailInUse) {
-                return res.status(409).json({ error: "O e-mail informado já está em uso" });
-            }
+        const data = validation.data;
+
+        // Verificar e-mail duplicado
+        const emailInUse = await prisma.user.findFirst({ where: { email: data.email } });
+        if (emailInUse) {
+            return res.status(409).json({ error: "O e-mail informado já está em uso" });
         }
 
-        if (data.password) {
-            data.password = await bcrypt.hash(data.password, 10);
-        }
+        // Hash da senha — o hash fica somente no servidor/banco
+        data.password = await bcrypt.hash(data.password, 10);
+
+        // Assinatura inicial vem da regra do servidor, não do cliente
+        data.signature = 'BASIC';
 
         let u = await prisma.user.create({ data });
 
         const token = jwt.sign(
             { sub: u.id, type: u.type, email: u.email, name: u.name },
-            SECRET_KEY,
+            JWT_SECRET,
             { expiresIn: '1d' }
         );
 
         return res.status(201).json({
             message: "Usuário criado com sucesso",
             token: token,
-            user: u
+            user: sanitizeUser(u)
         });
     } catch (error) {
-        console.error("Error in createUser:", error);
-        return res.status(500).json({ error: error.message });
+        console.error("Error in createUser:", error.message);
+        return res.status(500).json({ error: "Erro interno no servidor" });
     }
 }
 
@@ -169,10 +149,10 @@ export async function readUser(req, res, _next) {
 
         let users = await prisma.user.findMany({ where: consult });
 
-        return res.status(200).json(users);
+        return res.status(200).json(sanitizeUsers(users));
     } catch (error) {
-        console.error("Error in readUser:", error);
-        return res.status(500).json({ error: error.message });
+        console.error("Error in readUser:", error.message);
+        return res.status(500).json({ error: "Erro interno no servidor" });
     }
 }
 
@@ -192,9 +172,9 @@ export async function showUser(req, res, _next) {
             return res.status(404).json({ error: "User not found" });
         }
 
-        return res.status(200).json(u);
+        return res.status(200).json(sanitizeUser(u));
     } catch (error) {
-        console.error("Error in showUser:", error);
+        console.error("Error in showUser:", error.message);
         return res.status(500).json({ error: "Internal server error" });
     }
 }
@@ -207,6 +187,20 @@ export async function editUser(req, res, _next) {
         }
 
         const { name, type, signature, email, phone, cpf, password } = req.body;
+
+        // ─── Bloqueio de campos protegidos ─────────────────────────
+        // type e signature não podem ser alterados pelo fluxo de perfil.
+        // Tentativas retornam erro claro em vez de serem ignoradas.
+        if (type !== undefined) {
+            return res.status(403).json({
+                error: "O campo 'type' não pode ser alterado pelo perfil. A alteração de cargo requer um procedimento administrativo restrito."
+            });
+        }
+        if (signature !== undefined) {
+            return res.status(403).json({
+                error: "O campo 'signature' não pode ser alterado pelo perfil. A alteração de assinatura requer um procedimento específico."
+            });
+        }
 
         // --- AUTH: DO SERVICE PARA O BANCO ---
         // Usa o contexto da Auth injetado na req para aplicar segurança granular na camada do Prisma (Banco)
@@ -243,18 +237,6 @@ export async function editUser(req, res, _next) {
                 return res.status(400).json({ error: "CPF inválido" });
             }
         }
-        if (type) {
-            const typeResult = typeSchema.safeParse(type);
-            if (!typeResult.success) {
-                return res.status(400).json({ error: "Tipo deve ser 'client', 'owner' ou 'admin'" });
-            }
-            if (type === 'admin' && u.type !== 'admin') {
-                const adminCount = await prisma.user.count({ where: { type: 'admin' } });
-                if (adminCount >= 5) {
-                    return res.status(403).json({ error: "Limite máximo de 5 contas admin atingido." });
-                }
-            }
-        }
         if (password) {
             const passResult = passwordSchema.safeParse(password);
             if (!passResult.success) {
@@ -274,18 +256,15 @@ export async function editUser(req, res, _next) {
 
         if (name) u.name = name;
         if (email) u.email = email;
-        if (type) u.type = type;
-        if (signature) u.signature = signature;
         if (phone) u.phone = phone;
         if (cpf) u.cpf = cpf;
         if (password) u.password = await bcrypt.hash(password, 10);
 
         await u.save();
 
-        return res.status(202).json(u);
+        return res.status(202).json(sanitizeUser(u));
     } catch (error) {
-        console.error("Error in editUser:", error);
+        console.error("Error in editUser:", error.message);
         return res.status(500).json({ error: "Internal server error" });
     }
 }
-
